@@ -498,6 +498,36 @@ body.motion-glow [data-deck-active] .aurora{animation:auroraDrift 26s ease-in-ou
   document.body.style.margin='0'; document.body.style.background='#000';
   document.body.classList.add('motion-glow','motion-shimmer');
 </script>
+
+<style id="vtest-css">
+/* video testimonials — matches deck design system (warm theme) */
+.vwrap{display:flex;gap:40px;justify-content:center;align-items:flex-start;margin-top:40px;flex:1;min-height:0}
+.vframe{position:relative;display:flex;flex-direction:column;gap:20px;align-items:center}
+.vphone{position:relative;height:560px;aspect-ratio:474/850;border-radius:38px;overflow:hidden;
+  background:#0b0910;border:1px solid var(--line);
+  box-shadow:0 34px 80px rgba(0,0,0,.55), 0 0 0 6px rgba(255,255,255,.03), inset 0 1px 0 rgba(255,255,255,.07)}
+.vphone video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;background:#0b0910}
+.vphone::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:38px;
+  background:linear-gradient(180deg,rgba(255,255,255,.06),transparent 16%,transparent 72%,rgba(0,0,0,.42))}
+.vtag{position:absolute;top:16px;inset-inline-start:16px;z-index:4;font-family:var(--font-mono);
+  font-size:15px;font-weight:600;letter-spacing:.12em;color:#fff;background:rgba(10,8,14,.5);
+  border:1px solid rgba(255,255,255,.2);padding:7px 13px;border-radius:999px;
+  backdrop-filter:blur(6px);display:flex;align-items:center;gap:8px}
+.vtag .dot{width:9px;height:9px;border-radius:50%;background:var(--amber);box-shadow:0 0 10px var(--amber)}
+.vplay{position:absolute;inset:0;z-index:5;border:0;cursor:pointer;display:grid;place-items:center;
+  background:radial-gradient(closest-side at 50% 50%,rgba(11,9,16,.15),rgba(11,9,16,.5))}
+.vplay .btn{position:relative;width:104px;height:104px;border-radius:50%;display:grid;place-items:center;
+  background:linear-gradient(145deg,var(--amber),#ffd98a);color:#1a1206;
+  box-shadow:0 16px 40px rgba(255,184,41,.45);transition:transform .18s ease}
+.vplay:hover .btn{transform:scale(1.08)}
+.vplay .btn svg{width:40px;height:40px;margin-inline-start:6px}
+.vframe.playing .vplay{display:none}
+.vcap{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.vcap .stars{color:var(--amber);font-size:22px;letter-spacing:3px;line-height:1}
+.vcap .who{font-size:26px;font-weight:700;color:var(--bone);letter-spacing:-.01em}
+.vcap .role{font-size:19px;font-weight:400;color:var(--ash);font-family:var(--font-mono);letter-spacing:.04em}
+</style>
+
 <deck-stage width="1920" height="1080" no-rail>
 
   <!-- 01 · COVER -->
@@ -527,7 +557,7 @@ body.motion-glow [data-deck-active] .aurora{animation:auroraDrift 26s ease-in-ou
           </div>
         </div>
       </div>
-      <div class="foot"><span>מחירון חכם · 2026</span><span class="pg">01 / 13</span></div>
+      <div class="foot"><span>מחירון חכם · 2026</span><span class="pg">01 / 14</span></div>
     </div>
   </section>
 
@@ -548,7 +578,7 @@ body.motion-glow [data-deck-active] .aurora{animation:auroraDrift 26s ease-in-ou
           <div class="member c-sky anim d5"><div class="avatar c-sky">א</div><div class="mname">אורטל בריטש</div><div class="mrole">מכירות · חוות דעת</div><span class="mtag-en">SALES</span></div>
         </div>
       </div>
-      <div class="foot"><span>הצוות</span><span class="pg">02 / 13</span></div>
+      <div class="foot"><span>הצוות</span><span class="pg">02 / 14</span></div>
     </div>
   </section>
 
@@ -575,7 +605,7 @@ body.motion-glow [data-deck-active] .aurora{animation:auroraDrift 26s ease-in-ou
           </div>
         </div>
       </div>
-      <div class="foot"><span>הפרויקט שלנו</span><span class="pg">03 / 13</span></div>
+      <div class="foot"><span>הפרויקט שלנו</span><span class="pg">03 / 14</span></div>
     </div>
   </section>
 
@@ -596,7 +626,7 @@ body.motion-glow [data-deck-active] .aurora{animation:auroraDrift 26s ease-in-ou
           <b>השאלה שהובילה אותנו:</b> איך הופכים כל החלטת תמחור למבוססת-נתון, בזמן אמת?
         </p>
       </div>
-      <div class="foot"><span>האתגר</span><span class="pg">04 / 13</span></div>
+      <div class="foot"><span>האתגר</span><span class="pg">04 / 14</span></div>
     </div>
   </section>
 
@@ -630,7 +660,7 @@ body.motion-glow [data-deck-active] .aurora{animation:auroraDrift 26s ease-in-ou
           </div>
         </div>
       </div>
-      <div class="foot"><span>הפתרון</span><span class="pg">05 / 13</span></div>
+      <div class="foot"><span>הפתרון</span><span class="pg">05 / 14</span></div>
     </div>
   </section>
 
@@ -657,7 +687,7 @@ body.motion-glow [data-deck-active] .aurora{animation:auroraDrift 26s ease-in-ou
           </div>
         </div>
       </div>
-      <div class="foot"><span>המוצר</span><span class="pg">06 / 13</span></div>
+      <div class="foot"><span>המוצר</span><span class="pg">06 / 14</span></div>
     </div>
   </section>
 
@@ -696,7 +726,7 @@ body.motion-glow [data-deck-active] .aurora{animation:auroraDrift 26s ease-in-ou
           </div>
         </div>
       </div>
-      <div class="foot"><span>יכולות</span><span class="pg">07 / 13</span></div>
+      <div class="foot"><span>יכולות</span><span class="pg">07 / 14</span></div>
     </div>
   </section>
 
@@ -734,7 +764,7 @@ body.motion-glow [data-deck-active] .aurora{animation:auroraDrift 26s ease-in-ou
           </div>
         </div>
       </div>
-      <div class="foot"><span>חדשנות · סוכן AI</span><span class="pg">08 / 13</span></div>
+      <div class="foot"><span>חדשנות · סוכן AI</span><span class="pg">08 / 14</span></div>
     </div>
   </section>
 
@@ -765,7 +795,7 @@ body.motion-glow [data-deck-active] .aurora{animation:auroraDrift 26s ease-in-ou
           </div>
         </div>
       </div>
-      <div class="foot"><span>תוצאות · מכירות</span><span class="pg">09 / 13</span></div>
+      <div class="foot"><span>תוצאות · מכירות</span><span class="pg">09 / 14</span></div>
     </div>
   </section>
 
@@ -814,9 +844,62 @@ body.motion-glow [data-deck-active] .aurora{animation:auroraDrift 26s ease-in-ou
           </div>
         </div>
       </div>
-      <div class="foot"><span>תוצאות · מוניטין</span><span class="pg">10 / 13</span></div>
+      <div class="foot"><span>תוצאות · מוניטין</span><span class="pg">10 / 14</span></div>
     </div>
   </section>
+
+  <section data-label="עדויות וידאו" data-screen-label="עדויות וידאו">
+    <div class="slide warm">
+      <div class="aurora" aria-hidden="true"></div>
+      <canvas class="constellation" width="620" height="620" style="right:-200px;bottom:-220px;opacity:.42"
+        data-cfg='{"glyph":"★","count":1400,"drift":170,"glyphScale":.76,"maxSize":4,"colors":["#ffb829","#ffd37a","#c86bff","#ffffff"]}'></canvas>
+      <div class="pad">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end">
+          <div>
+            <div class="eyebrow anim" style="color:var(--amber)">תוצאות <span class="sep">//</span> TESTIMONIALS</div>
+            <h2 class="title anim d1" style="margin-top:14px;font-size:74px">עדויות <b class="grad-warm">מהשטח.</b></h2>
+          </div>
+          <p class="lead anim d1" style="max-width:560px;font-size:23px;text-align:right;margin-bottom:8px">לא רק כוכבים בגוגל — לקוחות אמיתיים מספרים במצלמה על החוויה. לחצו לנגינה.</p>
+        </div>
+        <div class="vwrap anim d2">
+      <div class="vframe">
+        <div class="vphone">
+          <span class="vtag"><span class="dot"></span>עדות 01</span>
+          <video playsinline preload="none" poster="media/v1.jpg"><source src="media/v1.mp4" type="video/mp4"></video>
+          <button class="vplay" aria-label="נגן עדות 1"><span class="btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></button>
+        </div>
+        <div class="vcap"><span class="stars">★★★★★</span><span class="who">עדות מצולמת</span><span class="role">לקוח · וידאו</span></div>
+      </div>
+      <div class="vframe">
+        <div class="vphone">
+          <span class="vtag"><span class="dot"></span>עדות 02</span>
+          <video playsinline preload="none" poster="media/v2.jpg"><source src="media/v2.mp4" type="video/mp4"></video>
+          <button class="vplay" aria-label="נגן עדות 2"><span class="btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></button>
+        </div>
+        <div class="vcap"><span class="stars">★★★★★</span><span class="who">עדות מצולמת</span><span class="role">לקוח · וידאו</span></div>
+      </div>
+      <div class="vframe">
+        <div class="vphone">
+          <span class="vtag"><span class="dot"></span>עדות 03</span>
+          <video playsinline preload="none" poster="media/v3.jpg"><source src="media/v3.mp4" type="video/mp4"></video>
+          <button class="vplay" aria-label="נגן עדות 3"><span class="btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></button>
+        </div>
+        <div class="vcap"><span class="stars">★★★★★</span><span class="who">עדות מצולמת</span><span class="role">לקוח · וידאו</span></div>
+      </div>
+      <div class="vframe">
+        <div class="vphone">
+          <span class="vtag"><span class="dot"></span>עדות 04</span>
+          <video playsinline preload="none" poster="media/v4.jpg"><source src="media/v4.mp4" type="video/mp4"></video>
+          <button class="vplay" aria-label="נגן עדות 4"><span class="btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></button>
+        </div>
+        <div class="vcap"><span class="stars">★★★★★</span><span class="who">עדות מצולמת</span><span class="role">לקוח · וידאו</span></div>
+      </div>
+        </div>
+      </div>
+      <div class="foot"><span>תוצאות · עדויות</span><span class="pg">11 / 14</span></div>
+    </div>
+  </section>
+
 
   <!-- 09 · DRY DATA / SALES LEDGER -->
   <section data-label="נתונים יבשים" data-screen-label="נתונים יבשים">
@@ -851,7 +934,7 @@ body.motion-glow [data-deck-active] .aurora{animation:auroraDrift 26s ease-in-ou
         </div>
         <p class="anim d3" style="margin-top:30px;font-size:19px;color:var(--faint)">* הכנסות שנרשמו דרך המערכת — מיכאלה, שלום ואורטל.</p>
       </div>
-      <div class="foot"><span>נתונים יבשים · היקף מכירות</span><span class="pg">11 / 13</span></div>
+      <div class="foot"><span>נתונים יבשים · היקף מכירות</span><span class="pg">12 / 14</span></div>
     </div>
   </section>
 
@@ -874,7 +957,7 @@ body.motion-glow [data-deck-active] .aurora{animation:auroraDrift 26s ease-in-ou
           מכלי מעקב סטטי — למרכז שליטה שמזהה סיכון, מתמחר נכון ומניע פעולה.<br/>זו החדשנות שאנחנו מביאים לתחרות.
         </p>
       </div>
-      <div class="foot"><span>השפעה</span><span class="pg">12 / 13</span></div>
+      <div class="foot"><span>השפעה</span><span class="pg">13 / 14</span></div>
     </div>
   </section>
 
@@ -891,7 +974,7 @@ body.motion-glow [data-deck-active] .aurora{animation:auroraDrift 26s ease-in-ou
           <span class="pill-btn primary">שאלות? נשמח</span>
         </div>
       </div>
-      <div class="foot"><span>מחירון חכם · 2026</span><span class="pg">13 / 13</span></div>
+      <div class="foot"><span>מחירון חכם · 2026</span><span class="pg">14 / 14</span></div>
     </div>
   </section>
 
@@ -3892,5 +3975,22 @@ ReactDOM.createRoot(document.getElementById("tweaks-root")).render(/* @__PURE__ 
     var tag=(e.target&&e.target.tagName)||''; if(/INPUT|TEXTAREA|SELECT/.test(tag))return;
     open=!open; window.postMessage({type:open?'__activate_edit_mode':'__deactivate_edit_mode'},'*');
   }});})();</script>
+
+
+<script id="vtest-js">
+(function(){
+  function all(){return [].slice.call(document.querySelectorAll('.vframe'));}
+  function pauseAll(except){all().forEach(function(o){var v=o.querySelector('video');if(v&&o!==except){v.pause();}if(o!==except)o.classList.remove('playing');});}
+  document.addEventListener('click',function(e){
+    var b=e.target.closest&&e.target.closest('.vplay'); if(!b)return;
+    var f=b.closest('.vframe'), v=f&&f.querySelector('video'); if(!v)return;
+    pauseAll(f); f.classList.add('playing'); v.setAttribute('controls','');
+    var p=v.play(); if(p&&p.catch)p.catch(function(){});
+  });
+  window.addEventListener('message',function(e){
+    if(e&&e.data&&typeof e.data.slideIndexChanged!=='undefined'){pauseAll(null);}
+  });
+})();
+</script>
 
 </body></html>
