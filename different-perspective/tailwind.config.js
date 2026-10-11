@@ -4,19 +4,16 @@ export default {
   theme: {
     extend: {
       colors: {
-        night: '#0A0C0D',   // page ground
-        coal: '#121618',    // raised panels
-        slate: '#1C2124',   // borders / dividers
-        bone: '#EEE9E0',    // primary text
-        haze: '#8E979C',    // muted text
-        gold: '#F4B740',    // golden-hour accent (CTAs)
-        hud: '#A6E6EC',     // viewfinder telemetry
-        rec: '#FF453A',     // record dot only
+        screen: '#0C0C0B',  // projection-room black
+        reel: '#161614',    // raised dark surface
+        paper: '#F3F2EE',   // text pages
+        ink: '#141413',     // text on paper
+        ash: '#8B8A84',     // muted on both
+        sand: '#CDB48C',    // Dead Sea salt-sand, used sparingly
       },
       fontFamily: {
-        display: ['Karantina', 'Heebo', 'system-ui', 'sans-serif'],
-        body: ['"IBM Plex Sans Hebrew"', 'Heebo', 'system-ui', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+        serif: ['"Frank Ruhl Libre"', '"Times New Roman"', 'serif'],
+        sans: ['Heebo', 'system-ui', 'sans-serif'],
       },
     },
   },
