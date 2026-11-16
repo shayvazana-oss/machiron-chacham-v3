@@ -5,418 +5,552 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI Agent & Automation Specialist</title>
 <meta name="description" content="קורס AI Agent & Automation Specialist של היחידה ללימודי חוץ ומפעל הסייבר של אלתא. 160 ש״א, תעודה ממשלתית, מוכר לפיקדון ולשוברים עד 90% מימון.">
+<meta name="theme-color" content="#08090C">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&family=Heebo:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Hebrew:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#FFFFFF; --ink:#0A0A0A; --ink-2:#3C3C3C; --muted:#6F6F6F; --faint:#A3A3A3;
-  --card:#F6F5F2; --card-2:#EDECEA; --line:rgba(10,10,10,.08); --line-2:rgba(10,10,10,.12);
-  --teal:#0093A3; --green:#18A36B; --purple:#7C5CFF; --blue:#3A7BFF; --orange:#F0742C; --red:#E8405A; --yellow:#F2B233; --pink:#E64CA6; --brown:#8A5A3C;
-  --lav-1:#D7D2F8; --lav-2:#ECE9FC;
-  --r-xl:28px; --r-lg:20px; --r-md:14px;
-  --ease:cubic-bezier(.32,.72,0,1);
-  --font-h:'Rubik',system-ui,sans-serif; --font-b:'Heebo',system-ui,sans-serif;
+  --bg:#08090C; --bg-2:#0C0E12; --surface:#111419; --surface-2:#171B22;
+  --line:rgba(255,255,255,.08); --line-2:rgba(255,255,255,.15);
+  --ink:#F3F4EF; --ink-2:#C6C9C1; --muted:#8C9189; --faint:#5E625C;
+  --lime:#C8FF4D; --lime-d:#A6DD2A; --lime-ink:#0B1000; --violet:#8B7CFF; --cyan:#5CE1E6; --coral:#FF6B4A;
+  --ease:cubic-bezier(.22,1,.36,1); --ease-2:cubic-bezier(.32,.72,0,1);
+  --fh:'IBM Plex Sans Hebrew','IBM Plex Sans',system-ui,sans-serif; --fm:'IBM Plex Mono',ui-monospace,Menlo,monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{background:var(--bg);color:var(--ink);font-family:var(--font-b);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-h1,h2,h3,h4{font-family:var(--font-h);font-weight:500;letter-spacing:-.01em;line-height:1.1}
+body{background:var(--bg);color:var(--ink);font-family:var(--fh);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::after{content:"";position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+h1,h2,h3{font-weight:700;letter-spacing:-.025em;line-height:1.05}
 a{color:inherit;text-decoration:none}
-img,svg{display:block;max-width:100%}
-button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
-.wrap{width:min(1180px,100% - 32px);margin-inline:auto}
-.wrap-n{width:min(1080px,100% - 32px);margin-inline:auto}
-section{padding:96px 0}
-@media(max-width:768px){section{padding:64px 0}}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+svg{display:block}
+::selection{background:var(--lime);color:var(--lime-ink)}
+.wrap{width:min(1200px,100% - 32px);margin-inline:auto}
+section{padding:120px 0;position:relative}
+@media(max-width:768px){section{padding:72px 0}}
+.mono{font-family:var(--fm);direction:ltr;unicode-bidi:isolate;letter-spacing:.04em}
+.kicker{font-family:var(--fm);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--lime);display:inline-flex;gap:10px;align-items:center;direction:ltr}
+.kicker::before{content:"";width:22px;height:1px;background:var(--lime)}
+.h2{font-size:clamp(34px,5.4vw,64px);margin:16px 0 14px}
+.lead{color:var(--muted);font-size:clamp(17px,1.6vw,19px);max-width:560px}
+.sec-top{margin-bottom:56px}
+.hl{color:var(--lime)}
 
-/* ---------- buttons ---------- */
-.btn{display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:12px 22px;font-family:var(--font-h);font-weight:500;font-size:15px;line-height:1;transition:transform .5s var(--ease),background .4s var(--ease),box-shadow .5s var(--ease);white-space:nowrap}
-.btn:active{transform:scale(.98)}
-.btn-dark{background:var(--ink);color:#fff}
-.btn-dark:hover{background:#1f1f1f}
-.btn-light{background:var(--card-2);color:var(--ink)}
-.btn-light:hover{background:#E4E3E0}
-.btn-ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line-2)}
-.btn .ic{width:26px;height:26px;border-radius:999px;background:rgba(255,255,255,.14);display:grid;place-items:center;transition:transform .5s var(--ease)}
-.btn-light .ic{background:rgba(10,10,10,.06)}
-.btn:hover .ic{transform:translate(-2px,-1px) scale(1.06)}
-.btn-lg{padding:15px 26px;font-size:16px}
+/* progress bar */
+.pbar{position:fixed;top:0;inset-inline:0;height:2px;background:var(--lime);transform-origin:right;transform:scaleX(0);z-index:70}
+@supports (animation-timeline:scroll()){.pbar{animation:pb linear both;animation-timeline:scroll(root)}}
+@keyframes pb{to{transform:scaleX(1)}}
 
-.eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 12px 6px 8px;font-size:13px;font-weight:500;color:var(--ink-2)}
-.eyebrow b{font-weight:600;color:var(--ink)}
-.eyebrow .dot{width:18px;height:18px;border-radius:999px;background:var(--ink);display:grid;place-items:center;color:#fff;font-size:10px}
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:12px;border-radius:999px;padding:8px 22px 8px 8px;font-weight:600;font-size:16px;line-height:1;white-space:nowrap;transition:transform .5s var(--ease),background .4s,box-shadow .5s var(--ease)}
+.btn:active{transform:scale(.97)}
+.btn .ic{width:38px;height:38px;border-radius:999px;display:grid;place-items:center;transition:transform .6s var(--ease)}
+.btn:hover .ic{transform:rotate(-45deg)}
+.btn-lime{background:var(--lime);color:var(--lime-ink);box-shadow:0 0 0 0 rgba(200,255,77,.4)}
+.btn-lime:hover{box-shadow:0 0 40px -6px rgba(200,255,77,.55)}
+.btn-lime .ic{background:var(--lime-ink);color:var(--lime)}
+.btn-ghost{padding:18px 24px;box-shadow:inset 0 0 0 1px var(--line-2);color:var(--ink)}
+.btn-ghost:hover{background:rgba(255,255,255,.06)}
+.btn-sm{font-size:14px;padding:5px 16px 5px 5px;gap:10px}.btn-sm .ic{width:30px;height:30px}
 
-/* ---------- nav ---------- */
-.nav{position:fixed;top:0;inset-inline:0;z-index:40;padding:14px 0;transition:background .5s var(--ease),box-shadow .5s var(--ease)}
-.nav.scrolled{background:rgba(255,255,255,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 1px 0 var(--line)}
-.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px}
-.brand{display:flex;align-items:center;gap:10px;font-family:var(--font-h);font-weight:600;font-size:15px;white-space:nowrap}
-.brand .mark{width:30px;height:30px}
-.nav-links{display:flex;gap:4px;align-items:center}
-.nav-links a{padding:8px 12px;border-radius:999px;font-size:14px;font-weight:500;color:var(--ink-2);transition:background .4s var(--ease)}
-.nav-links a:hover{background:var(--card)}
-.nav-cta{display:flex;gap:8px;align-items:center}
-.burger{display:none;width:40px;height:40px;border-radius:999px;background:var(--card);position:relative}
-.burger i{position:absolute;left:12px;right:12px;height:1.5px;background:var(--ink);transition:transform .5s var(--ease),opacity .3s}
-.burger i:nth-child(1){top:15px}.burger i:nth-child(2){top:23px}
-.burger.open i:nth-child(1){transform:translateY(4px) rotate(45deg)}
-.burger.open i:nth-child(2){transform:translateY(-4px) rotate(-45deg)}
-.mobile-menu{position:fixed;inset:0;z-index:35;background:rgba(255,255,255,.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);display:flex;flex-direction:column;justify-content:center;padding:32px;opacity:0;pointer-events:none;transition:opacity .5s var(--ease)}
-.mobile-menu.open{opacity:1;pointer-events:auto}
-.mobile-menu a{font-family:var(--font-h);font-size:32px;font-weight:500;padding:10px 0;transform:translateY(24px);opacity:0;transition:transform .7s var(--ease),opacity .7s var(--ease)}
-.mobile-menu.open a{transform:none;opacity:1}
-.mobile-menu a:nth-child(1){transition-delay:.05s}.mobile-menu a:nth-child(2){transition-delay:.1s}.mobile-menu a:nth-child(3){transition-delay:.15s}.mobile-menu a:nth-child(4){transition-delay:.2s}.mobile-menu a:nth-child(5){transition-delay:.25s}
-@media(max-width:900px){.nav-links,.nav-cta .btn-light{display:none}.burger{display:block}}
+/* nav island */
+.nav{position:fixed;top:14px;inset-inline:0;z-index:50;display:flex;justify-content:center;pointer-events:none}
+.island{pointer-events:auto;display:flex;align-items:center;gap:6px;padding:6px;border-radius:999px;background:rgba(17,20,25,.72);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);box-shadow:inset 0 0 0 1px var(--line-2),0 20px 50px -20px rgba(0,0,0,.8)}
+.brand{display:flex;align-items:center;gap:9px;padding:0 10px 0 14px;font-weight:600;font-size:14px;white-space:nowrap}
+.brand svg{width:26px;height:26px}
+.island nav{display:flex}
+.island nav a{padding:9px 13px;border-radius:999px;font-size:14px;color:var(--ink-2);transition:background .4s,color .4s}
+.island nav a:hover{background:rgba(255,255,255,.08);color:var(--ink)}
+.burger{display:none;flex:none;width:40px;height:40px;border-radius:999px;background:rgba(255,255,255,.08);position:relative}
+.burger i{position:absolute;left:12px;right:12px;height:1.5px;background:var(--ink);transition:transform .5s var(--ease)}
+.burger i:first-child{top:16px}.burger i:last-child{top:23px}
+.burger.open i:first-child{transform:translateY(3.5px) rotate(45deg)}.burger.open i:last-child{transform:translateY(-3.5px) rotate(-45deg)}
+.mmenu{position:fixed;inset:0;z-index:45;background:rgba(8,9,12,.94);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);display:flex;flex-direction:column;justify-content:center;padding:32px;opacity:0;pointer-events:none;transition:opacity .5s var(--ease)}
+.mmenu.open{opacity:1;pointer-events:auto}
+.mmenu a{font-size:34px;font-weight:700;letter-spacing:-.02em;padding:10px 0;display:flex;gap:14px;align-items:baseline;transform:translateY(26px);opacity:0;transition:transform .8s var(--ease),opacity .8s var(--ease)}
+.mmenu a span{font-family:var(--fm);font-size:12px;color:var(--lime)}
+.mmenu.open a{transform:none;opacity:1}
+.mmenu a:nth-child(2){transition-delay:.06s}.mmenu a:nth-child(3){transition-delay:.12s}.mmenu a:nth-child(4){transition-delay:.18s}.mmenu a:nth-child(5){transition-delay:.24s}
+@media(max-width:900px){.island nav{display:none}.burger{display:block}.island{width:calc(100% - 24px);justify-content:space-between}.island .sp{flex:1}}
+@media(max-width:480px){.island .btn-sm{padding:11px 16px}.island .btn-sm .ic{display:none}.brand{padding:0 6px 0 10px;font-size:13.5px}}
 
-/* ---------- hero ---------- */
-.hero{padding:150px 0 40px;text-align:center}
-.hero h1{font-size:clamp(40px,7vw,76px);font-weight:500;letter-spacing:-.02em;margin:22px auto 18px;max-width:900px;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:0 .22em}
-.hero h1 .mascot{width:.95em;height:.95em;display:inline-block;vertical-align:middle;margin:0 .05em}
-.hero p{font-size:clamp(17px,2vw,21px);color:var(--muted);max-width:640px;margin:0 auto 28px;line-height:1.5}
-.hero-cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.hero-note{margin-top:14px;font-size:13px;color:var(--faint)}
+/* hero */
+.hero{padding:150px 0 60px;overflow:hidden}
+.aurora{position:absolute;inset:-20% -10% auto;height:900px;pointer-events:none;background:radial-gradient(40% 50% at 72% 30%,rgba(139,124,255,.28),transparent 70%),radial-gradient(36% 46% at 24% 22%,rgba(200,255,77,.16),transparent 70%),radial-gradient(30% 40% at 50% 70%,rgba(92,225,230,.10),transparent 70%);animation:drift 18s var(--ease-2) infinite alternate}
+@keyframes drift{to{transform:translate3d(-3%,4%,0) scale(1.08)}}
+.grid-bg{position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.11) 1px,transparent 1px);background-size:26px 26px;mask-image:radial-gradient(70% 60% at 50% 35%,#000,transparent);-webkit-mask-image:radial-gradient(70% 60% at 50% 35%,#000,transparent)}
+.hero .wrap{position:relative}
+.pill{display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:7px 14px;font-size:13.5px;color:var(--ink-2);background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px var(--line-2)}
+.pulse{width:8px;height:8px;border-radius:999px;background:var(--lime);position:relative}
+.pulse::after{content:"";position:absolute;inset:-5px;border-radius:999px;border:1px solid var(--lime);animation:ping 2s var(--ease) infinite}
+@keyframes ping{from{transform:scale(.5);opacity:1}to{transform:scale(1.6);opacity:0}}
+.hero h1{font-size:clamp(46px,9vw,118px);margin:26px 0 22px;letter-spacing:-.04em;line-height:.98}
+.hero h1 .l2{display:block;color:var(--lime);min-height:1em;white-space:nowrap}
+.caret{display:inline-block;width:.06em;height:.82em;background:var(--lime);margin-inline-start:.08em;vertical-align:-.06em;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.hero-row{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:end}
+.hero-row p{font-size:clamp(17px,1.7vw,20px);color:var(--ink-2);max-width:560px;line-height:1.55}
+.hero-cta{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.hero-meta{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:34px;font-size:13px;color:var(--muted)}
+.hero-meta span{display:flex;gap:8px;align-items:center}
+.hero-meta span::before{content:"";width:5px;height:5px;background:var(--lime);border-radius:1px;transform:rotate(45deg)}
+@media(max-width:860px){.hero{padding-top:120px}.hero-row{grid-template-columns:1fr;gap:24px}.hero-cta{justify-content:flex-start}.hero h1 .l2{white-space:normal}}
 
-/* app window mockup */
-.shell{background:var(--card);border:1px solid var(--line);border-radius:var(--r-xl);padding:8px;margin-top:48px;box-shadow:0 30px 80px -40px rgba(10,10,10,.25)}
-.window{background:#fff;border-radius:calc(var(--r-xl) - 8px);box-shadow:inset 0 1px 1px rgba(255,255,255,.6),0 0 0 1px var(--line);overflow:hidden;text-align:right}
-.win-top{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
-.dots{display:flex;gap:6px}.dots i{width:10px;height:10px;border-radius:999px}
-.dots i:nth-child(1){background:#FF5F57}.dots i:nth-child(2){background:#FEBC2E}.dots i:nth-child(3){background:#28C840}
-.win-body{display:grid;grid-template-columns:280px 1fr;min-height:420px}
-.sidebar{border-inline-end:1px solid var(--line);padding:16px}
-.bot-row{display:flex;gap:10px;margin-bottom:14px}
-.bot-tile{flex:1;background:var(--card);border-radius:16px;padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:12px;color:var(--ink-2);text-align:center;border:1px solid transparent;transition:transform .5s var(--ease)}
-.bot-tile.active{background:#E7F6EF;border-color:rgba(24,163,107,.25)}
-.bot-tile:hover{transform:translateY(-2px)}
-.ava{width:34px;height:34px;border-radius:999px;display:grid;place-items:center}
-.ava svg{width:18px;height:18px}
-.conv{display:flex;gap:10px;align-items:flex-start;padding:10px 6px;border-radius:12px;transition:background .4s}
-.conv:hover{background:var(--card)}
-.conv .ava{width:26px;height:26px}.conv .ava svg{width:13px;height:13px}
-.conv b{display:block;font-size:13px;font-weight:600}
-.conv span{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;max-width:190px}
-.chat{display:flex;flex-direction:column}
-.chat-head{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;font-size:13px;color:var(--muted)}
-.chat-head b{display:flex;align-items:center;gap:8px;color:var(--ink);font-weight:500}
-.chat-area{flex:1;padding:8px 18px 18px}
-.ts{text-align:center;font-size:12px;color:var(--faint);margin:6px 0 14px}
-.bubble{background:var(--card);border-radius:18px;padding:14px 16px;font-size:14.5px;line-height:1.55;max-width:560px;color:var(--ink-2)}
-.bubble.me{background:var(--ink);color:#fff;margin-inline-start:auto;max-width:360px}
-.bubble + .bubble{margin-top:10px}
-.chat-input{margin:12px 18px 18px;border:1px solid var(--line-2);border-radius:999px;padding:8px 10px 8px 14px;display:flex;align-items:center;gap:10px;font-size:14px;color:var(--faint)}
-.chat-input .plus{width:28px;height:28px;border-radius:999px;background:var(--card);display:grid;place-items:center;color:var(--ink)}
-.chat-input .mic{margin-inline-start:auto;width:30px;height:30px;border-radius:999px;background:var(--ink);display:grid;place-items:center}
-.chat-foot{display:flex;align-items:center;gap:8px;padding:0 18px 16px;font-size:13px;color:var(--muted)}
-.me-ava{width:26px;height:26px;border-radius:999px;background:var(--card-2);display:grid;place-items:center;font-size:11px;font-weight:600;color:var(--ink)}
-@media(max-width:860px){.win-body{grid-template-columns:1fr}.sidebar{display:none}.shell{margin-top:36px}.bubble{max-width:100%}}
+/* canvas window */
+.canvas{margin-top:56px;border-radius:28px;padding:6px;background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.03));box-shadow:0 60px 120px -50px rgba(0,0,0,.9),0 0 90px -40px rgba(200,255,77,.25)}
+.canvas-in{border-radius:22px;background:var(--bg-2);overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+.c-top{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);font-family:var(--fm);font-size:12px;color:var(--muted);direction:ltr}
+.c-top .live{display:flex;gap:8px;align-items:center;color:var(--lime)}
+.c-body{position:relative;padding:22px 18px;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);background-size:22px 22px}
+.c-body svg{width:100%;height:auto}
+.flow-m{display:none}
+@media(max-width:720px){.flow-d{display:none}.flow-m{display:block;max-width:380px;margin:0 auto}}
+.nd{fill:#12151B;stroke:rgba(255,255,255,.16)}
+.nd-a{fill:#141B07;stroke:var(--lime);stroke-width:1.5}
+.t1{fill:#F3F4EF;font:600 16px var(--fh)}.t1b{font-size:21px;font-weight:700}
+.t2{fill:#8C9189;font:400 12.5px var(--fh)}
+.tm{fill:#8C9189;font:500 10px var(--fm);letter-spacing:.14em}
+.tl{fill:var(--lime);font:500 12.5px var(--fh)}
+.wire{fill:none;stroke:rgba(255,255,255,.18);stroke-width:1.5}
+.wire-f{fill:none;stroke:var(--lime);stroke-width:1.5;stroke-dasharray:5 9;animation:dash 1.4s linear infinite;opacity:.8}
+@keyframes dash{to{stroke-dashoffset:-28}}
+.wire-d{fill:none;stroke:rgba(255,255,255,.22);stroke-width:1;stroke-dasharray:3 4}
+.c-log{border-top:1px solid var(--line);padding:11px 16px;font-family:var(--fm);font-size:12px;color:var(--muted);direction:ltr;text-align:left;display:flex;gap:10px;white-space:nowrap;overflow:hidden}
+.c-log b{color:var(--lime);font-weight:500}
 
-/* ---------- trust strip ---------- */
-.trust{padding:40px 0 0}
-.trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.trust-item{background:var(--card);border-radius:var(--r-lg);padding:18px 18px;display:flex;gap:12px;align-items:center}
-.trust-item .ico{width:40px;height:40px;border-radius:12px;background:#fff;display:grid;place-items:center;box-shadow:0 0 0 1px var(--line);flex:none}
-.trust-item b{display:block;font-family:var(--font-h);font-weight:500;font-size:15px}
-.trust-item span{font-size:13px;color:var(--muted)}
-@media(max-width:900px){.trust-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:520px){.trust-grid{grid-template-columns:1fr}}
+/* marquee */
+.marq{border-block:1px solid var(--line);padding:18px 0;overflow:hidden;direction:ltr;mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.marq-t{display:flex;gap:44px;width:max-content;animation:mq 38s linear infinite}
+.marq.rev .marq-t{animation-direction:reverse}
+.marq-t span{font-family:var(--fm);font-size:14px;color:var(--ink-2);display:flex;gap:44px;align-items:center;white-space:nowrap}
+.marq-t span::after{content:"✦";color:var(--lime);font-size:11px}
+.marq.he .marq-t span{font-family:var(--fh);font-size:15px}
+@keyframes mq{to{transform:translateX(-50%)}}
 
-/* ---------- split section + blobs ---------- */
-.split{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
-.split h2{font-size:clamp(34px,4.6vw,52px);letter-spacing:-.02em}
-.split p{color:var(--ink-2);font-size:18px;max-width:520px}
-.split p + p{margin-top:14px}
-@media(max-width:860px){.split{grid-template-columns:1fr;gap:20px}}
-.blobs{display:flex;gap:18px;justify-content:space-between;margin-top:48px;overflow:hidden}
-.blobs svg{width:92px;height:92px;flex:none;transition:transform .7s var(--ease)}
-.blobs svg:hover{transform:translateY(-8px) rotate(-4deg)}
-@media(max-width:760px){.blobs{gap:10px}.blobs svg{width:56px;height:56px}}
+/* trust */
+.trust{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:24px;overflow:hidden;margin-top:72px}
+.trust div{background:var(--bg);padding:26px 22px;transition:background .5s}
+.trust div:hover{background:var(--surface)}
+.trust small{font-family:var(--fm);font-size:11px;color:var(--lime);letter-spacing:.12em;direction:ltr;display:block;text-align:right}
+.trust b{display:block;font-size:19px;font-weight:600;margin:10px 0 4px;letter-spacing:-.01em}
+.trust span{font-size:14px;color:var(--muted)}
+@media(max-width:860px){.trust{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.trust div{padding:20px 16px}.trust b{font-size:17px}}
 
-/* ---------- gradient media card ---------- */
-.media-card{margin-top:56px;border-radius:var(--r-xl);background:linear-gradient(160deg,var(--lav-1),var(--lav-2) 55%,#F6F4FD);min-height:420px;display:grid;place-items:center;position:relative;overflow:hidden;padding:40px 24px}
-.media-card::after{content:"";position:absolute;inset:0;background:radial-gradient(60% 60% at 70% 20%,rgba(124,92,255,.18),transparent 70%);pointer-events:none}
-.float{position:relative;z-index:1;background:rgba(255,255,255,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.7);border-radius:22px;padding:18px 22px;display:flex;gap:16px;align-items:flex-start;max-width:620px;width:100%;box-shadow:0 20px 60px -30px rgba(60,40,160,.35)}
-.float .ava{width:48px;height:48px;flex:none}
-.float .ava svg{width:24px;height:24px}
-.float .meta{display:flex;justify-content:space-between;align-items:baseline;font-size:14px;color:#5A5478;margin-bottom:4px}
-.float .meta b{font-family:var(--font-h);font-weight:500;font-size:19px;color:var(--ink)}
-.float p{font-size:clamp(17px,2.2vw,22px);line-height:1.4;color:#2A2640;font-family:var(--font-h);font-weight:400}
-.play{position:absolute;z-index:1;inset-inline-start:40px;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:8px;font-family:var(--font-h);font-size:22px;color:#2A2640}
-@media(max-width:760px){.play{display:none}.media-card{min-height:320px}}
+/* manifesto */
+.mani{font-size:clamp(28px,4.6vw,58px);font-weight:600;letter-spacing:-.03em;line-height:1.14;max-width:1050px}
+.mani .w{color:var(--faint);transition:color .7s var(--ease)}
+.mani.in .w{color:var(--ink)}
+.mani.in .w.k{color:var(--lime)}
 
-/* ---------- section headers ---------- */
-.sec-head{text-align:center;max-width:680px;margin:0 auto 48px}
-.sec-head h2{font-size:clamp(32px,4.4vw,46px);letter-spacing:-.02em;margin-bottom:12px}
-.sec-head p{color:var(--muted);font-size:18px}
+/* explorer */
+.ex{display:grid;grid-template-columns:360px 1fr;gap:16px;align-items:stretch}
+.ex-tabs{display:flex;flex-direction:column;gap:4px}
+.ex-tab{display:flex;gap:14px;align-items:center;text-align:right;padding:14px 16px;border-radius:16px;color:var(--muted);font-size:15.5px;font-weight:500;transition:background .4s,color .4s;position:relative}
+.ex-tab small{font-family:var(--fm);font-size:11px;color:var(--faint);transition:color .4s}
+.ex-tab:hover{color:var(--ink)}
+.ex-tab.on{background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+.ex-tab.on small{color:var(--lime)}
+.ex-tab.on::after{content:"";position:absolute;inset-inline-start:0;top:14px;bottom:14px;width:2px;background:var(--lime);border-radius:2px}
+.ex-panel{background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:36px;display:flex;flex-direction:column;gap:18px;min-height:440px;position:relative;overflow:hidden}
+.ex-panel::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 50% at 0% 0%,rgba(139,124,255,.14),transparent 70%);pointer-events:none}
+.ex-panel > *{position:relative}
+.ex-panel h3{font-size:clamp(24px,3vw,36px)}
+.ex-panel p{color:var(--ink-2);font-size:17px;max-width:560px}
+.ex-flow{margin-top:auto;display:flex;flex-wrap:wrap;gap:8px 0;align-items:center}
+.ex-flow span{padding:10px 14px;border-radius:12px;background:var(--bg-2);box-shadow:inset 0 0 0 1px var(--line-2);font-size:14px;opacity:0;transform:translateY(10px);animation:pop .7s var(--ease) forwards}
+.ex-flow span.a{background:#141B07;box-shadow:inset 0 0 0 1px var(--lime);color:var(--lime)}
+.ex-flow i{width:26px;height:1px;background:var(--line-2);position:relative}
+.ex-flow i::after{content:"";position:absolute;left:0;top:-2px;width:5px;height:5px;border-left:1px solid var(--muted);border-bottom:1px solid var(--muted);transform:rotate(45deg)}
+@keyframes pop{to{opacity:1;transform:none}}
+.ex-cap{font-size:12px;color:var(--faint)}
+.ex-num{position:absolute!important;left:28px;top:50%;transform:translateY(-58%);font-family:var(--fm);font-size:clamp(140px,20vw,260px);font-weight:500;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.07);pointer-events:none;direction:ltr}
+@media(max-width:900px){.ex{grid-template-columns:1fr}.ex-tabs{flex-direction:row;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;margin-inline:-16px;padding-inline:16px}.ex-tabs::-webkit-scrollbar{display:none}.ex-tab{white-space:nowrap;padding:10px 14px;font-size:14px;box-shadow:inset 0 0 0 1px var(--line)}.ex-tab.on::after{display:none}.ex-tab.on{background:var(--lime);color:var(--lime-ink)}.ex-tab.on small{color:var(--lime-ink)}.ex-panel{padding:24px 20px;min-height:0}.ex-flow{flex-direction:column;align-items:flex-start;gap:0;margin-top:14px}.ex-flow i{width:1px;height:14px;margin-inline-start:24px}.ex-flow i::after{display:none}.ex-num{top:auto;bottom:10px;transform:none;font-size:120px;left:14px}}
 
-/* ---------- bento ---------- */
-.bento{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.card{background:var(--card);border-radius:var(--r-xl);padding:28px 28px 0;overflow:hidden;display:flex;flex-direction:column;gap:16px;min-height:380px}
-.card h3{font-size:20px;font-weight:500}
-.card > p{color:var(--muted);font-size:15.5px;max-width:460px;line-height:1.5}
-.card .mock{margin-top:auto;background:#fff;border-radius:18px 18px 0 0;box-shadow:0 0 0 1px var(--line),0 -10px 40px -20px rgba(10,10,10,.15);padding:14px 16px;font-size:13px;position:relative}
-.card .mock.tint{background:linear-gradient(180deg,#fff,#F3F1FB)}
-.card .mock.hasbadge{padding-top:34px}
-.chip-row{display:flex;gap:6px;flex-wrap:wrap}
-.chip{border-radius:999px;padding:5px 10px;font-size:12px;background:var(--card);color:var(--ink-2);border:1px solid var(--line)}
-.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-.chip.ok{background:#E7F6EF;color:#157A51;border-color:rgba(24,163,107,.25)}
-.msg{display:flex;gap:10px;align-items:flex-start;padding:8px 0}
-.msg .ava{width:28px;height:28px;flex:none}.msg .ava svg{width:14px;height:14px}
-.msg b{font-weight:600;font-size:13px}.msg small{color:var(--faint);margin-inline-start:6px;font-size:11px}
-.msg p{color:var(--ink-2);line-height:1.5;margin-top:2px}
-.msg .at{color:var(--teal);font-weight:500}
-.rows{display:flex;flex-direction:column;gap:8px;margin-top:10px}
-.row{display:flex;align-items:center;gap:10px;background:var(--card);border-radius:10px;padding:9px 12px}
-.row .ck{width:16px;height:16px;border-radius:999px;background:var(--green);display:grid;place-items:center;color:#fff;font-size:10px;flex:none}
-.row .bar{height:7px;border-radius:999px;background:#E3E1DC;flex:1}
-.row .bar.s{max-width:50%}
-.row .t{font-size:12px;color:var(--ink-2);min-width:110px}
-.login{border:1px solid var(--line);border-radius:12px;padding:14px;max-width:300px;margin:8px auto 0}
-.login .url{font-size:11px;color:var(--faint);text-align:center;margin-bottom:10px;direction:ltr}
-.field{border:1px solid var(--line-2);border-radius:8px;padding:8px 10px;font-size:12px;color:var(--faint);margin-bottom:8px;display:flex;justify-content:space-between}
-.field .you{background:var(--ink);color:#fff;border-radius:6px;padding:1px 6px;font-size:10px}
-.field .caret{width:1px;height:12px;background:var(--ink);animation:blink 1s steps(2) infinite}
-@keyframes blink{to{opacity:0}}
-.cta-mini{background:var(--ink);color:#fff;border-radius:8px;text-align:center;padding:8px;font-size:12px}
-.badge-ctl{position:absolute;top:12px;inset-inline-start:14px;font-size:11px;color:var(--orange);display:flex;gap:5px;align-items:center}
-.badge-ctl i{width:7px;height:7px;border-radius:999px;background:var(--orange)}
-.chart{display:flex;align-items:flex-end;gap:7px;height:110px;margin-top:12px;padding:0 4px}
-.chart i{flex:1;background:#8FB0FF;border-radius:4px 4px 0 0;transform-origin:bottom;transform:scaleY(0);transition:transform 1.2s var(--ease)}
-.inview .chart i{transform:none}
-.chart i:nth-child(odd){background:#6F97FF}
-.mem{background:#F3F1FB;border-radius:12px;padding:12px;margin-top:8px}
-.mem .sug{font-size:11px;color:var(--purple);font-weight:500;margin-bottom:6px}
-.mem .q{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13px}
-.mem .q .b{display:flex;gap:6px}
-.mem .q .b span{padding:4px 10px;border-radius:999px;font-size:11px;background:var(--ink);color:#fff}
-.mem .q .b span.l{background:transparent;color:var(--muted)}
-.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
-.kpi{background:var(--card);border-radius:10px;padding:10px 12px}
-.kpi b{display:block;font-family:var(--font-h);font-size:20px;font-weight:500}
-.kpi span{font-size:11px;color:var(--muted)}
-.kpi.ok b{color:#157A51}
-.logline{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;color:var(--muted);direction:ltr;text-align:left;margin-top:8px;line-height:1.7}
-.logline em{color:#157A51;font-style:normal}
-.logline .warn{color:var(--orange)}
-@media(max-width:860px){.bento{grid-template-columns:1fr}.card{min-height:0;padding:22px 20px 0}}
+/* bento */
+.bento{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.spot{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:28px;overflow:hidden;padding:30px;display:flex;flex-direction:column;gap:12px;min-height:400px}
+.spot::before{content:"";position:absolute;inset:0;background:radial-gradient(460px circle at var(--mx,50%) var(--my,0%),rgba(200,255,77,.10),transparent 60%);opacity:0;transition:opacity .6s;pointer-events:none}
+.spot:hover::before{opacity:1}
+.spot > *{position:relative}
+.spot h3{font-size:24px}
+.spot p{color:var(--muted);font-size:15.5px;max-width:440px}
+.spot .viz{margin-top:auto;padding-top:18px}
+.b7{grid-column:span 7}.b5{grid-column:span 5}
+@media(max-width:900px){.b7,.b5{grid-column:span 12}.spot{min-height:0;padding:24px 20px}}
+/* viz: steps */
+.steps{display:flex;flex-direction:column;gap:8px}
+.steps div{display:flex;gap:12px;align-items:center;padding:11px 14px;border-radius:12px;background:var(--bg-2);box-shadow:inset 0 0 0 1px var(--line);font-size:14.5px;color:var(--muted);animation:st 8s infinite}
+.steps div::before{content:"";width:16px;height:16px;border-radius:999px;box-shadow:inset 0 0 0 1.5px var(--faint);flex:none;animation:stc 8s infinite}
+.steps code{margin-inline-start:auto;font-family:var(--fm);font-size:11px;color:var(--faint);direction:ltr}
+.steps div:nth-child(2),.steps div:nth-child(2)::before{animation-delay:1.2s}.steps div:nth-child(3),.steps div:nth-child(3)::before{animation-delay:2.4s}.steps div:nth-child(4),.steps div:nth-child(4)::before{animation-delay:3.6s}
+@keyframes st{0%,8%{color:var(--muted)}14%,80%{color:var(--ink)}100%{color:var(--muted)}}
+@keyframes stc{0%,8%{background:transparent;box-shadow:inset 0 0 0 1.5px var(--faint)}14%,80%{background:var(--lime);box-shadow:0 0 14px rgba(200,255,77,.6)}100%{background:transparent;box-shadow:inset 0 0 0 1.5px var(--faint)}}
+/* viz: rag */
+.rag-q{font-size:14px;padding:10px 14px;border-radius:12px;background:var(--bg-2);box-shadow:inset 0 0 0 1px var(--line);color:var(--ink-2);margin-bottom:12px}
+.rag-g{display:grid;grid-template-columns:repeat(14,1fr);gap:5px}
+.rag-g i{aspect-ratio:1;border-radius:3px;background:rgba(255,255,255,.07)}
+.rag-g i.h{animation:lit 3.6s var(--ease) infinite}
+.rag-g i.h:nth-of-type(3n){animation-delay:.5s}.rag-g i.h:nth-of-type(4n){animation-delay:1.1s}
+@keyframes lit{0%,100%{background:rgba(255,255,255,.07)}40%,60%{background:var(--violet);box-shadow:0 0 12px rgba(139,124,255,.8)}}
+.rag-f{display:flex;justify-content:space-between;margin-top:12px;font-family:var(--fm);font-size:11px;color:var(--muted);direction:ltr}
+.rag-f b{color:var(--lime);font-weight:500}
+/* viz: obs */
+.obs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.obs div{padding:12px;border-radius:12px;background:var(--bg-2);box-shadow:inset 0 0 0 1px var(--line)}
+.obs b{display:block;font-family:var(--fm);font-size:20px;font-weight:500;direction:ltr;text-align:right}
+.obs div.g b{color:var(--lime)}
+.obs span{font-size:12px;color:var(--muted)}
+.spark{width:100%;height:70px}
+.spark path{fill:none;stroke:var(--lime);stroke-width:1.5;stroke-dasharray:600;stroke-dashoffset:600}
+.in .spark path{animation:draw 2.4s var(--ease) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+/* viz: orbit */
+.orbit{position:relative;width:min(300px,100%);aspect-ratio:1;margin:0 auto}
+.orbit .ring{position:absolute;inset:0;border-radius:999px;border:1px dashed var(--line-2);animation:spin 26s linear infinite}
+.orbit .ring.r2{inset:18%;animation-duration:18s;animation-direction:reverse}
+.orbit .ring em{position:absolute;font-style:normal;font-family:var(--fm);font-size:11px;padding:6px 9px;border-radius:999px;background:var(--surface-2);box-shadow:inset 0 0 0 1px var(--line-2);color:var(--ink-2);animation:spin 26s linear infinite reverse;direction:ltr}
+.orbit .ring.r2 em{animation-duration:18s;animation-direction:normal}
+.orbit .ring em:nth-child(1){top:-13px;left:calc(50% - 22px)}.orbit .ring em:nth-child(2){bottom:-13px;left:calc(50% - 26px)}.orbit .ring em:nth-child(3){left:-20px;top:calc(50% - 13px)}.orbit .ring em:nth-child(4){right:-24px;top:calc(50% - 13px)}
+.orbit .core{position:absolute;inset:36%;border-radius:26%;background:#141B07;box-shadow:inset 0 0 0 1.5px var(--lime),0 0 50px rgba(200,255,77,.3);display:grid;place-items:center}
+.orbit .core svg{width:46%;height:46%}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-/* ---------- jobs ---------- */
-.jobs{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
-.jobs h2{font-size:clamp(32px,4.4vw,46px);letter-spacing:-.02em;margin-bottom:22px}
-.tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
-.tag{border-radius:999px;padding:8px 14px;font-size:14px;border:1px solid var(--line-2);color:var(--ink-2);background:#fff;cursor:pointer;transition:all .4s var(--ease)}
-.tag.on{background:#E7F6EF;color:#157A51;border-color:rgba(24,163,107,.35)}
-.tag:hover{border-color:var(--ink)}
-.job-desc{color:var(--muted);font-size:16px;min-height:72px}
-.job-desc b{color:var(--ink);font-weight:500}
-.phone{width:300px;margin:0 auto;background:var(--ink);border-radius:46px;padding:10px;box-shadow:0 40px 80px -40px rgba(10,10,10,.5)}
-.phone .scr{background:#fff;border-radius:38px;overflow:hidden;height:560px;display:flex;flex-direction:column}
-.phone .notch{width:110px;height:28px;background:var(--ink);border-radius:0 0 18px 18px;margin:0 auto}
-.phone .ph-head{display:flex;justify-content:space-between;align-items:center;padding:8px 16px 10px;font-size:12px;color:var(--muted)}
-.phone .ph-head .chip{font-size:11px}
-.phone .ph-body{flex:1;padding:4px 14px;display:flex;flex-direction:column;gap:8px;overflow:hidden}
-.phone .bubble{font-size:12.5px;padding:10px 12px;border-radius:14px;max-width:88%}
-.phone .bubble.me{max-width:80%}
-.sys{font-size:11px;color:var(--faint);text-align:center;display:flex;align-items:center;gap:6px;justify-content:center}
-.sys i{width:14px;height:14px;border-radius:999px;background:var(--ink);display:inline-block}
-.mail{border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:12px;background:#fff}
-.mail .mh{color:var(--faint);font-size:11px;display:flex;justify-content:space-between}
-.mail .mh b{color:#157A51;font-weight:500}
-.mail p{margin-top:6px;color:var(--ink-2);line-height:1.5}
-.mail .mb{display:flex;gap:6px;margin-top:8px}
-.mail .mb span{padding:5px 10px;border-radius:999px;font-size:11px;background:var(--ink);color:#fff}
-.mail .mb span.l{background:var(--card);color:var(--ink)}
-.phone .ph-input{margin:8px 12px 14px;border:1px solid var(--line-2);border-radius:999px;padding:7px 10px;font-size:12px;color:var(--faint);display:flex;justify-content:space-between;align-items:center}
-@media(max-width:860px){.jobs{grid-template-columns:1fr}.phone{width:280px}.phone .scr{height:520px}}
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-block:1px solid var(--line)}
+.stat{padding:44px 20px;border-inline-end:1px solid var(--line)}
+.stat:last-child{border:0}
+.stat b{display:block;font-size:clamp(52px,8vw,104px);font-weight:700;letter-spacing:-.05em;line-height:.95;font-variant-numeric:tabular-nums}
+.stat b sup{font-size:.35em;color:var(--lime);vertical-align:top;margin-inline-start:4px;letter-spacing:0}
+.stat > span{color:var(--muted);font-size:15px;display:block;margin-top:12px}
+@media(max-width:760px){.stats{grid-template-columns:1fr 1fr}.stat{padding:28px 14px}.stat:nth-child(2){border-inline-end:0}.stat:nth-child(-n+2){border-bottom:1px solid var(--line)}}
 
-/* ---------- syllabus / accordion ---------- */
-.acc{display:flex;flex-direction:column;gap:10px;max-width:860px;margin:0 auto}
-.acc-item{background:var(--card);border-radius:var(--r-lg);overflow:hidden;transition:background .4s}
-.acc-item.open{background:#F1F0EC}
-.acc-btn{width:100%;display:flex;align-items:center;gap:16px;padding:18px 22px;text-align:right}
-.acc-btn .num{font-family:var(--font-h);font-size:13px;color:var(--faint);min-width:28px;direction:ltr;text-align:left}
-.acc-btn .ttl{flex:1;font-family:var(--font-h);font-weight:500;font-size:17px;unicode-bidi:plaintext}
-.acc-btn .pm{width:30px;height:30px;border-radius:999px;background:#fff;box-shadow:0 0 0 1px var(--line);display:grid;place-items:center;transition:transform .6s var(--ease);flex:none}
-.acc-item.open .pm{transform:rotate(45deg)}
-.acc-body{max-height:0;overflow:hidden;transition:max-height .7s var(--ease)}
-.acc-body > div{padding:0 22px 22px 66px;color:var(--ink-2);font-size:15.5px;line-height:1.6}
-.acc-body ul{list-style:none;display:flex;flex-direction:column;gap:8px}
-.acc-body li b{font-weight:500;color:var(--ink)}
-@media(max-width:600px){.acc-body > div{padding:0 18px 18px 18px}.acc-btn{padding:16px 16px}}
+/* timeline */
+.tl-wrap{display:grid;grid-template-columns:380px 1fr;gap:56px;align-items:start}
+.tl-side{position:sticky;top:110px}
+.tline{position:relative;padding-inline-start:54px}
+.tline::before{content:"";position:absolute;inset-inline-start:17px;top:8px;bottom:8px;width:1px;background:var(--line-2)}
+.tfill{position:absolute;inset-inline-start:16px;top:8px;bottom:8px;width:3px;border-radius:3px;background:linear-gradient(var(--lime),var(--violet));transform-origin:top;transform:scaleY(0)}
+@supports (animation-timeline:view()){.tfill{animation:fillY linear both;animation-timeline:view();animation-range:cover 12% cover 72%}}
+@supports not (animation-timeline:view()){.tfill{transform:none;opacity:.5}}
+@keyframes fillY{to{transform:scaleY(1)}}
+.mod{position:relative;border-bottom:1px solid var(--line)}
+.mod-b{width:100%;display:flex;gap:16px;align-items:center;padding:22px 0;text-align:right}
+.mod-n{position:absolute;inset-inline-start:-54px;top:16px;width:36px;height:36px;border-radius:999px;background:var(--bg);box-shadow:inset 0 0 0 1px var(--line-2);display:grid;place-items:center;font-family:var(--fm);font-size:12px;color:var(--muted);transition:all .5s var(--ease)}
+.mod.open .mod-n,.mod:hover .mod-n{background:var(--lime);color:var(--lime-ink);box-shadow:0 0 24px rgba(200,255,77,.45)}
+.mod-t{flex:1;font-size:clamp(18px,2vw,23px);font-weight:600;letter-spacing:-.015em;unicode-bidi:plaintext;transition:color .4s}
+.mod:hover .mod-t{color:var(--lime)}
+.mod-x{width:34px;height:34px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line-2);display:grid;place-items:center;flex:none;transition:transform .6s var(--ease),background .4s}
+.mod.open .mod-x{transform:rotate(45deg);background:rgba(255,255,255,.08)}
+.mod-c{display:grid;grid-template-rows:0fr;transition:grid-template-rows .7s var(--ease)}
+.mod.open .mod-c{grid-template-rows:1fr}
+.mod-c > div{overflow:hidden}
+.mod-c ul{list-style:none;padding:0 0 24px;display:flex;flex-direction:column;gap:10px;color:var(--muted);font-size:16px;max-width:640px}
+.mod-c li b{color:var(--ink);font-weight:500}
+@media(max-width:960px){.tl-wrap{grid-template-columns:1fr;gap:32px}.tl-side{position:static}.tline{padding-inline-start:48px}.mod-n{inset-inline-start:-48px}}
 
-/* ---------- facts ---------- */
-.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:40px}
-.fact{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:22px}
-.fact b{display:block;font-family:var(--font-h);font-size:34px;font-weight:500;letter-spacing:-.02em}
-.fact span{color:var(--muted);font-size:14px}
-@media(max-width:860px){.facts{grid-template-columns:1fr 1fr}}
+/* roles */
+.role{display:grid;grid-template-columns:70px 1fr 1fr 40px;gap:20px;align-items:center;padding:26px 14px;border-top:1px solid var(--line);position:relative;transition:padding .6s var(--ease)}
+.role:last-child{border-bottom:1px solid var(--line)}
+.role::before{content:"";position:absolute;inset:0;background:var(--lime);transform:scaleY(0);transform-origin:bottom;transition:transform .6s var(--ease);z-index:0}
+.role > *{position:relative;z-index:1;transition:color .4s}
+.role small{font-family:var(--fm);font-size:12px;color:var(--faint)}
+.role h3{font-size:clamp(22px,3.2vw,40px);font-weight:600;letter-spacing:-.03em}
+.role p{color:var(--muted);font-size:15.5px}
+.role svg{width:22px;height:22px;opacity:.4;transition:transform .6s var(--ease),opacity .4s}
+@media(hover:hover){.role:hover::before{transform:none}.role:hover{padding-inline:28px}.role:hover > *{color:var(--lime-ink)}.role:hover svg{transform:rotate(-45deg);opacity:1}}
+@media(max-width:760px){.role{grid-template-columns:34px 1fr;gap:6px 12px;padding:20px 4px}.role p{grid-column:2}.role svg{display:none}}
 
-/* ---------- funding (pricing style) ---------- */
-.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.plan{background:var(--card);border-radius:var(--r-xl);padding:26px 24px;display:flex;flex-direction:column;gap:14px}
-.plan.hl{background:var(--ink);color:#fff}
-.plan .pn{font-size:14px;color:var(--muted)}
-.plan.hl .pn{color:#BDBDBD}
-.plan .pv{font-family:var(--font-h);font-size:38px;font-weight:500;letter-spacing:-.02em;line-height:1}
-.plan .pv small{font-size:14px;font-weight:400;color:var(--muted);margin-inline-start:6px}
-.plan.hl .pv small{color:#BDBDBD}
-.plan .ps{font-size:13px;color:var(--muted)}
-.plan.hl .ps{color:#BDBDBD}
-.plan .btn{justify-content:center}
-.plan.hl .btn{background:#fff;color:var(--ink)}
-.plan ul{list-style:none;display:flex;flex-direction:column;gap:8px;font-size:14px;color:var(--ink-2)}
-.plan.hl ul{color:#D9D9D9}
-.plan li{display:flex;gap:8px;align-items:flex-start}
-.plan li::before{content:"✓";font-size:12px;color:var(--green);margin-top:3px}
-.plan .lbl{font-size:13px;font-weight:500}
-.plan-note{margin-top:14px;background:var(--card);border-radius:var(--r-lg);padding:16px 22px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-size:15px}
-.plan-note span{color:var(--muted)}
-@media(max-width:860px){.plans{grid-template-columns:1fr}}
+/* funding */
+.pick{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:28px}
+.pick span{font-size:15px;color:var(--muted);margin-inline-end:6px}
+.pick button{padding:10px 16px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line-2);font-size:14.5px;color:var(--ink-2);transition:all .4s var(--ease)}
+.pick button:hover{color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.pick button.on{background:var(--lime);color:var(--lime-ink);box-shadow:none;font-weight:600}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.plan{border-radius:28px;padding:30px 26px;background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;gap:14px;transition:transform .7s var(--ease),border-color .5s,box-shadow .7s var(--ease),opacity .5s}
+.plans.picked .plan:not(.sel){opacity:.45}
+.plan.sel{border-color:var(--lime);transform:translateY(-8px);box-shadow:0 30px 80px -40px rgba(200,255,77,.5)}
+.plan small{font-family:var(--fm);font-size:11px;letter-spacing:.12em;color:var(--lime);direction:ltr;text-align:right}
+.plan .pv{font-size:clamp(40px,4.4vw,58px);font-weight:700;letter-spacing:-.04em;line-height:1}
+.plan .pv em{font-style:normal;font-size:15px;font-weight:400;letter-spacing:0;color:var(--muted);margin-inline-start:8px}
+.plan .ps{color:var(--muted);font-size:14.5px}
+.plan ul{list-style:none;display:flex;flex-direction:column;gap:9px;font-size:15px;color:var(--ink-2);padding-top:14px;border-top:1px solid var(--line);margin-top:auto}
+.plan li{display:flex;gap:10px}
+.plan li::before{content:"";width:6px;height:6px;margin-top:10px;background:var(--lime);border-radius:1px;transform:rotate(45deg);flex:none}
+.plan a{font-weight:600;font-size:15px;display:inline-flex;gap:8px;align-items:center;color:var(--lime)}
+.plan a svg{width:14px;height:14px;transition:transform .5s var(--ease)}
+.plan a:hover svg{transform:translate(-3px,-3px)}
+.note{margin-top:16px;border-radius:20px;padding:18px 22px;border:1px dashed var(--line-2);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center;font-size:15.5px;color:var(--ink-2)}
+@media(max-width:900px){.plans{grid-template-columns:1fr}.plan.sel{transform:none}}
 
-/* ---------- certs / partners ---------- */
-.certs{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.cert{background:var(--card);border-radius:var(--r-xl);padding:28px;display:flex;flex-direction:column;gap:12px}
-.cert .ico{width:46px;height:46px;border-radius:14px;background:#fff;box-shadow:0 0 0 1px var(--line);display:grid;place-items:center}
-.cert h3{font-size:20px}
-.cert p{color:var(--muted);font-size:15px}
-.partners{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
-.partner{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:20px}
-.partner .wm{font-family:var(--font-h);font-weight:600;font-size:18px;letter-spacing:-.01em;margin-bottom:6px;direction:ltr;text-align:right}
-.partner p{font-size:13.5px;color:var(--muted);line-height:1.5}
-@media(max-width:860px){.certs,.partners{grid-template-columns:1fr}}
-.logos{margin-top:40px;text-align:center}
-.logos p{font-size:13px;color:var(--faint);margin-bottom:14px}
-.logos .row-l{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;font-family:var(--font-h);font-size:14px;color:var(--ink-2)}
-.logos .row-l span::after{content:"·";margin-inline-start:18px;color:var(--faint)}
-.logos .row-l span:last-child::after{content:""}
+/* certs */
+.certs{display:grid;grid-template-columns:1fr 1fr;gap:16px;perspective:1400px}
+.cert{position:relative;border-radius:28px;padding:34px;min-height:300px;background:linear-gradient(135deg,#171B22,#0E1014);border:1px solid var(--line-2);overflow:hidden;transform-style:preserve-3d;transition:transform .6s var(--ease);display:flex;flex-direction:column;gap:12px;will-change:transform}
+.cert::before{content:"";position:absolute;inset:-40%;background:conic-gradient(from calc(var(--a,0)*1deg),rgba(200,255,77,.0),rgba(200,255,77,.22),rgba(139,124,255,.25),rgba(92,225,230,.2),rgba(200,255,77,0) 70%);filter:blur(50px);opacity:.55;transition:opacity .5s;pointer-events:none}
+.cert > *{position:relative}
+.cert .seal{width:64px;height:64px;margin-bottom:auto}
+.cert small{font-family:var(--fm);font-size:11px;letter-spacing:.14em;color:var(--lime);direction:ltr;text-align:right}
+.cert h3{font-size:clamp(22px,2.6vw,30px)}
+.cert p{color:var(--ink-2);font-size:15.5px;max-width:440px}
+.cert .serial{font-family:var(--fm);font-size:11px;color:var(--faint);direction:ltr;text-align:right}
+.partners{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:24px;overflow:hidden;margin-top:16px}
+.partners div{background:var(--bg);padding:24px 20px}
+.partners b{font-family:var(--fm);font-weight:500;font-size:16px;direction:ltr;display:block;text-align:right;margin-bottom:8px}
+.partners p{font-size:14px;color:var(--muted);line-height:1.5}
+@media(max-width:900px){.certs{grid-template-columns:1fr}.partners{grid-template-columns:1fr 1fr}.cert{min-height:260px;padding:26px 22px}}
+@media(max-width:520px){.partners{grid-template-columns:1fr}}
 
-/* ---------- faq ---------- */
-.faq{max-width:760px;margin:0 auto}
-.faq .acc-item{background:transparent;border-bottom:1px solid var(--line);border-radius:0}
-.faq .acc-item.open{background:transparent}
-.faq .acc-btn{padding:20px 0}
-.faq .acc-body > div{padding:0 0 22px 60px}
+/* faq */
+.faq{max-width:860px}
+.q{border-top:1px solid var(--line)}
+.q:last-child{border-bottom:1px solid var(--line)}
+.q button{width:100%;display:flex;justify-content:space-between;gap:16px;align-items:center;padding:24px 0;text-align:right;font-size:clamp(18px,2vw,22px);font-weight:600;letter-spacing:-.015em}
+.q .mod-x{transition:transform .6s var(--ease),background .4s}
+.q.open .mod-x{transform:rotate(45deg);background:var(--lime);color:var(--lime-ink);box-shadow:none}
+.q .mod-c p{padding:0 0 26px;color:var(--ink-2);max-width:680px;font-size:16.5px}
 
-/* ---------- final cta / form ---------- */
-.final{text-align:center;padding:40px 0 100px}
-.final h2{font-size:clamp(36px,5vw,56px);letter-spacing:-.02em;margin-bottom:10px}
-.final > .wrap-n > p{color:var(--muted);font-size:18px;margin-bottom:32px}
-.form-shell{background:var(--card);border-radius:var(--r-xl);padding:8px;max-width:560px;margin:0 auto;text-align:right}
-.form{background:#fff;border-radius:calc(var(--r-xl) - 8px);padding:28px;box-shadow:0 0 0 1px var(--line)}
-.form label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
-.form input[type=text],.form input[type=tel],.form input[type=email]{width:100%;border:1px solid var(--line-2);border-radius:12px;padding:13px 14px;font:inherit;font-size:16px;margin-bottom:14px;background:#fff;transition:box-shadow .4s var(--ease),border-color .4s}
-.form input:focus{outline:0;border-color:var(--ink);box-shadow:0 0 0 4px rgba(10,10,10,.06)}
-.chk{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.45}
-.chk input{margin-top:4px;accent-color:var(--ink)}
+/* cta */
+.cta{overflow:hidden}
+.cta .aurora{inset:auto -10% -40%;height:800px}
+.cta-grid{display:grid;grid-template-columns:1fr 480px;gap:56px;align-items:center;position:relative}
+.cta h2{font-size:clamp(40px,6.4vw,84px);letter-spacing:-.04em}
+.cta .lead{margin-top:18px;color:var(--ink-2)}
+.tel{margin-top:30px;display:inline-flex;gap:14px;align-items:center;font-size:15px;color:var(--muted)}
+.tel b{font-family:var(--fm);font-size:28px;font-weight:500;color:var(--ink);direction:ltr}
+.form{border-radius:28px;padding:6px;background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.04))}
+.form form{border-radius:22px;background:rgba(12,14,18,.92);padding:28px;display:flex;flex-direction:column}
+.form label.f{font-size:13px;color:var(--muted);margin-bottom:6px}
+.form input[type=text],.form input[type=tel],.form input[type=email]{width:100%;background:var(--surface);border:1px solid var(--line-2);border-radius:14px;padding:15px 16px;font:inherit;font-size:16px;color:var(--ink);margin-bottom:14px;transition:border-color .4s,box-shadow .4s var(--ease)}
+.form input::placeholder{color:var(--faint)}
+.form input:focus{outline:0;border-color:var(--lime);box-shadow:0 0 0 4px rgba(200,255,77,.14)}
+.chk{display:flex;gap:10px;font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.45}
+.chk input{accent-color:var(--lime);margin-top:3px;flex:none}
 .chk a{text-decoration:underline;color:var(--ink-2)}
-.form .btn{width:100%;justify-content:center;margin-top:10px}
-.form .err{display:none;font-size:13px;color:var(--red);margin-top:8px}
-.form .ok{display:none;text-align:center;padding:24px 0}
-.form .ok b{display:block;font-family:var(--font-h);font-size:24px;font-weight:500;margin-bottom:6px}
-.form .ok p{color:var(--muted);font-size:15px}
-.tel{margin-top:22px;font-size:15px;color:var(--muted)}
-.tel b{font-family:var(--font-h);font-weight:500;color:var(--ink);direction:ltr;display:inline-block}
+.form .btn{justify-content:space-between;margin-top:10px;padding-inline-start:26px;width:100%}
+.trk{display:none;align-self:flex-start;font-size:13px;padding:6px 12px;border-radius:999px;background:#141B07;color:var(--lime);box-shadow:inset 0 0 0 1px rgba(200,255,77,.4);margin-bottom:14px}
+.err{display:none;font-size:13.5px;color:var(--coral);margin-top:10px}
+.ok{display:none;text-align:center;padding:40px 0}
+.ok b{display:block;font-size:30px;font-weight:700;letter-spacing:-.02em;margin-bottom:8px}
+.ok p{color:var(--muted)}
+@media(max-width:960px){.cta-grid{grid-template-columns:1fr;gap:36px}}
 
-footer{border-top:1px solid var(--line);padding:30px 0 100px;font-size:13px;color:var(--muted)}
-footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+footer{border-top:1px solid var(--line);padding:28px 0 110px;font-size:13px;color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
 footer a{text-decoration:underline}
 
-/* ---------- sticky mobile cta ---------- */
-.sticky{position:fixed;bottom:0;inset-inline:0;z-index:30;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 -1px 0 var(--line);display:none;gap:8px}
-.sticky .btn{flex:1;justify-content:center}
+.sticky{position:fixed;bottom:0;inset-inline:0;z-index:40;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(8,9,12,.86);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 -1px 0 var(--line);display:none;gap:8px;transform:translateY(110%);transition:transform .7s var(--ease)}
+.sticky.show{transform:none}
+.sticky a{flex:1;display:flex;justify-content:center;align-items:center;border-radius:999px;padding:14px;font-weight:600;font-size:15px}
+.sticky a:first-child{flex:.6;box-shadow:inset 0 0 0 1px var(--line-2);font-family:var(--fm);direction:ltr}
+.sticky a:last-child{background:var(--lime);color:var(--lime-ink)}
 @media(max-width:768px){.sticky{display:flex}}
 
-/* ---------- reveal ---------- */
-.rv{opacity:0;transform:translateY(28px);filter:blur(6px);transition:opacity .9s var(--ease),transform .9s var(--ease),filter .9s var(--ease)}
-.rv.inview{opacity:1;transform:none;filter:none}
-.rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}
-@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;filter:none;transition:none}.chart i{transform:none}}
+/* reveal */
+.rv{opacity:0;transform:translateY(34px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}.mani .w{color:var(--ink)}.tfill{transform:none}.spark path{stroke-dashoffset:0}.ex-flow span{opacity:1;transform:none}.sticky{transform:none}}
 </style>
 </head>
 <body>
+<div class="pbar"></div>
 
-<!-- SVG symbols -->
-<svg width="0" height="0" style="position:absolute">
-  <symbol id="bot" viewBox="0 0 32 32"><rect x="2" y="4" width="28" height="24" rx="12" fill="currentColor"/><rect x="11" y="11" width="3.5" height="9" rx="1.75" fill="#fff"/><rect x="17.5" y="11" width="3.5" height="9" rx="1.75" fill="#fff"/></symbol>
-  <symbol id="arr" viewBox="0 0 16 16"><path d="M10.5 4.5H5m5.5 0V10m0-5.5L4.5 10.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mark" viewBox="0 0 32 32"><rect x="6" y="6" width="20" height="20" rx="6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="16" r="3" fill="currentColor"/><circle cx="26" cy="16" r="3" fill="currentColor"/><path d="M16 10.5l1.5 4 4 1.5-4 1.5-1.5 4-1.5-4-4-1.5 4-1.5z" fill="currentColor"/></symbol>
+  <symbol id="arr" viewBox="0 0 16 16"><path d="M12 8H3.5m0 0L7 4.5M3.5 8 7 11.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="plus" viewBox="0 0 16 16"><path d="M8 3v10M3 8h10" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></symbol>
-  <symbol id="mic" viewBox="0 0 16 16"><rect x="6" y="2" width="4" height="7" rx="2" fill="#fff"/><path d="M4 7.5a4 4 0 0 0 8 0M8 11.5V14" fill="none" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/></symbol>
-  <symbol id="check" viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="medal" viewBox="0 0 24 24"><circle cx="12" cy="14" r="5.5" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8.5 9.5 6 3h4l2 4 2-4h4l-2.5 6.5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></symbol>
-  <symbol id="ticket" viewBox="0 0 24 24"><path d="M3 9a2 2 0 0 0 0 6v3h18v-3a2 2 0 0 0 0-6V6H3z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M13 6v12" stroke="currentColor" stroke-width="1.3" stroke-dasharray="2 2"/></symbol>
-  <symbol id="scroll" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></symbol>
-  <symbol id="laptop" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M2 19h20" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></symbol>
-  <symbol id="shield" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </svg>
 
-<!-- NAV -->
-<header class="nav" id="nav">
-  <div class="wrap">
-    <a class="brand" href="#top"><svg class="mark" style="color:var(--ink)"><use href="#bot"/></svg>AI Agent Specialist</a>
-    <nav class="nav-links">
-      <a href="#build">מה בונים</a>
-      <a href="#jobs">תפקידים</a>
+<header class="nav">
+  <div class="island">
+    <a class="brand" href="#top"><svg style="color:var(--lime)"><use href="#mark"/></svg><span dir="ltr">AI Agent Specialist</span></a>
+    <nav>
+      <a href="#projects">פרויקטים</a>
       <a href="#syllabus">סילבוס</a>
+      <a href="#roles">תפקידים</a>
       <a href="#funding">מימון</a>
       <a href="#faq">שאלות</a>
     </nav>
-    <div class="nav-cta">
-      <a class="btn btn-light" href="#syllabus">לסילבוס</a>
-      <a class="btn btn-dark" href="#cta">לשיחת ייעוץ</a>
-      <button class="burger" id="burger" aria-label="תפריט"><i></i><i></i></button>
-    </div>
+    <span class="sp"></span>
+    <a class="btn btn-lime btn-sm" href="#cta">לשיחת ייעוץ<span class="ic"><svg width="13" height="13"><use href="#arr"/></svg></span></a>
+    <button class="burger" id="burger" aria-label="תפריט"><i></i><i></i></button>
   </div>
 </header>
-<div class="mobile-menu" id="mmenu">
-  <a href="#build">מה בונים בקורס</a>
-  <a href="#jobs">תפקידים בשוק</a>
-  <a href="#syllabus">סילבוס 12 מודולים</a>
-  <a href="#funding">מימון וזכאות</a>
-  <a href="#cta">לשיחת ייעוץ</a>
+<div class="mmenu" id="mmenu">
+  <a href="#projects"><span>01</span>8 פרויקטים</a>
+  <a href="#syllabus"><span>02</span>סילבוס</a>
+  <a href="#roles"><span>03</span>תפקידים</a>
+  <a href="#funding"><span>04</span>מימון וזכאות</a>
+  <a href="#cta"><span>05</span>לשיחת ייעוץ</a>
 </div>
 
 <main id="top">
 
 <!-- HERO -->
 <section class="hero">
+  <div class="aurora"></div><div class="grid-bg"></div>
   <div class="wrap">
-    <div class="rv"><span class="eyebrow"><span class="dot">✓</span><b>הכשרה אחת, 2 התמחויות.</b> תעודה ממשלתית + תעודת אלתא</span></div>
-    <h1 class="rv d1"><span>תבנו את</span><svg class="mascot" style="color:var(--ink)"><use href="#bot"/></svg><span>ה-AI Agent</span><span>הראשון שלכם</span></h1>
-    <p class="rv d2">סוכני בינה מלאכותית שמחוברים ל-CRM, לדיוור ולמערכות הארגון, ומחזירים עבודה גמורה. קורס AI Agent & Automation Specialist של היחידה ללימודי חוץ ומפעל הסייבר של אלתא.</p>
-    <div class="hero-cta rv d3">
-      <a class="btn btn-dark btn-lg" href="#cta">לשיחת ייעוץ והכוונה <span class="ic"><svg width="12" height="12"><use href="#arr"/></svg></span></a>
-      <a class="btn btn-light btn-lg" href="#syllabus">לסילבוס המלא</a>
+    <div class="rv"><span class="pill"><span class="pulse"></span>הכשרה אחת, 2 התמחויות · היחידה ללימודי חוץ × אלתא</span></div>
+    <h1 class="rv d1">תבנו סוכן AI<span class="l2">ש<span id="rot">מסווג לידים</span><span class="caret"></span></span></h1>
+    <div class="hero-row">
+      <p class="rv d2">קורס <span dir="ltr">AI Agent & Automation Specialist</span>. לומדים לתרגם אתגר עסקי למערכת עובדת: סוכנים שמחוברים ל-CRM, לדיוור ולידע הארגוני, ומבצעים את העבודה בעצמם.</p>
+      <div class="hero-cta rv d3">
+        <a class="btn btn-lime" href="#cta">לשיחת ייעוץ והכוונה<span class="ic"><svg width="15" height="15"><use href="#arr"/></svg></span></a>
+        <a class="btn btn-ghost" href="#syllabus">לסילבוס המלא</a>
+      </div>
     </div>
-    <div class="hero-note rv d3">160 ש״א · אונליין בפיקוח מכל הארץ · מוכר לפיקדון ולשוברים</div>
+    <div class="hero-meta rv d3"><span>160 ש״א</span><span>אונליין בפיקוח, מכל הארץ</span><span>תעודת הסמכה ממשלתית</span><span>פיקדון + שוברים עד 90% מימון</span></div>
 
-    <div class="shell rv">
-      <div class="window">
-        <div class="win-top">
-          <div class="dots"><i></i><i></i><i></i></div>
-          <span dir="ltr">AI Agent Studio</span>
+    <div class="canvas rv">
+      <div class="canvas-in">
+        <div class="c-top"><span>workflows / lead-agent.flow</span><span class="live"><span class="pulse"></span>LIVE</span></div>
+        <div class="c-body">
+          <!-- desktop flow -->
+          <svg class="flow-d" viewBox="0 0 1040 380" role="img" aria-label="תרשים זרימה: ליד חדש נכנס, סוכן AI מסווג, ומעדכן CRM, וואטסאפ ויומן">
+            <path id="w0" class="wire" d="M820 200 L660 200"/><path class="wire-f" d="M820 200 L660 200"/>
+            <path id="w1" class="wire" d="M420 200 C340 200 330 70 250 70"/><path class="wire-f" d="M420 200 C340 200 330 70 250 70"/>
+            <path id="w2" class="wire" d="M420 200 L250 200"/><path class="wire-f" d="M420 200 L250 200"/>
+            <path id="w3" class="wire" d="M420 200 C340 200 330 330 250 330"/><path class="wire-f" d="M420 200 C340 200 330 330 250 330"/>
+            <path class="wire-d" d="M480 326 L480 290"/><path class="wire-d" d="M600 326 L600 290"/>
+            <g><circle r="5" fill="#C8FF4D"><animateMotion dur="1.6s" repeatCount="indefinite"><mpath href="#w0"/></animateMotion></circle>
+            <circle r="4" fill="#C8FF4D"><animateMotion dur="2s" begin=".8s" repeatCount="indefinite"><mpath href="#w1"/></animateMotion></circle>
+            <circle r="4" fill="#8B7CFF"><animateMotion dur="2s" begin="1.2s" repeatCount="indefinite"><mpath href="#w2"/></animateMotion></circle>
+            <circle r="4" fill="#5CE1E6"><animateMotion dur="2s" begin="1.6s" repeatCount="indefinite"><mpath href="#w3"/></animateMotion></circle></g>
+            <rect class="nd" x="820" y="160" width="190" height="80" rx="16"/>
+            <text class="tm" x="915" y="183" text-anchor="middle">TRIGGER</text>
+            <text class="t1" x="915" y="207" text-anchor="middle" direction="rtl">ליד חדש נכנס</text>
+            <text class="t2" x="915" y="227" text-anchor="middle" direction="rtl">טופס · Facebook Lead Ads</text>
+            <rect x="412" y="102" width="256" height="196" rx="28" fill="rgba(200,255,77,.06)"/>
+            <rect class="nd-a" x="420" y="110" width="240" height="180" rx="22"/>
+            <text class="tm" x="540" y="140" text-anchor="middle" style="fill:#C8FF4D">AI AGENT</text>
+            <text class="t1 t1b" x="540" y="172" text-anchor="middle" direction="rtl">סוכן לידים</text>
+            <text class="t2" x="540" y="196" text-anchor="middle" direction="rtl">מסווג · מעשיר · מחליט</text>
+            <rect x="450" y="214" width="180" height="28" rx="14" fill="rgba(200,255,77,.12)"/>
+            <text class="tl" x="540" y="232" text-anchor="middle" direction="rtl">כוונת רכישה: גבוהה</text>
+            <rect x="450" y="258" width="180" height="5" rx="2.5" fill="rgba(255,255,255,.1)"/>
+            <rect x="450" y="258" width="60" height="5" rx="2.5" fill="#C8FF4D"><animate attributeName="x" values="450;570;450" dur="2.6s" repeatCount="indefinite"/></rect>
+            <rect class="nd" x="430" y="326" width="100" height="32" rx="16"/><text class="tm" x="480" y="346" text-anchor="middle">VECTOR DB</text>
+            <rect class="nd" x="550" y="326" width="100" height="32" rx="16"/><text class="tm" x="600" y="346" text-anchor="middle">LLM</text>
+            <rect class="nd" x="30" y="34" width="220" height="72" rx="16"/><circle cx="52" cy="54" r="4" fill="#C8FF4D"/>
+            <text class="t1" x="140" y="64" text-anchor="middle">CRM</text><text class="t2" x="140" y="86" text-anchor="middle" direction="rtl">ליד חם נפתח + תזכורת לנציג</text>
+            <rect class="nd" x="30" y="164" width="220" height="72" rx="16"/><circle cx="52" cy="184" r="4" fill="#8B7CFF"/>
+            <text class="t1" x="140" y="194" text-anchor="middle">WhatsApp</text><text class="t2" x="140" y="216" text-anchor="middle" direction="rtl">הודעה ראשונה נשלחה</text>
+            <rect class="nd" x="30" y="294" width="220" height="72" rx="16"/><circle cx="52" cy="314" r="4" fill="#5CE1E6"/>
+            <text class="t1" x="140" y="324" text-anchor="middle" direction="rtl">יומן</text><text class="t2" x="140" y="346" text-anchor="middle" direction="rtl">שיחה תואמה למחר 10:00</text>
+          </svg>
+          <!-- mobile flow -->
+          <svg class="flow-m" viewBox="0 0 340 436" role="img" aria-label="תרשים זרימה של סוכן לידים">
+            <path id="m0" class="wire" d="M170 78 L170 130"/><path class="wire-f" d="M170 78 L170 130"/>
+            <path id="m1" class="wire" d="M170 270 C170 312 60 300 60 340"/><path class="wire-f" d="M170 270 C170 312 60 300 60 340"/>
+            <path id="m2" class="wire" d="M170 270 L170 340"/><path class="wire-f" d="M170 270 L170 340"/>
+            <path id="m3" class="wire" d="M170 270 C170 312 280 300 280 340"/><path class="wire-f" d="M170 270 C170 312 280 300 280 340"/>
+            <circle r="4.5" fill="#C8FF4D"><animateMotion dur="1.2s" repeatCount="indefinite"><mpath href="#m0"/></animateMotion></circle>
+            <circle r="4" fill="#C8FF4D"><animateMotion dur="1.8s" begin=".6s" repeatCount="indefinite"><mpath href="#m1"/></animateMotion></circle>
+            <circle r="4" fill="#8B7CFF"><animateMotion dur="1.8s" begin="1s" repeatCount="indefinite"><mpath href="#m2"/></animateMotion></circle>
+            <circle r="4" fill="#5CE1E6"><animateMotion dur="1.8s" begin="1.4s" repeatCount="indefinite"><mpath href="#m3"/></animateMotion></circle>
+            <rect class="nd" x="60" y="8" width="220" height="70" rx="16"/>
+            <text class="tm" x="170" y="28" text-anchor="middle">TRIGGER</text>
+            <text class="t1" x="170" y="49" text-anchor="middle" direction="rtl" style="font-size:15px">ליד חדש נכנס</text>
+            <text class="t2" x="170" y="67" text-anchor="middle" direction="rtl" style="font-size:11.5px">טופס · Facebook Lead Ads</text>
+            <rect x="33" y="123" width="274" height="154" rx="26" fill="rgba(200,255,77,.06)"/>
+            <rect class="nd-a" x="40" y="130" width="260" height="140" rx="22"/>
+            <text class="tm" x="170" y="157" text-anchor="middle" style="fill:#C8FF4D">AI AGENT</text>
+            <text class="t1 t1b" x="170" y="187" text-anchor="middle" direction="rtl">סוכן לידים</text>
+            <text class="t2" x="170" y="209" text-anchor="middle" direction="rtl">מסווג · מעשיר · מחליט</text>
+            <rect x="80" y="224" width="180" height="28" rx="14" fill="rgba(200,255,77,.12)"/>
+            <text class="tl" x="170" y="242" text-anchor="middle" direction="rtl">כוונת רכישה: גבוהה</text>
+            <rect class="nd" x="8" y="340" width="104" height="84" rx="14"/><text class="t1" x="60" y="376" text-anchor="middle" style="font-size:14px">CRM</text><text class="t2" x="60" y="398" text-anchor="middle" direction="rtl" style="font-size:11px">ליד חם נפתח</text>
+            <rect class="nd" x="118" y="340" width="104" height="84" rx="14"/><text class="t1" x="170" y="376" text-anchor="middle" style="font-size:14px">WhatsApp</text><text class="t2" x="170" y="398" text-anchor="middle" direction="rtl" style="font-size:11px">הודעה נשלחה</text>
+            <rect class="nd" x="228" y="340" width="104" height="84" rx="14"/><text class="t1" x="280" y="376" text-anchor="middle" direction="rtl" style="font-size:14px">יומן</text><text class="t2" x="280" y="398" text-anchor="middle" direction="rtl" style="font-size:11px">שיחה תואמה</text>
+          </svg>
         </div>
-        <div class="win-body">
-          <aside class="sidebar">
-            <div class="bot-row">
-              <div class="bot-tile active"><span class="ava" style="background:var(--green)"><svg style="color:#fff"><use href="#bot"/></svg></span>סוכן לידים</div>
-              <div class="bot-tile"><span class="ava" style="background:var(--purple)"><svg style="color:#fff"><use href="#bot"/></svg></span>מנהל פניות</div>
-              <div class="bot-tile"><span class="ava" style="background:var(--blue)"><svg style="color:#fff"><use href="#bot"/></svg></span>סוכן דוחות</div>
-            </div>
-            <div class="conv"><span class="ava" style="background:var(--blue)"><svg style="color:#fff"><use href="#bot"/></svg></span><div><b>גיוס עובדים</b><span>3 מועמדים סוננו ותואם ראיון...</span></div></div>
-            <div class="conv"><span class="ava" style="background:var(--orange)"><svg style="color:#fff"><use href="#bot"/></svg></span><div><b>ניהול הוצאות</b><span>9 קבלות עובדו, הדוח הוגש...</span></div></div>
-            <div class="conv"><span class="ava" style="background:var(--green)"><svg style="color:#fff"><use href="#bot"/></svg></span><div><b>שירות לקוחות</b><span>12 פניות נענו, 2 הועברו לנציג...</span></div></div>
-          </aside>
-          <div class="chat">
-            <div class="chat-head"><b><span class="ava" style="background:var(--green);width:20px;height:20px"><svg style="color:#fff;width:10px;height:10px"><use href="#bot"/></svg></span>סוכן לידים</b><span>שיתוף</span></div>
-            <div class="chat-area">
-              <div class="ts">יום שישי 7:48</div>
-              <div class="bubble" id="typed">בוקר טוב! נכנסו <b>14 לידים חדשים</b> מקמפיין הפייסבוק. סיווגתי לפי כוונת רכישה: 5 חמים כבר ב-CRM עם תזכורת לנציג, ול-9 הנותרים יצאה הודעת וואטסאפ ראשונה. רוצה שאתזמן שיחות ל-5 החמים?</div>
-              <div class="bubble me">כן, תתזמן למחר בין 10 ל-12 ותשלח לי סיכום.</div>
-              <div class="bubble">בוצע. 5 שיחות ביומן, סיכום ישלח ב-9:30.</div>
-            </div>
-            <div class="chat-input"><span class="plus"><svg width="12" height="12"><use href="#plus"/></svg></span>כתבו הודעה לסוכן הלידים<span class="mic"><svg width="14" height="14"><use href="#mic"/></svg></span></div>
-            <div class="chat-foot"><span class="me-ava">אב</span>אביב שלום</div>
+        <div class="c-log"><b>›</b><span id="log">agent.run #214 → classify(lead) ✓ intent=high</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS MARQUEE -->
+<div class="marq" aria-hidden="true"><div class="marq-t">
+  <span>Make</span><span>n8n</span><span>Claude</span><span>ChatGPT</span><span>Gemini</span><span>API</span><span>JSON</span><span>Vector DB</span><span>CRM</span><span>BI</span><span>NoCode</span><span>Vibe Coding</span><span>Prompt Engineering</span><span>RAG</span>
+  <span>Make</span><span>n8n</span><span>Claude</span><span>ChatGPT</span><span>Gemini</span><span>API</span><span>JSON</span><span>Vector DB</span><span>CRM</span><span>BI</span><span>NoCode</span><span>Vibe Coding</span><span>Prompt Engineering</span><span>RAG</span>
+</div></div>
+
+<!-- MANIFESTO + TRUST -->
+<section>
+  <div class="wrap">
+    <span class="kicker rv">the idea</span>
+    <p class="mani" id="mani" style="margin-top:22px">הקורס לא מלמד "כלים". הוא מייצר <span class="k">אנשי AI יישומיים</span>: כאלה שלוקחים אתגר עסקי אמיתי, מאפיינים אותו, ובונים סוכן ש<span class="k">מבין משימות, מפעיל מערכות ומקבל החלטות</span> באופן עצמאי.</p>
+    <div class="trust rv">
+      <div><small>01 / DEPOSIT</small><b>פיקדון חיילים משוחררים</b><span>הקורס מוכר לשימוש בפיקדון</span></div>
+      <div><small>02 / VOUCHERS</small><b>עד 90% מימון</b><span>תוכנית השוברים, למתאימים</span></div>
+      <div><small>03 / CERTIFIED</small><b>תעודת הסמכה ממשלתית</b><span>+ תעודת בוגר מטעם אלתא</span></div>
+      <div><small>04 / REMOTE</small><b>אונליין בפיקוח</b><span>לומדים מכל מקום בארץ</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT EXPLORER -->
+<section id="projects" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-top">
+      <span class="kicker rv">hands-on</span>
+      <h2 class="h2 rv d1">8 פרויקטים.<br>כל אחד מערכת עובדת.</h2>
+      <p class="lead rv d2">לא תרגילים. אוטומציות עסקיות שבונים מאפס לאורך הקורס. בחרו פרויקט כדי לראות מה בונים בו.</p>
+    </div>
+    <div class="ex rv">
+      <div class="ex-tabs" id="extabs" role="tablist"></div>
+      <div class="ex-panel" id="expanel" role="tabpanel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CAPABILITIES -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-top">
+      <span class="kicker rv">what you'll build</span>
+      <h2 class="h2 rv d1">ארבע יכולות<br>שיוצאים איתן</h2>
+    </div>
+    <div class="bento">
+      <div class="spot b7 rv">
+        <h3>עובדים דיגיטליים וסוכנים חכמים</h3>
+        <p>סוכנים עצמאיים שמבינים משימות, מנתחים מידע, מפעילים כלים חיצוניים ומקבלים החלטות באופן אוטומטי.</p>
+        <div class="viz steps">
+          <div>מבין את המשימה<code>parse()</code></div>
+          <div>מנתח את המידע<code>analyze()</code></div>
+          <div>מפעיל כלי חיצוני: CRM<code>tool.call()</code></div>
+          <div>מקבל החלטה ומבצע<code>decide()</code></div>
+        </div>
+      </div>
+      <div class="spot b5 rv d1">
+        <h3>חיבור לידע ארגוני</h3>
+        <p>סוכנים שמחוברים בבטחה למסמכים, לבסיסי נתונים ול-Vector Databases. מענה מדויק ומבוסס עובדות.</p>
+        <div class="viz">
+          <div class="rag-q">שאלה: מה מדיניות ההחזרים ללקוח עסקי?</div>
+          <div class="rag-g" id="rag"></div>
+          <div class="rag-f"><span>retrieve → <b>3 sources</b></span><span>score <b>0.91</b></span></div>
+        </div>
+      </div>
+      <div class="spot b5 rv">
+        <h3>בקרה, איכות וניטור</h3>
+        <p>Observability & Evaluation: ניטור בזמן אמת, בדיקות דיוק, מניעת הזיות (Hallucinations) ואבטחת מידע.</p>
+        <div class="viz">
+          <div class="obs"><div class="g"><b>97.2%</b><span>דיוק</span></div><div><b>1.4s</b><span>זמן תגובה</span></div><div class="g"><b>0</b><span>הזיות</span></div></div>
+          <svg class="spark" viewBox="0 0 300 70" preserveAspectRatio="none"><path d="M0 52 L25 48 L50 55 L75 38 L100 42 L125 30 L150 34 L175 22 L200 28 L225 16 L250 20 L275 10 L300 14" vector-effect="non-scaling-stroke"/></svg>
+        </div>
+      </div>
+      <div class="spot b7 rv d1">
+        <h3>אוטומציה ואינטגרציה מקצה לקצה</h3>
+        <p>חיבור מלא בין ה-CRM, הדיוור, הטפסים והתפעול הארגוני. חיסכון מאסיבי בזמן ובמשאבים.</p>
+        <div class="viz">
+          <div class="orbit">
+            <div class="ring"><em>CRM</em><em>Forms</em><em>Mail</em><em>WhatsApp</em></div>
+            <div class="ring r2"><em>API</em><em>BI</em><em>HR</em><em>JSON</em></div>
+            <div class="core"><svg style="color:var(--lime)"><use href="#mark"/></svg></div>
           </div>
         </div>
       </div>
@@ -424,399 +558,273 @@ footer a{text-decoration:underline}
   </div>
 </section>
 
-<!-- TRUST -->
-<div class="trust">
-  <div class="wrap">
-    <div class="trust-grid">
-      <div class="trust-item rv"><span class="ico"><svg width="22" height="22" style="color:var(--ink)"><use href="#medal"/></svg></span><div><b>פיקדון חיילים משוחררים</b><span>הקורס מוכר לשימוש בפיקדון</span></div></div>
-      <div class="trust-item rv d1"><span class="ico"><svg width="22" height="22" style="color:var(--ink)"><use href="#ticket"/></svg></span><div><b>עד 90% מימון</b><span>תוכנית השוברים, למתאימים</span></div></div>
-      <div class="trust-item rv d2"><span class="ico"><svg width="22" height="22" style="color:var(--ink)"><use href="#scroll"/></svg></span><div><b>תעודת הסמכה ממשלתית</b><span>+ תעודת בוגר מטעם אלתא</span></div></div>
-      <div class="trust-item rv d3"><span class="ico"><svg width="22" height="22" style="color:var(--ink)"><use href="#laptop"/></svg></span><div><b>אונליין בפיקוח</b><span>לומדים מכל הארץ</span></div></div>
-    </div>
+<!-- STATS -->
+<div class="wrap">
+  <div class="stats">
+    <div class="stat rv"><b><span data-n="160">160</span><sup>ש״א</sup></b><span>עיוני, מעשי ופרויקט גמר</span></div>
+    <div class="stat rv d1"><b><span data-n="12">12</span></b><span>מודולים בסילבוס</span></div>
+    <div class="stat rv d2"><b><span data-n="8">8</span></b><span>פרויקטים מעשיים</span></div>
+    <div class="stat rv d3"><b><span data-n="2">2</span></b><span>תעודות: ממשלתית + אלתא</span></div>
   </div>
 </div>
 
-<!-- SPLIT + BLOBS -->
-<section id="why">
-  <div class="wrap">
-    <div class="split">
-      <h2 class="rv">סוכני AI שעובדים<br>כמו עובדים בצוות</h2>
-      <div class="rv d1">
-        <p>הקורס לא מלמד "כלים". הוא מייצר אנשי AI יישומיים: כאלה שיודעים לקחת אתגר עסקי אמיתי, לאפיין אותו, ולבנות סוכן שמבין משימות, מפעיל מערכות חיצוניות ומקבל החלטות לבד.</p>
-        <p>מהיום הראשון עובדים על פרויקטים אמיתיים: צ'אטבוט לשירות לקוחות, מערכת לידים שמתחברת ל-CRM, אוטומציה ל-HR ולדוחות פיננסיים. ובסוף, פרויקט גמר עם דמו מקצועי.</p>
-      </div>
-    </div>
-    <div class="blobs rv">
-      <svg viewBox="0 0 32 32" style="color:var(--brown)"><use href="#bot"/></svg>
-      <svg viewBox="0 0 32 32" style="color:var(--red)"><use href="#bot"/></svg>
-      <svg viewBox="0 0 32 32" style="color:var(--orange)"><use href="#bot"/></svg>
-      <svg viewBox="0 0 32 32" style="color:var(--yellow)"><use href="#bot"/></svg>
-      <svg viewBox="0 0 32 32" style="color:var(--green)"><use href="#bot"/></svg>
-      <svg viewBox="0 0 32 32" style="color:#3FB8A8"><use href="#bot"/></svg>
-      <svg viewBox="0 0 32 32" style="color:var(--blue)"><use href="#bot"/></svg>
-      <svg viewBox="0 0 32 32" style="color:var(--purple)"><use href="#bot"/></svg>
-      <svg viewBox="0 0 32 32" style="color:var(--pink)"><use href="#bot"/></svg>
-    </div>
-
-    <div class="media-card rv">
-      <div class="play">▶ נגן</div>
-      <div class="float">
-        <span class="ava" style="background:var(--purple)"><svg style="color:#fff"><use href="#bot"/></svg></span>
-        <div style="flex:1">
-          <div class="meta"><b>סוכן מכירות</b><span>7:00</span></div>
-          <p>4 לקוחות מתחדשים בחודש הבא. משכתי נתוני שימוש, הרצתי בדיקת בריאות והכנתי טיוטות הצעה לאישורך.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- BENTO -->
-<section id="build" style="padding-top:0">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2 class="rv">כל מה שתדעו לבנות בסיום</h2>
-      <p class="rv d1">8 פרויקטים מעשיים לאורך הקורס. כל אחד מהם הוא מערכת עובדת, לא תרגיל.</p>
-    </div>
-    <div class="bento">
-
-      <div class="card rv">
-        <h3>סוכנים שיוזמים ומבצעים</h3>
-        <p>סוכן שמזהה מה צריך לקרות ומתחיל לעבוד לפני שמישהו ביקש. אוטומציה חכמה לתהליכי מכירה ושירות.</p>
-        <div class="mock">
-          <div class="msg"><span class="ava" style="background:var(--green)"><svg style="color:#fff"><use href="#bot"/></svg></span><div><b>סוכן מכירות</b><small>8:02</small><p>בוקר טוב! 4 מהחשבונות שלך מתחדשים בחודש הבא, אז משכתי נתוני שימוש, הרצתי בדיקות ותכננתי הצעות.</p></div></div>
-          <div style="font-size:12px;color:var(--muted);margin-top:6px">חשבונות</div>
-          <div class="rows">
-            <div class="row"><span class="ck"><svg width="9" height="9"><use href="#check"/></svg></span><span class="t">נורת'ווינד</span><span class="bar"></span></div>
-            <div class="row"><span class="ck"><svg width="9" height="9"><use href="#check"/></svg></span><span class="t">אקמה תעשיות</span><span class="bar s"></span></div>
-            <div class="row"><span class="ck"><svg width="9" height="9"><use href="#check"/></svg></span><span class="t">גלובוס לוגיסטיקה</span><span class="bar"></span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card rv d1">
-        <h3>לכל סוכן מחשב משלו</h3>
-        <p>מחברים אותו פעם אחת ל-CRM, לדיוור, לטפסים ולמערכות התפעול. מאותו רגע הוא עובד בהן כמוכם.</p>
-        <div class="mock tint hasbadge">
-          <span class="badge-ctl"><i></i>אתם בשליטה</span>
-          <div style="font-size:12px;color:var(--ink-2);text-align:center;margin-bottom:4px"><b>מחשב</b> · התחברות ל-CRM כדי לעבוד על תור הפניות</div>
-          <div class="login">
-            <div class="url">crm.acme.co.il</div>
-            <div class="field">אימייל עבודה<span class="caret"></span></div>
-            <div class="field">סיסמה<span class="you">אתם</span></div>
-            <div class="cta-mini">המשך</div>
-          </div>
-          <div class="chip-row" style="margin-top:12px;justify-content:center"><span class="chip on">כל הפתוחות</span><span class="chip">דחוף</span><span class="chip">לא משויך</span></div>
-        </div>
-      </div>
-
-      <div class="card rv">
-        <h3>מראים לסוכן פעם אחת</h3>
-        <p>מלמדים אותו תהליך עבודה פעם אחת. הוא זוכר את השלבים ומבצע אותם לבד אחר כך. דוחות שבועיים, ניתוח נתונים, BI.</p>
-        <div class="mock">
-          <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted)"><span><b style="color:var(--ink)">דוח שבועי</b> · צופה ולומד</span><span class="chip">לימוד משימה · 0:00</span></div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:12px"><b>הרשמות</b><span class="chip-row"><span class="chip on">30 יום</span><span class="chip">7 ימים</span><span class="chip">ייצוא</span></span></div>
-          <div class="chart"><i style="height:35%"></i><i style="height:48%"></i><i style="height:42%"></i><i style="height:60%"></i><i style="height:55%"></i><i style="height:72%"></i><i style="height:66%"></i><i style="height:80%"></i><i style="height:90%"></i><i style="height:84%"></i><i style="height:100%"></i></div>
-        </div>
-      </div>
-
-      <div class="card rv d1">
-        <h3>סוכנים שעובדים ביחד, ועם הצוות</h3>
-        <p>סוכן חשבוניות מעביר לסוכן AP, שמסמן חריגה לבן אדם. Workflows ו-Agents לניהול משימות פנים-ארגוניות.</p>
-        <div class="mock">
-          <div style="font-size:12px;color:var(--muted);margin-bottom:4px"># חשבוניות</div>
-          <div class="msg"><span class="ava" style="background:var(--orange)"><svg style="color:#fff"><use href="#bot"/></svg></span><div><b>סוכן חשבוניות</b><small>9:14</small><p>נכנסו 3 חשבוניות חדשות. <span class="at">@סוכן AP</span>, תבדוק אותן מול הזמנות הרכש?</p></div></div>
-          <div class="msg"><span class="ava" style="background:var(--blue)"><svg style="color:#fff"><use href="#bot"/></svg></span><div><b>סוכן AP</b><small>9:14</small><p>על זה. 2 תואמות. מסמן את השלישית ל-<span class="at">@אלכס</span>.</p></div></div>
-          <div class="msg"><span class="me-ava" style="width:28px;height:28px">אל</span><div><b>אלכס</b><small>9:15</small><p>תודה, אבדוק.</p></div></div>
-        </div>
-      </div>
-
-      <div class="card rv">
-        <h3>מחובר לידע הארגוני</h3>
-        <p>סוכנים שמחוברים בבטחה למסמכים, לבסיסי נתונים ול-Vector Databases של הארגון. מענה מדויק ומבוסס עובדות.</p>
-        <div class="mock tint">
-          <div class="bubble me" style="font-size:13px;padding:10px 12px">לידיעתך, אקמה חותמים רק על חוזה שנתי.</div>
-          <div class="sys" style="margin:10px 0 6px;justify-content:flex-start"><i></i>נשמר בזיכרון</div>
-          <div class="mem">
-            <div class="sug">הצעה ממנהל החשבונות</div>
-            <div class="q"><span>להגדיר חידוש שנתי כברירת מחדל לאקמה?</span><span class="b"><span>עדכן</span><span class="l">לא עכשיו</span></span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card rv d1">
-        <h3>בקרה, ניטור ומניעת הזיות</h3>
-        <p>Observability & Evaluation: ניטור בזמן אמת, בדיקות דיוק, מניעת Hallucinations, Data Validation ואבטחת מידע.</p>
-        <div class="mock">
-          <div class="kpis">
-            <div class="kpi ok"><b>97.2%</b><span>דיוק תשובות</span></div>
-            <div class="kpi"><b>1.4s</b><span>זמן תגובה</span></div>
-            <div class="kpi ok"><b>0</b><span>הזיות שזוהו</span></div>
-          </div>
-          <div class="logline">
-            <em>✓</em> validate(input) → ok · 214 records<br>
-            <em>✓</em> rag.retrieve → 3 sources · score 0.91<br>
-            <span class="warn">!</span> guard: PII detected → masked<br>
-            <em>✓</em> eval.faithfulness → 0.97
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- JOBS -->
-<section id="jobs" style="padding-top:0">
-  <div class="wrap">
-    <div class="jobs">
-      <div>
-        <h2 class="rv">לאן זה לוקח אתכם</h2>
-        <div class="tags rv d1" id="tags">
-          <span class="tag on" data-i="0">מומחה אוטומציה ו-AI</span>
-          <span class="tag" data-i="1">אדריכל יישומים דיגיטליים</span>
-          <span class="tag" data-i="2">מנהל פרויקטים טכנולוגיים</span>
-          <span class="tag" data-i="3">מומחה אינטגרציה (API)</span>
-          <span class="tag" data-i="4">יועץ AI עצמאי</span>
-          <span class="tag" data-i="5">מוביל חדשנות AI</span>
-          <span class="tag" data-i="6">מומחה הדרכה והטמעה</span>
-        </div>
-        <p class="job-desc rv d2" id="jobdesc"><b>בארגונים בינוניים וגדולים.</b> מתרגמים אתגרים עסקיים לפתרונות AI מניבי ערך, מייעלים תהליכים וחוסכים עלויות.</p>
-        <div class="rv d3" style="margin-top:22px"><a class="btn btn-light" href="#cta">לבדוק אם זה מתאים לי <span class="ic"><svg width="12" height="12"><use href="#arr"/></svg></span></a></div>
-      </div>
-      <div class="phone rv d1">
-        <div class="scr">
-          <div class="notch"></div>
-          <div class="ph-head"><span>‹</span><span class="chip ok">סוכן Outbound</span><span>▢</span></div>
-          <div class="ph-body">
-            <div class="sys">יום שישי 9:51</div>
-            <div class="bubble me">תעבוד על הפייפליין בלילה: תחקור את החשבונות, תדרג את אנשי הקשר, תנסח מיילים בקול שלי. שום דבר לא יוצא בלעדיי.</div>
-            <div class="sys"><i></i>נוצרה שגרה · אצווה לילית</div>
-            <div class="sys">8:59</div>
-            <div class="bubble">האצווה מוכנה: <b>36 בתור</b> בקול שלך, 4 דולגו כי נגענו בהם לאחרונה. שום דבר לא נשלח.</div>
-            <div class="mail">
-              <div class="mh"><span>מייל חדש</span><b>מוכן לשליחה</b></div>
-              <div class="mh" style="margin-top:4px"><span>אל: dana@northwind.io</span></div>
-              <p>היי דנה, ראיתי שנורת'ווינד פתחו 3 משרות תשתיות החודש. בדרך כלל זה אומר שהמיגרציה שדיברנו עליה במרץ סוף סוף זזה. שווה 15 דקות בשבוע הבא?</p>
-              <div class="mb"><span>שלח</span><span class="l">מחק</span></div>
-            </div>
-            <div class="bubble me">שלח את 10 הראשונים, הם נראים טוב.</div>
-            <div class="bubble">10 הראשונים נשלחים. השאר נשארים בתור.</div>
-          </div>
-          <div class="ph-input"><span>הודעה</span><span class="ava" style="background:var(--ink);width:22px;height:22px"><svg style="width:11px;height:11px"><use href="#mic"/></svg></span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- SYLLABUS -->
-<section id="syllabus" style="background:var(--card);border-radius:48px 48px 0 0">
+<section id="syllabus">
   <div class="wrap">
-    <div class="sec-head">
-      <h2 class="rv">12 מודולים. 160 שעות. פרויקט גמר אחד.</h2>
-      <p class="rv d1">למידה עיונית, מעשית ועבודה על פרויקט. כל מודול נסגר בתוצר שאפשר להראות.</p>
+    <div class="tl-wrap">
+      <div class="tl-side">
+        <span class="kicker rv">syllabus</span>
+        <h2 class="h2 rv d1">מאפס<br>לפרויקט גמר</h2>
+        <p class="lead rv d2">12 מודולים שנבנים אחד על השני. מ-NoCode ופרומפטים, דרך Make ו-n8n, ועד סוכן AI מלא שמוצג בדמו מקצועי.</p>
+        <div class="rv d3" style="margin-top:28px"><a class="btn btn-ghost" href="#cta">לקבלת הסילבוס המלא</a></div>
+      </div>
+      <div class="tline rv" id="tl">
+        <div class="tfill"></div>
+        <div class="mod open"><span class="mod-n">01</span><button class="mod-b"><span class="mod-t">מבוא לעולם הפתרונות הדיגיטליים ו-NoCode</span><span class="mod-x"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="mod-c"><div><ul><li><b>הכניסה לעולם של בנייה חכמה:</b> מה זה פתרון דיגיטלי, למה עסקים צריכים אוטומציה, ואיך בונים מערכות חכמות בלי קוד כבד.</li><li><b>לחשוב כמו בונה פתרונות:</b> השפה של התחום, מהו NoCode, ואיך יוצרים ערך כבר מהשלב הראשון.</li></ul></div></div></div>
+        <div class="mod"><span class="mod-n">02</span><button class="mod-b"><span class="mod-t">אפיון תהליכים ופתרונות דיגיטליים</span><span class="mod-x"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="mod-c"><div><ul><li><b>להבין את העסק מבפנים:</b> לזהות מה העסק באמת צריך, איפה יש עומס ואיפה אפשר לשפר. קודם מבינים את הבעיה.</li><li><b>מתהליך מבולגן לפתרון ברור:</b> להפוך תהליך עמום למשהו מסודר וחד שאפשר לבנות עליו.</li></ul></div></div></div>
+        <div class="mod"><span class="mod-n">03</span><button class="mod-b"><span class="mod-t">הנדסת פרומפטים ועבודה עם מודלי שפה גדולים</span><span class="mod-x"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="mod-c"><div><ul><li><b>לדבר עם AI נכון:</b> ניסוח בקשות מדויקות ל-Gemini, ChatGPT ו-Claude לתוצאה טובה, שימושית ועקבית.</li><li><b>מהשאלה לתוצר מקצועי:</b> לגרום ל-AI לעבוד ככלי עבודה אמיתי ולא רק כצ'אט.</li></ul></div></div></div>
+        <div class="mod"><span class="mod-n">04</span><button class="mod-b"><span class="mod-t">בניית יישומים ודפי נחיתה</span><span class="mod-x"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="mod-c"><div><ul><li><b>מהרעיון למסך עובד:</b> לוקחים רעיון ובונים ממנו ממשק, אפליקציה או דף נחיתה שנראים מקצועיים ועובדים.</li><li><b>לבנות בלי להסתבך:</b> בנייה מהירה ומדויקת שמחברת עיצוב, תוכן ופונקציונליות.</li></ul></div></div></div>
+        <div class="mod"><span class="mod-n">05</span><button class="mod-b"><span class="mod-t">יצירת תוכן ומחקר נתונים באמצעות AI</span><span class="mod-x"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="mod-c"><div><ul><li><b>הפקת תוכן שיווקי ותפעולי:</b> טקסטים, אימיילים, תכנים שיווקיים וחומרים לווידאו, מהר ומותאם אישית.</li><li><b>מחקר נתונים:</b> מנתונים גולמיים למגמות ולתובנות עסקיות.</li><li><b>BI והצגת מידע:</b> דוחות ויזואליים, גרפים ולוחות בקרה.</li><li><b>אוטומציה של יצירתיות:</b> נכסים דיגיטליים בצורה חכמה, מהירה ואחידה.</li></ul></div></div></div>
+        <div class="mod"><span class="mod-n">06</span><button class="mod-b"><span class="mod-t">מחקר וניתוח נתונים באמצעות כלי AI</span><span class="mod-x"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="mod-c"><div><ul><li><b>לראות את התמונה האמיתית:</b> איפה העסק חזק, איפה הוא נתקע, ואיפה יש הזדמנות.</li><li><b>להפוך דאטה להחלטות:</b> ניתוח, זיהוי דפוסים ותובנות שאפשר לפעול לפיהן.</li></ul></div></div></div>
+        <div class="mod"><span class="mod-n">07</span><button class="mod-b"><span class="mod-t">בניית תרחישי אוטומציה <span dir="ltr">(Make / n8n)</span></span><span class="mod-x"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="mod-c"><div><ul><li><b>כשהמערכת מתחילה לעבוד לבד:</b> חיבור בין כלים, טריגרים ותהליכים שרצים מאחורי הקלעים בלי התערבות ידנית.</li><li><b>לחסוך זמן, לייעל עבודה:</b> אוטומציות שמחברות טפסים, מיילים, מערכות ניהול ודאטה.</li></ul></div></div></div>
+        <div class="mod"><span class="mod-n">08</span><button class="mod-b"><span class="mod-t">שילוב סוכן AI / צ'אטבוט בתהליך אוטומטי</span><span class="mod-x"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="mod-c"><div><ul><li><b>לתת למערכת יכולת תגובה:</b> AI בתוך תהליך קיים, שמגיב, מנתח ומקבל החלטות בסיסיות.</li><li><b>API, JSON והעברת מידע:</b> איך מערכות מדברות אחת עם השנייה בתוך זרימת עבודה אוטומטית.</li></ul></div></div></div>
+        <div class="mod"><span class="mod-n">09</span><button class="mod-b"><span class="mod-t">חיבור מערכות עסקיות חיצוניות</span><span class="mod-x"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="mod-c"><div><ul><li><b>לחבר את כל החלקים:</b> CRM, דיוור, טפסים, ניהול ועוד, מדברים אחד עם השני.</li><li><b>מערכת אחת, הרבה כלים:</b> זרימת מידע חלקה, בלי כפילויות ובלי עבודה כפולה.</li></ul></div></div></div>
+        <div class="mod"><span class="mod-n">10</span><button class="mod-b"><span class="mod-t">Data Validation ואבטחת מידע בסיסית</span><span class="mod-x"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="mod-c"><div><ul><li><b>לשמור על המידע כמו שצריך:</b> נתונים תקינים, מסודרים ומאובטחים.</li><li><b>להבין את האחריות:</b> פרטיות, הרשאות, בדיקות קלט ועבודה בטוחה עם מידע.</li></ul></div></div></div>
+        <div class="mod"><span class="mod-n">11</span><button class="mod-b"><span class="mod-t">היכרות עם פלטפורמות מתקדמות <span dir="ltr">(Vibe Coding)</span></span><span class="mod-x"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="mod-c"><div><ul><li><b>הדור הבא של הפיתוח:</b> סביבת עבודה מתקדמת ומהירה, ומתי כדאי להשתמש בה.</li><li><b>לעבוד חכם ומהר:</b> לנסות רעיונות, לבנות מהר ולשפר תוך כדי תנועה.</li></ul></div></div></div>
+        <div class="mod"><span class="mod-n">12</span><button class="mod-b"><span class="mod-t">פרויקט גמר</span><span class="mod-x"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="mod-c"><div><ul><li><b>חיבור כל חלקי המערכת:</b> פתרון AI עסקי מלא: אפיון בעיה אמיתית, תכנון ארכיטקטורה, יישום, אופטימיזציה והצגת דמו מקצועי.</li><li><b>הוכחה ליכולת מקצועית:</b> כל הידע הופך למערכת עובדת.</li></ul></div></div></div>
+      </div>
     </div>
-    <div class="acc rv" id="syl">
-      <div class="acc-item"><button class="acc-btn"><span class="num">01</span><span class="ttl">מבוא לעולם הפתרונות הדיגיטליים ו-NoCode</span><span class="pm"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="acc-body"><div><ul><li><b>הכניסה לעולם של בנייה חכמה:</b> מה זה פתרון דיגיטלי, למה עסקים צריכים אוטומציה, ואיך בונים מערכות חכמות בלי קוד כבד.</li><li><b>לחשוב כמו בונה פתרונות:</b> השפה של התחום, מהו NoCode ואיך משתמשים בו כדי לחסוך זמן וליצור ערך מהשלב הראשון.</li></ul></div></div></div>
-      <div class="acc-item"><button class="acc-btn"><span class="num">02</span><span class="ttl">אפיון תהליכים ופתרונות דיגיטליים</span><span class="pm"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="acc-body"><div><ul><li><b>להבין את העסק מבפנים:</b> לזהות מה העסק באמת צריך, איפה יש עומס ואיפה אפשר לשפר. קודם מבינים את הבעיה, אחר כך בונים.</li><li><b>מתהליך מבולגן לפתרון ברור:</b> להפוך תהליך עסקי עמום למשהו מסודר וחד שאפשר לבנות עליו.</li></ul></div></div></div>
-      <div class="acc-item"><button class="acc-btn"><span class="num">03</span><span class="ttl">הנדסת פרומפטים ועבודה עם מודלי שפה</span><span class="pm"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="acc-body"><div><ul><li><b>לדבר עם AI נכון:</b> ניסוח בקשות מדויקות ל-Gemini, ChatGPT ו-Claude לתוצאה טובה, שימושית ועקבית.</li><li><b>מהשאלה לתוצר מקצועי:</b> לכתוב פרומפט חכם, לשפר תשובות ולגרום ל-AI לעבוד ככלי עבודה ולא כצ'אט.</li></ul></div></div></div>
-      <div class="acc-item"><button class="acc-btn"><span class="num">04</span><span class="ttl">בניית יישומים ודפי נחיתה</span><span class="pm"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="acc-body"><div><ul><li><b>מהרעיון למסך עובד:</b> לוקחים רעיון ובונים ממנו ממשק, אפליקציה או דף נחיתה שנראים מקצועיים ועובדים.</li><li><b>לבנות בלי להסתבך:</b> בנייה מהירה ומדויקת שמחברת עיצוב, תוכן ופונקציונליות.</li></ul></div></div></div>
-      <div class="acc-item"><button class="acc-btn"><span class="num">05</span><span class="ttl">יצירת תוכן ומחקר נתונים באמצעות AI</span><span class="pm"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="acc-body"><div><ul><li><b>הפקת תוכן שיווקי ותפעולי:</b> טקסטים, אימיילים, תכנים שיווקיים וחומרים לווידאו, מהר ומותאם אישית.</li><li><b>מחקר נתונים:</b> מנתונים גולמיים לזיהוי מגמות ותובנות עסקיות.</li><li><b>BI והצגת מידע:</b> דוחות ויזואליים, גרפים ולוחות בקרה.</li><li><b>אוטומציה של יצירתיות:</b> כלים ליצירת נכסים דיגיטליים בצורה חכמה ואחידה.</li></ul></div></div></div>
-      <div class="acc-item"><button class="acc-btn"><span class="num">06</span><span class="ttl">מחקר וניתוח נתונים באמצעות כלי AI</span><span class="pm"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="acc-body"><div><ul><li><b>לראות את התמונה האמיתית:</b> לא רק לאסוף מידע אלא להבין מה הוא אומר: איפה העסק חזק, איפה נתקע ואיפה יש הזדמנות.</li><li><b>להפוך דאטה להחלטות:</b> ניתוח, זיהוי דפוסים ותובנות שאפשר לפעול לפיהן.</li></ul></div></div></div>
-      <div class="acc-item"><button class="acc-btn"><span class="num">07</span><span class="ttl">בניית תרחישי אוטומציה <span dir="ltr">(Make / n8n)</span></span><span class="pm"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="acc-body"><div><ul><li><b>כשהמערכת מתחילה לעבוד לבד:</b> חיבור בין כלים, טריגרים ותהליכים שעובדים מאחורי הקלעים בלי התערבות ידנית.</li><li><b>לחסוך זמן, לייעל עבודה:</b> אוטומציות שמחברות טפסים, מיילים, מערכות ניהול ודאטה.</li></ul></div></div></div>
-      <div class="acc-item"><button class="acc-btn"><span class="num">08</span><span class="ttl">שילוב סוכן AI / צ'אטבוט בתהליך אוטומטי</span><span class="pm"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="acc-body"><div><ul><li><b>לתת למערכת יכולת תגובה:</b> להכניס AI לתוך תהליך קיים כך שהוא מגיב, מנתח ומקבל החלטות בסיסיות.</li><li><b>API, JSON והעברת מידע בין מערכות:</b> איך מערכות מדברות אחת עם השנייה ואיך משלבים את זה בזרימת עבודה אוטומטית.</li></ul></div></div></div>
-      <div class="acc-item"><button class="acc-btn"><span class="num">09</span><span class="ttl">חיבור מערכות עסקיות חיצוניות</span><span class="pm"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="acc-body"><div><ul><li><b>לחבר את כל החלקים:</b> CRM, דיוור, טפסים, ניהול ועוד, מדברים אחד עם השני.</li><li><b>מערכת אחת, הרבה כלים:</b> זרימה חלקה של מידע בלי כפילויות ובלי עבודה כפולה.</li></ul></div></div></div>
-      <div class="acc-item"><button class="acc-btn"><span class="num">10</span><span class="ttl">Data Validation ואבטחת מידע בסיסית</span><span class="pm"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="acc-body"><div><ul><li><b>לשמור על המידע כמו שצריך:</b> בדיקה שהנתונים שנכנסים תקינים, מסודרים ומאובטחים.</li><li><b>להבין את האחריות:</b> פרטיות, הרשאות, בדיקות קלט ועבודה בטוחה עם מידע.</li></ul></div></div></div>
-      <div class="acc-item"><button class="acc-btn"><span class="num">11</span><span class="ttl">פלטפורמות מתקדמות <span dir="ltr">(Vibe Coding)</span></span><span class="pm"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="acc-body"><div><ul><li><b>הדור הבא של הפיתוח:</b> סביבת עבודה מתקדמת ומהירה, מתי להשתמש בה ואיך היא מזרזת פיתוח.</li><li><b>לעבוד חכם ומהר:</b> לנסות רעיונות, לבנות מהר ולשפר תוך כדי תנועה.</li></ul></div></div></div>
-      <div class="acc-item"><button class="acc-btn"><span class="num">12</span><span class="ttl">פרויקט גמר</span><span class="pm"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="acc-body"><div><ul><li><b>חיבור כל חלקי המערכת:</b> פתרון AI עסקי מלא: אפיון בעיה אמיתית, תכנון ארכיטקטורה, יישום, אופטימיזציה והצגת דמו מקצועי.</li><li><b>הוכחה ליכולת מקצועית:</b> המקום שבו כל הידע הופך למערכת עובדת.</li></ul></div></div></div>
+  </div>
+</section>
+
+<!-- ROLES -->
+<section id="roles" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-top">
+      <span class="kicker rv">career</span>
+      <h2 class="h2 rv d1">לאן זה לוקח אתכם</h2>
+      <p class="lead rv d2">השליטה בכלים ממצבת את הבוגרים כנכס אסטרטגי בכל ארגון: להפוך אתגרים עסקיים לפתרונות, לייעל תהליכים ולחסוך עלויות.</p>
     </div>
-    <div class="facts">
-      <div class="fact rv"><b>160</b><span>שעות אקדמיות</span></div>
-      <div class="fact rv d1"><b>12</b><span>מודולים + פרויקט גמר</span></div>
-      <div class="fact rv d2"><b>2</b><span>תעודות: ממשלתית + אלתא</span></div>
-      <div class="fact rv d3"><b>80%</b><span>נוכחות מינימלית לזכאות לתעודה</span></div>
+    <div class="rv">
+      <a class="role" href="#cta"><small>01</small><h3>מומחה אוטומציה ו-AI</h3><p>בארגונים בינוניים וגדולים</p><svg><use href="#arr"/></svg></a>
+      <a class="role" href="#cta"><small>02</small><h3>אדריכל יישומים דיגיטליים</h3><p>מתרגם צרכים עסקיים למערכות פועלות</p><svg><use href="#arr"/></svg></a>
+      <a class="role" href="#cta"><small>03</small><h3>מנהל פרויקטים טכנולוגיים</h3><p>מוביל תהליכי טרנספורמציה דיגיטלית בארגון</p><svg><use href="#arr"/></svg></a>
+      <a class="role" href="#cta"><small>04</small><h3>מומחה אינטגרציה</h3><p>מחבר מערכות ארגוניות לתהליכים אוטומטיים (API Integration)</p><svg><use href="#arr"/></svg></a>
+      <a class="role" href="#cta"><small>05</small><h3>יועץ עצמאי ל-AI ואוטומציה</h3><p>פרילנסר מבוקש או בעל מומחיות עצמאית</p><svg><use href="#arr"/></svg></a>
+      <a class="role" href="#cta"><small>06</small><h3>מוביל חדשנות AI</h3><p>אחראי על אסטרטגיית הבינה המלאכותית בארגון</p><svg><use href="#arr"/></svg></a>
+      <a class="role" href="#cta"><small>07</small><h3>מומחה הדרכה והטמעה</h3><p>מכשיר צוותים בכלי AI ואוטומציה</p><svg><use href="#arr"/></svg></a>
     </div>
   </div>
 </section>
 
 <!-- FUNDING -->
-<section id="funding">
+<section id="funding" style="padding-top:0">
   <div class="wrap">
-    <div class="sec-head">
-      <h2 class="rv">מימון וזכאות</h2>
-      <p class="rv d1">שלושה מסלולים. בשיחת הייעוץ בודקים יחד מה הכי משתלם לכם.</p>
+    <div class="sec-top">
+      <span class="kicker rv">funding</span>
+      <h2 class="h2 rv d1">מימון וזכאות</h2>
+      <p class="lead rv d2">סמנו מה מתאר אתכם, ונסמן את המסלול ששווה לבדוק. הבדיקה עצמה נעשית בשיחת הייעוץ ואינה מחייבת.</p>
     </div>
-    <div class="plans">
-      <div class="plan rv">
-        <span class="pn">חיילים משוחררים</span>
-        <div class="pv">פיקדון<small>מוכר</small></div>
-        <span class="ps">ניתן לממן את הקורס מכספי הפיקדון</span>
-        <a class="btn btn-dark" href="#cta">לבדיקת זכאות</a>
-        <span class="lbl">כולל:</span>
-        <ul><li>הכרה רשמית לשימוש בפיקדון</li><li>תעודה ממשלתית בסיום</li><li>ליווי בתהליך מול הקרן</li></ul>
-      </div>
-      <div class="plan hl rv d1">
-        <span class="pn">תוכנית השוברים</span>
-        <div class="pv">עד 90%<small>מימון</small></div>
-        <span class="ps">למתאימים, בכפוף לתנאי התוכנית</span>
-        <a class="btn" href="#cta">לבדיקת התאמה</a>
-        <span class="lbl">כולל:</span>
-        <ul><li>בדיקת זכאות בשיחה אחת</li><li>ליווי בהגשת הבקשה</li><li>אותה הכשרה, אותן תעודות</li></ul>
-      </div>
-      <div class="plan rv d2">
-        <span class="pn">מימון עצמאי</span>
-        <div class="pv">פריסה<small>לתשלומים</small></div>
-        <span class="ps">פרטי מחיר ופריסה בשיחת הייעוץ</span>
-        <a class="btn btn-dark" href="#cta">לשיחת ייעוץ</a>
-        <span class="lbl">כולל:</span>
-        <ul><li>הרשמה מיידית למחזור הקרוב</li><li>כל חומרי הלימוד והסביבות</li><li>ליווי לתעסוקה בסיום</li></ul>
-      </div>
+    <div class="pick rv" id="pick"><span>אני:</span>
+      <button data-t="0">חייל/ת משוחרר/ת</button>
+      <button data-t="1">רוצה הסבה מקצועית במימון</button>
+      <button data-t="2">משלם/ת בעצמי או דרך המעסיק</button>
     </div>
-    <div class="plan-note rv">
-      <div>🎖️ <b>משרתי מילואים?</b> <span>ציינו זאת בטופס ונבדוק עבורכם את כל ההטבות הרלוונטיות.</span></div>
-      <a class="btn btn-ghost" href="#cta">להשאיר פרטים</a>
+    <div class="plans rv" id="plans">
+      <div class="plan"><small>TRACK 01</small><div class="pv">פיקדון<em>מוכר</em></div><div class="ps">לחיילים משוחררים. הקורס מוכר לשימוש בכספי הפיקדון.</div><ul><li>אותה הכשרה, אותן 2 תעודות</li><li>בדיקת זכאות בשיחת הייעוץ</li></ul><a href="#cta" data-track="פיקדון חיילים משוחררים">לבדיקת זכאות<svg><use href="#arr"/></svg></a></div>
+      <div class="plan"><small>TRACK 02</small><div class="pv">עד 90%<em>מימון</em></div><div class="ps">תוכנית השוברים. למתאימים, בכפוף לתנאי התוכנית.</div><ul><li>אותה הכשרה, אותן 2 תעודות</li><li>בדיקת התאמה בשיחת הייעוץ</li></ul><a href="#cta" data-track="תוכנית השוברים">לבדיקת התאמה<svg><use href="#arr"/></svg></a></div>
+      <div class="plan"><small>TRACK 03</small><div class="pv">עצמאי<em>מימון פרטי</em></div><div class="ps">פרטי מחיר ותנאי תשלום נמסרים בשיחת הייעוץ.</div><ul><li>אותה הכשרה, אותן 2 תעודות</li><li>הכוונה מקצועית לפני ההרשמה</li></ul><a href="#cta" data-track="מימון עצמאי">לשיחת ייעוץ<svg><use href="#arr"/></svg></a></div>
     </div>
+    <div class="note rv"><span>לא בטוחים לאיזה מסלול אתם שייכים? משאירים פרטים ובודקים יחד.</span><a class="btn btn-ghost" style="padding:12px 20px;font-size:14px" href="#cta">להשאיר פרטים</a></div>
   </div>
 </section>
 
 <!-- CERTS -->
-<section id="certs" style="padding-top:0">
+<section style="padding-top:0">
   <div class="wrap">
-    <div class="sec-head">
-      <h2 class="rv">תעודות והסמכות</h2>
-      <p class="rv d1">למסיימים בהצלחה מוענקות שתי תעודות.</p>
+    <div class="sec-top">
+      <span class="kicker rv">credentials</span>
+      <h2 class="h2 rv d1">יוצאים עם<br>שתי תעודות</h2>
     </div>
     <div class="certs">
-      <div class="cert rv">
-        <span class="ico"><svg width="24" height="24" style="color:var(--ink)"><use href="#scroll"/></svg></span>
+      <div class="cert rv" data-tilt>
+        <svg class="seal" viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="none" stroke="#C8FF4D" stroke-width="1" stroke-dasharray="2 4"/><circle cx="32" cy="32" r="22" fill="none" stroke="#C8FF4D" stroke-width="1.5"/><path d="M23 32l6 6 12-13" fill="none" stroke="#C8FF4D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <small>GOVERNMENT CERTIFICATION</small>
         <h3>תעודת הסמכה ממשלתית</h3>
-        <p>"פיתוח פתרונות דיגיטליים לפרויקטים עסקיים No-Code & AI". הכשרה בפיקוח, תעודה שמוכרת בשוק.</p>
+        <p>"פיתוח פתרונות דיגיטליים לפרויקטים עסקיים" <span dir="ltr">No-Code & AI</span></p>
+        <div class="serial">CERT · 01 / 02</div>
       </div>
-      <div class="cert rv d1">
-        <span class="ico"><svg width="24" height="24" style="color:var(--ink)"><use href="#shield"/></svg></span>
-        <h3>תעודת בוגר Agents & Automation</h3>
-        <p>מטעם היחידה ללימודי חוץ ומפעל הסייבר של אלתא מערכות (התעשייה האווירית).</p>
+      <div class="cert rv d1" data-tilt>
+        <svg class="seal" viewBox="0 0 64 64"><path d="M32 4l22 9v17c0 15-10 24-22 30C20 54 10 45 10 30V13z" fill="none" stroke="#8B7CFF" stroke-width="1.5" stroke-linejoin="round"/><use href="#mark" x="16" y="15" width="32" height="32" style="color:#8B7CFF"/></svg>
+        <small style="color:var(--violet)">ELTA CYBER × LIMUDEY HUTZ</small>
+        <h3>בוגר/ת <span dir="ltr">Agents and Automation</span></h3>
+        <p>מטעם היחידה ללימודי חוץ ומפעל הסייבר של אלתא מערכות, מבית התעשייה האווירית.</p>
+        <div class="serial">CERT · 02 / 02</div>
       </div>
     </div>
-    <div class="partners">
-      <div class="partner rv"><div class="wm">ELTA · IAI</div><p>המרכז הבינלאומי למקצועות הסייבר של אלתא מערכות והיחידה ללימודי חוץ. כולל ליווי ותעסוקה.</p></div>
-      <div class="partner rv d1"><div class="wm">TAME Range</div><p>סימולטור הסייבר של אלתא: סביבת אימונים מציאותית עם האיומים העדכניים ביותר.</p></div>
-      <div class="partner rv d2"><div class="wm">EC-Council</div><p>מרכז הסמכה רשמי של EC-Council, הארגון שמסמיך עובדי סייבר עבור גופים ביטחוניים בארה"ב.</p></div>
-      <div class="partner rv d3"><div class="wm">edX</div><p>פלטפורמת הלמידה של MIT ו-Harvard, מוכרת על ידי Google, IBM ו-Microsoft.</p></div>
-    </div>
-    <div class="logos rv">
-      <p>מבין שותפינו לדרך</p>
-      <div class="row-l"><span>התעשייה האווירית</span><span>אלתא מערכות</span><span>משרד האוצר</span><span>משרד הכלכלה</span><span>שירות התעסוקה</span><span>החשב הכללי</span><span>נציבות שירות המדינה</span><span>הלמ"ס</span><span>רשות שדות התעופה</span><span>שיכון ובינוי</span><span>אשטרום</span><span>דניה סיבוס</span></div>
+    <div class="partners rv">
+      <div><b>ELTA · IAI</b><p>המרכז הבינלאומי למקצועות הסייבר של אלתא מערכות והיחידה ללימודי חוץ, כולל ליווי ותעסוקה בתחום.</p></div>
+      <div><b>TAME Range</b><p>סימולטור הסייבר של אלתא מערכות: סביבת אימונים מציאותית עם האיומים העדכניים ביותר.</p></div>
+      <div><b>EC-Council</b><p>מרכז הסמכה רשמי של EC-Council, ארגון אמריקאי שנבחר על ידי גופים ביטחוניים להסמכת עובדי סייבר.</p></div>
+      <div><b>edX</b><p>פלטפורמת הלמידה המקוונת של MIT ו-Harvard, מוכרת על ידי Google, IBM ו-Microsoft.</p></div>
     </div>
   </div>
 </section>
+
+<div class="marq he rev" aria-label="מבין שותפינו לדרך"><div class="marq-t">
+  <span>התעשייה האווירית</span><span>אלתא מערכות</span><span>משרד האוצר</span><span>משרד הכלכלה</span><span>משרד העבודה</span><span>שירות התעסוקה</span><span>החשב הכללי</span><span>נציבות שירות המדינה</span><span>הלשכה המרכזית לסטטיסטיקה</span><span>רשות שדות התעופה</span><span>שיכון ובינוי</span><span>אשטרום</span><span>תדהר</span><span>דניה סיבוס</span>
+  <span>התעשייה האווירית</span><span>אלתא מערכות</span><span>משרד האוצר</span><span>משרד הכלכלה</span><span>משרד העבודה</span><span>שירות התעסוקה</span><span>החשב הכללי</span><span>נציבות שירות המדינה</span><span>הלשכה המרכזית לסטטיסטיקה</span><span>רשות שדות התעופה</span><span>שיכון ובינוי</span><span>אשטרום</span><span>תדהר</span><span>דניה סיבוס</span>
+</div></div>
 
 <!-- FAQ -->
-<section id="faq" style="padding-top:0">
+<section id="faq">
   <div class="wrap">
-    <div class="sec-head"><h2 class="rv">שאלות נפוצות</h2></div>
-    <div class="acc faq rv" id="faqacc">
-      <div class="acc-item"><button class="acc-btn"><span class="ttl">למי הקורס מיועד?</span><span class="pm"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="acc-body"><div>למי שרוצה ידע מעשי בבניית אפליקציות, מערכות אוטומציה וסוכני AI לצרכים עסקיים. אנשי שיווק ומכירות שרוצים להטמיע אוטומציה, פרילנסרים שרוצים להתמחות בהטמעת AI בארגונים, ויועצים עסקיים ובעלי עסקים שרוצים להוביל הטמעה מתוך ידע מעשי.</div></div></div>
-      <div class="acc-item"><button class="acc-btn"><span class="ttl">מה תנאי הקבלה?</span><span class="pm"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="acc-body"><div>ראיון אישי / ייעוץ להכוונה מקצועית, יכולת בסיסית בעבודת מחשב והיכרות עם אנגלית ברמה בסיסית. לא נדרש רקע בתכנות.</div></div></div>
-      <div class="acc-item"><button class="acc-btn"><span class="ttl">איפה ואיך לומדים?</span><span class="pm"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="acc-body"><div>אונליין בפיקוח, מכל מקום בארץ. 160 שעות אקדמיות שמשלבות למידה עיונית, תרגול מעשי ועבודה על פרויקט גמר.</div></div></div>
-      <div class="acc-item"><button class="acc-btn"><span class="ttl">מה נדרש כדי לקבל את התעודות?</span><span class="pm"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="acc-body"><div>נוכחות של 80% לפחות מהשיעורים, ביצוע תרגולים ומטלות שוטפות, ועמידה במבחנים ובפרויקט הסיום.</div></div></div>
-      <div class="acc-item"><button class="acc-btn"><span class="ttl">אילו כלים לומדים בפועל?</span><span class="pm"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="acc-body"><div>מודלי שפה (Gemini, ChatGPT, Claude), פלטפורמות אוטומציה (Make, n8n), עבודה עם API ו-JSON, חיבור ל-CRM ומערכות דיוור, Vector Databases לידע ארגוני, כלי BI, וסביבות Vibe Coding. הדגש הוא על בניית מערכות, לא על הכלים עצמם.</div></div></div>
-      <div class="acc-item"><button class="acc-btn"><span class="ttl">איך בודקים זכאות לפיקדון או לשוברים?</span><span class="pm"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="acc-body"><div>משאירים פרטים בטופס. יועץ לימודים חוזר אליכם, בודק את המסלול המתאים ומלווה בהגשה. בדיקת הזכאות לא מחייבת.</div></div></div>
+    <div class="sec-top"><span class="kicker rv">faq</span><h2 class="h2 rv d1">שאלות נפוצות</h2></div>
+    <div class="faq rv" id="faqs">
+      <div class="q"><button>למי הקורס מיועד?<span class="mod-x"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="mod-c"><div><p>למי שרוצה ידע מקצועי ומעשי בבניית אפליקציות, מערכות אוטומציה וסוכני AI לצרכים עסקיים. אנשי שיווק ומכירות שרוצים להטמיע אוטומציה מתקדמת, פרילנסרים שרוצים להתמחות בהטמעת AI בארגונים, ויועצים עסקיים ובעלי עסקים שרוצים להוביל הטמעה מתוך ידע מעשי.</p></div></div></div>
+      <div class="q"><button>מה תנאי הקבלה?<span class="mod-x"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="mod-c"><div><p>ראיון אישי / ייעוץ להכוונה מקצועית, יכולת בסיסית בעבודת מחשב, והיכרות עם אנגלית ברמה בסיסית.</p></div></div></div>
+      <div class="q"><button>איך בנויה התוכנית?<span class="mod-x"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="mod-c"><div><p>160 שעות אקדמיות של למידה עיונית, מעשית ועבודה על פרויקט גמר. הלימודים אונליין בפיקוח, מכל מקום בארץ.</p></div></div></div>
+      <div class="q"><button>מה נדרש כדי לקבל את התעודות?<span class="mod-x"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="mod-c"><div><p>נוכחות של 80% לפחות מהשיעורים, ביצוע תרגולים ומטלות שוטפות, ועמידה במבחנים ובפרויקטי הסיום.</p></div></div></div>
+      <div class="q"><button>אילו כלים לומדים?<span class="mod-x"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="mod-c"><div><p>מודלי שפה (Gemini, ChatGPT, Claude), פלטפורמות אוטומציה (Make, n8n), API ו-JSON, חיבור ל-CRM ולמערכות דיוור, כלי BI וסביבות Vibe Coding. הדגש הוא על בניית מערכות עובדות, לא על הכלי עצמו.</p></div></div></div>
+      <div class="q"><button>איך בודקים זכאות לפיקדון או לשוברים?<span class="mod-x"><svg width="12" height="12"><use href="#plus"/></svg></span></button><div class="mod-c"><div><p>משאירים פרטים בטופס. בשיחת הייעוץ בודקים יחד את המסלול המתאים לכם.</p></div></div></div>
     </div>
   </div>
 </section>
 
-<!-- FINAL CTA -->
-<section class="final" id="cta">
-  <div class="wrap-n">
-    <h2 class="rv">הכירו את הסוכן הראשון שלכם</h2>
-    <p class="rv d1">למדו לבנות AI, לפני שהשוק יתקדם בלעדיכם. השאירו פרטים לשיחת ייעוץ והכוונה.</p>
-    <div class="form-shell rv d2">
-      <form class="form" id="leadform" novalidate>
-        <div id="fields">
-          <label for="name">שם מלא</label>
-          <input type="text" id="name" name="name" autocomplete="name" placeholder="ישראל ישראלי">
-          <label for="mobile">נייד</label>
-          <input type="tel" id="mobile" name="mobile" autocomplete="tel" inputmode="tel" placeholder="050-0000000" style="direction:ltr;text-align:right">
-          <label for="email">אימייל</label>
-          <input type="email" id="email" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" style="direction:ltr;text-align:right">
-          <label class="chk"><input type="checkbox" id="c1"> מאשר/ת קבלת דיוור מהיחידה ללימודי חוץ בהתאם למדיניות הפרטיות</label>
-          <label class="chk"><input type="checkbox" id="c2"> מאשר/ת שקראתי את <a href="https://limudey-hutz.co.il/%d7%9e%d7%93%d7%99%d7%a0%d7%99%d7%95%d7%aa-%d7%a4%d7%a8%d7%98%d7%99%d7%95%d7%aa/" target="_blank" rel="noopener">מדיניות הפרטיות</a> ו<a href="https://limudey-hutz.co.il/%d7%aa%d7%a7%d7%a0%d7%95%d7%9f-%d7%90%d7%aa%d7%a8/" target="_blank" rel="noopener">תקנון האתר</a></label>
-          <button type="submit" class="btn btn-dark btn-lg">דברו איתי <span class="ic"><svg width="12" height="12"><use href="#arr"/></svg></span></button>
-          <div class="err" id="err">יש למלא שם ונייד תקין ולאשר את מדיניות הפרטיות והתקנון.</div>
-        </div>
-        <div class="ok" id="ok"><b>קיבלנו, תודה!</b><p>יועץ לימודים יחזור אליכם בהקדם. בינתיים אפשר להתקשר למוקד.</p></div>
-      </form>
+<!-- CTA -->
+<section class="cta" id="cta" style="padding-top:40px">
+  <div class="aurora"></div>
+  <div class="wrap">
+    <div class="cta-grid">
+      <div>
+        <span class="kicker rv">next step</span>
+        <h2 class="rv d1" style="margin-top:18px">למדו לבנות AI,<br><span class="hl">לפני שהשוק יתקדם בלעדיכם.</span></h2>
+        <p class="lead rv d2">השאירו פרטים לשיחת ייעוץ והכוונה. נבדוק יחד התאמה, מסלול מימון ומועדי פתיחה.</p>
+        <div class="tel rv d3"><span>או חייגו</span><a href="tel:*3068"><b>*3068</b></a></div>
+      </div>
+      <div class="form rv d2">
+        <form id="lead" novalidate>
+          <div id="fields" style="display:flex;flex-direction:column">
+            <span class="trk" id="trk"></span>
+            <input type="hidden" name="track" id="track">
+            <label class="f" for="name">שם מלא</label>
+            <input type="text" id="name" name="name" autocomplete="name" placeholder="ישראל ישראלי">
+            <label class="f" for="mobile">נייד</label>
+            <input type="tel" id="mobile" name="mobile" autocomplete="tel" inputmode="tel" placeholder="050-0000000" style="direction:ltr;text-align:right">
+            <label class="f" for="email">אימייל</label>
+            <input type="email" id="email" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" style="direction:ltr;text-align:right">
+            <label class="chk"><input type="checkbox" id="c1"><span>מאשר/ת קבלת דיוור מהיחידה ללימודי חוץ בהתאם למדיניות הפרטיות</span></label>
+            <label class="chk"><input type="checkbox" id="c2"><span>מאשר/ת שקראתי את <a href="https://limudey-hutz.co.il/%d7%9e%d7%93%d7%99%d7%a0%d7%99%d7%95%d7%aa-%d7%a4%d7%a8%d7%98%d7%99%d7%95%d7%aa/" target="_blank" rel="noopener">מדיניות הפרטיות</a> ו<a href="https://limudey-hutz.co.il/%d7%aa%d7%a7%d7%a0%d7%95%d7%9f-%d7%90%d7%aa%d7%a8/" target="_blank" rel="noopener">תקנון האתר</a></span></label>
+            <button type="submit" class="btn btn-lime">דברו איתי<span class="ic"><svg width="15" height="15"><use href="#arr"/></svg></span></button>
+            <div class="err" id="err">יש למלא שם ונייד תקין, ולאשר את מדיניות הפרטיות והתקנון.</div>
+          </div>
+          <div class="ok" id="ok"><b>קיבלנו. תודה!</b><p>יועץ לימודים יחזור אליכם בהקדם.</p></div>
+        </form>
+      </div>
     </div>
-    <div class="tel rv d3">או התקשרו למוקד: <a href="tel:*3068"><b>*3068</b></a></div>
   </div>
 </section>
-
 </main>
 
-<footer>
-  <div class="wrap">
-    <span>© היחידה ללימודי חוץ · המרכז הבינלאומי למקצועות הסייבר בשיתוף אלתא מערכות (IAI)</span>
-    <span><a href="https://limudey-hutz.co.il/%d7%9e%d7%93%d7%99%d7%a0%d7%99%d7%95%d7%aa-%d7%a4%d7%a8%d7%98%d7%99%d7%95%d7%aa/" target="_blank" rel="noopener">מדיניות פרטיות</a> · <a href="https://limudey-hutz.co.il/%d7%aa%d7%a7%d7%a0%d7%95%d7%9f-%d7%90%d7%aa%d7%a8/" target="_blank" rel="noopener">תקנון</a></span>
-  </div>
-</footer>
+<footer><div class="wrap">
+  <span>© היחידה ללימודי חוץ · המרכז הבינלאומי למקצועות הסייבר, בשיתוף אלתא מערכות</span>
+  <span><a href="https://limudey-hutz.co.il/%d7%9e%d7%93%d7%99%d7%a0%d7%99%d7%95%d7%aa-%d7%a4%d7%a8%d7%98%d7%99%d7%95%d7%aa/" target="_blank" rel="noopener">מדיניות פרטיות</a> · <a href="https://limudey-hutz.co.il/%d7%aa%d7%a7%d7%a0%d7%95%d7%9f-%d7%90%d7%aa%d7%a8/" target="_blank" rel="noopener">תקנון</a></span>
+</div></footer>
 
-<div class="sticky">
-  <a class="btn btn-light" href="tel:*3068">*3068</a>
-  <a class="btn btn-dark" href="#cta">לשיחת ייעוץ</a>
-</div>
+<div class="sticky" id="sticky"><a href="tel:*3068">*3068</a><a href="#cta">לשיחת ייעוץ</a></div>
 
 <script>
 (function(){
-  // nav
-  var nav=document.getElementById('nav');
-  var onS=function(){nav.classList.toggle('scrolled',window.scrollY>10)};
-  onS();window.addEventListener('scroll',onS,{passive:true});
-  var burger=document.getElementById('burger'),mm=document.getElementById('mmenu');
-  burger.addEventListener('click',function(){burger.classList.toggle('open');mm.classList.toggle('open');document.body.style.overflow=mm.classList.contains('open')?'hidden':''});
-  mm.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){burger.classList.remove('open');mm.classList.remove('open');document.body.style.overflow=''})});
+  var RM=matchMedia('(prefers-reduced-motion:reduce)').matches, $=function(s,r){return (r||document).querySelector(s)}, $$=function(s,r){return [].slice.call((r||document).querySelectorAll(s))};
+
+  // menu
+  var bg=$('#burger'),mm=$('#mmenu');
+  function closeM(){bg.classList.remove('open');mm.classList.remove('open');document.body.style.overflow=''}
+  bg.addEventListener('click',function(){var o=mm.classList.toggle('open');bg.classList.toggle('open',o);document.body.style.overflow=o?'hidden':''});
+  $$('a',mm).forEach(function(a){a.addEventListener('click',closeM)});
+
+  // manifesto words
+  var mani=$('#mani');
+  (function split(node,k){[].slice.call(node.childNodes).forEach(function(n){
+    if(n.nodeType===3){var f=document.createDocumentFragment();n.textContent.split(/(\s+)/).forEach(function(t){if(!t.trim()){f.appendChild(document.createTextNode(t));return}var s=document.createElement('span');s.className='w'+(k?' k':'');s.textContent=t;f.appendChild(s)});node.replaceChild(f,n)}
+    else if(n.classList&&n.classList.contains('k')){split(n,true)}
+  })})(mani,false);
+  $$('.w',mani).forEach(function(w,i){w.style.transitionDelay=(i*45)+'ms'});
 
   // reveal
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('inview');io.unobserve(e.target)}})},{threshold:.12,rootMargin:'0px 0px -40px 0px'});
-  document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.14,rootMargin:'0px 0px -6% 0px'});
+  $$('.rv,.mani').forEach(function(el){io.observe(el)});
 
-  // accordions
-  document.querySelectorAll('.acc').forEach(function(acc){
-    acc.querySelectorAll('.acc-item').forEach(function(item){
-      var btn=item.querySelector('.acc-btn'),body=item.querySelector('.acc-body');
-      btn.addEventListener('click',function(){
-        var open=item.classList.contains('open');
-        acc.querySelectorAll('.acc-item.open').forEach(function(o){o.classList.remove('open');o.querySelector('.acc-body').style.maxHeight='0px'});
-        if(!open){item.classList.add('open');body.style.maxHeight=body.scrollHeight+'px'}
-      });
-    });
-    var first=acc.querySelector('.acc-item');
-    if(first&&acc.id==='syl'){first.classList.add('open');first.querySelector('.acc-body').style.maxHeight=first.querySelector('.acc-body').scrollHeight+'px'}
+  // sticky bar after hero
+  var st=$('#sticky');
+  new IntersectionObserver(function(es){st.classList.toggle('show',!es[0].isIntersecting)},{threshold:0}).observe($('.hero h1'));
+
+  // rotating headline
+  var words=['מסווג לידים','עונה ללקוחות','מפיק דוחות','קולט עובדים','מתזמן משימות'],rot=$('#rot'),wi=0;
+  if(!RM){(function loop(){var w=words[wi],i=w.length;
+    setTimeout(function del(){rot.textContent=w.slice(0,--i);if(i>0)return setTimeout(del,38);
+      wi=(wi+1)%words.length;var n=words[wi],j=0;(function type(){rot.textContent=n.slice(0,++j);if(j<n.length)return setTimeout(type,70);loop()})()},2200)})()}
+
+  // log ticker
+  var logs=['agent.run #214 → classify(lead) ✓ intent=high','rag.retrieve("pricing policy") ✓ 3 sources','crm.create(lead) ✓ owner=sales-2','whatsapp.send(template:first_touch) ✓ delivered','calendar.book(tomorrow 10:00) ✓ confirmed','eval.faithfulness ✓ 0.97 · 1.4s'],li=0,lg=$('#log');
+  if(!RM)setInterval(function(){li=(li+1)%logs.length;lg.style.opacity=0;setTimeout(function(){lg.textContent=logs[li];lg.style.transition='opacity .4s';lg.style.opacity=1},200)},2200);
+  if(RM)$$('.c-body svg').forEach(function(s){s.pauseAnimations&&s.pauseAnimations()});
+
+  // explorer
+  var P=[
+   ['צ\'אטבוט ו-AI Agent לשירות לקוחות ושיווק','מענה חכם, תיעדוף פניות וחיבור לידע ארגוני.',['פנייה נכנסת','*סוכן AI','חיפוש בידע הארגוני','מענה או העברה לנציג']],
+   ['מערכת אוטומטית לניהול לידים ושיווק דיגיטלי','סיווג חכם, העשרת נתונים וחיבור ל-CRM.',['ליד מטופס','*סיווג חכם','העשרת נתונים','פתיחה ב-CRM']],
+   ['אוטומציה חכמה לתהליכי מכירה ושירות','ניתוח נתונים והמלצות פעולה מבוססות AI.',['נתוני מכירה ושירות','*ניתוח AI','המלצת פעולה','משימה לנציג']],
+   ['אוטומציה לניהול משאבי אנוש (HR)','קליטת עובדים, טיפול בפניות ותהליכי Onboarding.',['עובד חדש','*סוכן HR','מענה לפניות','תהליך Onboarding']],
+   ['אוטומציה לדוחות וניתוח נתונים פיננסיים','סיכום חכם, זיהוי חריגות ותובנות ניהוליות.',['נתונים פיננסיים','*סיכום חכם','זיהוי חריגות','תובנות להנהלה']],
+   ['מערכת לניהול ותזמון משימות פנים-ארגוניות','Workflows ו-Agents חכמים לביצוע משימות.',['משימה חדשה','*Agent מתזמן','Workflow','ביצוע ועדכון']],
+   ['אוטומציה לשיפור חווית לקוח (CX)','ניתוח פידבקים והמלצות לשיפור תהליכים.',['פידבק לקוחות','*ניתוח AI','זיהוי דפוסים','המלצות לשיפור']],
+   ['פרויקט גמר','פתרון AI עסקי מלא: אפיון בעיה אמיתית, תכנון ארכיטקטורה, יישום, אופטימיזציה והצגת דמו מקצועי.',['אפיון','ארכיטקטורה','*יישום','אופטימיזציה','דמו']]
+  ];
+  var tabs=$('#extabs'),panel=$('#expanel'),short=['שירות לקוחות','לידים ושיווק','מכירה ושירות','משאבי אנוש','דוחות פיננסיים','ניהול משימות','חווית לקוח','פרויקט גמר'];
+  function show(i){
+    $$('.ex-tab',tabs).forEach(function(t,k){t.classList.toggle('on',k===i);t.setAttribute('aria-selected',k===i)});
+    var p=P[i],h='<span class="kicker">project 0'+(i+1)+' / 08</span><h3>'+p[0]+'</h3><p>'+p[1]+'</p><div class="ex-flow">';
+    p[2].forEach(function(s,k){var a=s.charAt(0)==='*';if(k)h+='<i></i>';h+='<span class="'+(a?'a':'')+'" style="animation-delay:'+(k*110)+'ms">'+(a?s.slice(1):s)+'</span>'});
+    panel.innerHTML='<div class="ex-num">0'+(i+1)+'</div>'+h+'</div><div class="ex-cap">זרימה להמחשה</div>';
+  }
+  short.forEach(function(s,i){var b=document.createElement('button');b.className='ex-tab';b.setAttribute('role','tab');b.innerHTML='<small>0'+(i+1)+'</small>'+s;b.addEventListener('click',function(){show(i)});tabs.appendChild(b)});
+  show(0);
+
+  // rag grid
+  var rg=$('#rag'),hot=[4,17,23,31,38,46,52,60,66];for(var i=0;i<70;i++){var c=document.createElement('i');if(hot.indexOf(i)>-1)c.className='h';rg.appendChild(c)}
+
+  // spotlight
+  $$('.spot').forEach(function(c){c.addEventListener('pointermove',function(e){var r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px')})});
+
+  // tilt certs
+  if(!RM&&matchMedia('(hover:hover)').matches)$$('[data-tilt]').forEach(function(c){
+    c.addEventListener('pointermove',function(e){var r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform='rotateY('+(x*10)+'deg) rotateX('+(-y*10)+'deg)';c.style.setProperty('--a',Math.round(x*180))});
+    c.addEventListener('pointerleave',function(){c.style.transform=''});
   });
 
-  // jobs tags
-  var descs=[
-    '<b>בארגונים בינוניים וגדולים.</b> מתרגמים אתגרים עסקיים לפתרונות AI מניבי ערך, מייעלים תהליכים וחוסכים עלויות.',
-    '<b>מתכננים את המערכת.</b> מתרגמים צרכים עסקיים למערכות פועלות: אפיון, ארכיטקטורה, חיבורים ו-Workflows.',
-    '<b>מובילים טרנספורמציה דיגיטלית.</b> מנהלים את תהליך ההטמעה של AI ואוטומציה בארגון, מהרעיון ועד הדמו.',
-    '<b>מחברים מערכות ארגוניות.</b> CRM, דיוור, טפסים ותפעול מדברים אחד עם השני דרך API ו-JSON.',
-    '<b>כפרילנסר מבוקש.</b> בונים פתרונות אוטומציה ו-AI ללקוחות, עם מומחיות עצמאית שאפשר לתמחר.',
-    '<b>אחראים על אסטרטגיית ה-AI.</b> מזהים הזדמנויות, בוחרים כלים ומובילים את החדשנות בארגון.',
-    '<b>מכשירים צוותים.</b> מלמדים ומטמיעים כלי AI ואוטומציה בצוותים, ומודדים את ההשפעה.'
-  ];
-  var tags=document.querySelectorAll('#tags .tag'),jd=document.getElementById('jobdesc');
-  tags.forEach(function(t){t.addEventListener('click',function(){tags.forEach(function(x){x.classList.remove('on')});t.classList.add('on');jd.style.opacity=0;setTimeout(function(){jd.innerHTML=descs[+t.dataset.i];jd.style.transition='opacity .5s';jd.style.opacity=1},150)})});
+  // count up
+  var co=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;co.unobserve(e.target);var el=e.target,n=+el.dataset.n,t0=performance.now();if(RM)return;(function tick(t){var p=Math.min(1,(t-t0)/1400),v=1-Math.pow(1-p,4);el.textContent=Math.round(n*v);if(p<1)requestAnimationFrame(tick)})(t0)})},{threshold:.6});
+  $$('[data-n]').forEach(function(el){co.observe(el)});
+
+  // accordions
+  $$('#tl .mod').forEach(function(m){$('.mod-b',m).addEventListener('click',function(){var o=m.classList.contains('open');$$('#tl .mod.open').forEach(function(x){x.classList.remove('open')});if(!o)m.classList.add('open')})});
+  $$('#faqs .q').forEach(function(q){$('button',q).addEventListener('click',function(){var o=q.classList.contains('open');$$('#faqs .q.open').forEach(function(x){x.classList.remove('open')});if(!o)q.classList.add('open')})});
+
+  // funding picker
+  var plans=$('#plans'),pl=$$('.plan',plans),trk=$('#trk'),trackIn=$('#track');
+  function setTrack(name){trackIn.value=name;trk.textContent='מסלול לבדיקה: '+name;trk.style.display='inline-block'}
+  $$('#pick button').forEach(function(b){b.addEventListener('click',function(){$$('#pick button').forEach(function(x){x.classList.remove('on')});b.classList.add('on');plans.classList.add('picked');pl.forEach(function(p,i){p.classList.toggle('sel',i===+b.dataset.t)});setTrack($('a',pl[+b.dataset.t]).dataset.track)})});
+  $$('[data-track]').forEach(function(a){a.addEventListener('click',function(){setTrack(a.dataset.track)})});
 
   // form
-  var f=document.getElementById('leadform'),err=document.getElementById('err');
-  f.addEventListener('submit',function(e){
-    e.preventDefault();
-    var name=f.name.value.trim(),mob=f.mobile.value.replace(/\D/g,''),c1=document.getElementById('c1').checked,c2=document.getElementById('c2').checked;
-    if(name.length<2||mob.length<9||!c1||!c2){err.style.display='block';return}
+  var f=$('#lead'),err=$('#err');
+  f.addEventListener('submit',function(e){e.preventDefault();
+    var ok=f.name.value.trim().length>1&&f.mobile.value.replace(/\D/g,'').length>=9&&$('#c1').checked&&$('#c2').checked;
+    if(!ok){err.style.display='block';return}
     err.style.display='none';
-    // TODO: חברו כאן את ה-endpoint של ה-CRM / Elementor Forms / Zapier / Make
-    document.getElementById('fields').style.display='none';document.getElementById('ok').style.display='block';
+    // TODO: לחבר כאן את ה-endpoint של ה-CRM (Make / Zapier / Elementor). השדות: name, mobile, email, track
+    $('#fields').style.display='none';$('#ok').style.display='block';
   });
 })();
 </script>
