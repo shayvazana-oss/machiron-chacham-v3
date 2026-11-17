@@ -6,6 +6,20 @@
 <title>AI Agent & Automation Specialist</title>
 <meta name="description" content="קורס AI Agent & Automation Specialist של היחידה ללימודי חוץ ומפעל הסייבר של אלתא. 160 ש״א, תעודה ממשלתית, מוכר לפיקדון ולשוברים עד 90% מימון.">
 <meta name="theme-color" content="#08090C">
+<!-- PREVIEW: להסיר את השורה הבאה ואת robots.txt בעלייה לאוויר -->
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="he_IL">
+<meta property="og:site_name" content="היחידה ללימודי חוץ">
+<meta property="og:title" content="קורס AI Agent & Automation Specialist | היחידה ללימודי חוץ">
+<meta property="og:description" content="תבנו סוכני AI שעובדים בשבילכם. 160 ש״א, תעודה ממשלתית, מוכר לפיקדון ולשוברים עד 90% מימון.">
+<meta property="og:url" content="https://ai-agent-specialist-preview.netlify.app/">
+<meta property="og:image" content="https://ai-agent-specialist-preview.netlify.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"AI Agent & Automation Specialist","description":"קורס פתרונות דיגיטליים לפרויקטים עסקיים: בניית סוכני AI ואוטומציות עסקיות. 12 מודולים, פרויקט גמר ותעודת הסמכה ממשלתית.","inLanguage":"he","provider":{"@type":"Organization","name":"היחידה ללימודי חוץ","sameAs":"https://limudey-hutz.co.il"},"hasCourseInstance":{"@type":"CourseInstance","courseMode":"online"}}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Hebrew:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -37,6 +51,10 @@ section{padding:120px 0;position:relative}
 .lead{color:var(--muted);font-size:clamp(17px,1.6vw,19px);max-width:560px}
 .sec-top{margin-bottom:56px}
 .hl{color:var(--lime)}
+:focus-visible{outline:2px solid var(--lime);outline-offset:3px;border-radius:6px}
+.skip{position:fixed;top:-60px;inset-inline-start:16px;z-index:80;background:var(--lime);color:var(--lime-ink);padding:10px 16px;border-radius:999px;font-weight:600;transition:top .3s}
+.skip:focus{top:14px}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 
 /* progress bar */
 .pbar{position:fixed;top:0;inset-inline:0;height:2px;background:var(--lime);transform-origin:right;transform:scaleX(0);z-index:70}
@@ -356,6 +374,7 @@ footer a{text-decoration:underline}
 </style>
 </head>
 <body>
+<a class="skip" href="#top">דילוג לתוכן</a>
 <div class="pbar"></div>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -703,22 +722,26 @@ footer a{text-decoration:underline}
         <div class="tel rv d3"><span>או חייגו</span><a href="tel:*3068"><b>*3068</b></a></div>
       </div>
       <div class="form rv d2">
-        <form id="lead" novalidate>
+        <form id="lead" name="lead-ai-agents" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
           <div id="fields" style="display:flex;flex-direction:column">
             <span class="trk" id="trk"></span>
+            <input type="hidden" name="form-name" value="lead-ai-agents">
+            <input type="hidden" name="subject" value="ליד חדש: קורס AI Agents (%{submissionId})">
             <input type="hidden" name="track" id="track">
+            <input type="hidden" name="utm_source"><input type="hidden" name="utm_medium"><input type="hidden" name="utm_campaign"><input type="hidden" name="utm_content"><input type="hidden" name="utm_term"><input type="hidden" name="gclid"><input type="hidden" name="fbclid"><input type="hidden" name="page_url">
+            <p class="hp" aria-hidden="true"><label>לא למלא: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
             <label class="f" for="name">שם מלא</label>
             <input type="text" id="name" name="name" autocomplete="name" placeholder="ישראל ישראלי">
             <label class="f" for="mobile">נייד</label>
             <input type="tel" id="mobile" name="mobile" autocomplete="tel" inputmode="tel" placeholder="050-0000000" style="direction:ltr;text-align:right">
             <label class="f" for="email">אימייל</label>
             <input type="email" id="email" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" style="direction:ltr;text-align:right">
-            <label class="chk"><input type="checkbox" id="c1"><span>מאשר/ת קבלת דיוור מהיחידה ללימודי חוץ בהתאם למדיניות הפרטיות</span></label>
-            <label class="chk"><input type="checkbox" id="c2"><span>מאשר/ת שקראתי את <a href="https://limudey-hutz.co.il/%d7%9e%d7%93%d7%99%d7%a0%d7%99%d7%95%d7%aa-%d7%a4%d7%a8%d7%98%d7%99%d7%95%d7%aa/" target="_blank" rel="noopener">מדיניות הפרטיות</a> ו<a href="https://limudey-hutz.co.il/%d7%aa%d7%a7%d7%a0%d7%95%d7%9f-%d7%90%d7%aa%d7%a8/" target="_blank" rel="noopener">תקנון האתר</a></span></label>
+            <label class="chk"><input type="checkbox" id="c1" name="consent_marketing" value="yes"><span>מאשר/ת קבלת דיוור מהיחידה ללימודי חוץ בהתאם למדיניות הפרטיות</span></label>
+            <label class="chk"><input type="checkbox" id="c2" name="consent_terms" value="yes" required><span>מאשר/ת שקראתי את <a href="https://limudey-hutz.co.il/%d7%9e%d7%93%d7%99%d7%a0%d7%99%d7%95%d7%aa-%d7%a4%d7%a8%d7%98%d7%99%d7%95%d7%aa/" target="_blank" rel="noopener">מדיניות הפרטיות</a> ו<a href="https://limudey-hutz.co.il/%d7%aa%d7%a7%d7%a0%d7%95%d7%9f-%d7%90%d7%aa%d7%a8/" target="_blank" rel="noopener">תקנון האתר</a></span></label>
             <button type="submit" class="btn btn-lime">דברו איתי<span class="ic"><svg width="15" height="15"><use href="#arr"/></svg></span></button>
-            <div class="err" id="err">יש למלא שם ונייד תקין, ולאשר את מדיניות הפרטיות והתקנון.</div>
+            <div class="err" id="err" role="alert">יש למלא שם ונייד תקין, ולאשר את מדיניות הפרטיות והתקנון.</div>
           </div>
-          <div class="ok" id="ok"><b>קיבלנו. תודה!</b><p>יועץ לימודים יחזור אליכם בהקדם.</p></div>
+          <div class="ok" id="ok" role="status"><b>קיבלנו. תודה!</b><p>יועץ לימודים יחזור אליכם בהקדם.</p></div>
         </form>
       </div>
     </div>
@@ -817,14 +840,33 @@ footer a{text-decoration:underline}
   $$('#pick button').forEach(function(b){b.addEventListener('click',function(){$$('#pick button').forEach(function(x){x.classList.remove('on')});b.classList.add('on');plans.classList.add('picked');pl.forEach(function(p,i){p.classList.toggle('sel',i===+b.dataset.t)});setTrack($('a',pl[+b.dataset.t]).dataset.track)})});
   $$('[data-track]').forEach(function(a){a.addEventListener('click',function(){setTrack(a.dataset.track)})});
 
-  // form
-  var f=$('#lead'),err=$('#err');
-  f.addEventListener('submit',function(e){e.preventDefault();
-    var ok=f.name.value.trim().length>1&&f.mobile.value.replace(/\D/g,'').length>=9&&$('#c1').checked&&$('#c2').checked;
-    if(!ok){err.style.display='block';return}
-    err.style.display='none';
-    // TODO: לחבר כאן את ה-endpoint של ה-CRM (Make / Zapier / Elementor). השדות: name, mobile, email, track
+  // UTM / click-id capture (נשמר לאורך הביקור)
+  var f=$('#lead'),err=$('#err'),KEYS=['utm_source','utm_medium','utm_campaign','utm_content','utm_term','gclid','fbclid'];
+  try{var q=new URLSearchParams(location.search),saved=JSON.parse(sessionStorage.getItem('lp_utm')||'{}');
+    KEYS.forEach(function(k){if(q.get(k))saved[k]=q.get(k);if(saved[k]&&f[k])f[k].value=saved[k]});
+    sessionStorage.setItem('lp_utm',JSON.stringify(saved))}catch(e){}
+  if(f.page_url)f.page_url.value=location.href.split('#')[0];
+
+  // accordions: aria
+  $$('.mod-b,.q > button').forEach(function(b){var it=b.parentNode;b.setAttribute('aria-expanded',it.classList.contains('open'));
+    new MutationObserver(function(){b.setAttribute('aria-expanded',it.classList.contains('open'))}).observe(it,{attributes:true,attributeFilter:['class']})});
+
+  // form submit -> Netlify Forms (AJAX). בתצוגה מקדימה שאינה Netlify: מצב דמו בלי שליחה.
+  var LIVE=/^https?:$/.test(location.protocol)&&!/claude|localhost|127\.0\.0\.1/.test(location.hostname);
+  function done(){
+    window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'generate_lead',form:'lead-ai-agents',track:f.track.value||'לא נבחר'});
+    if(window.fbq)try{fbq('track','Lead')}catch(e){}
     $('#fields').style.display='none';$('#ok').style.display='block';
+  }
+  f.addEventListener('submit',function(e){e.preventDefault();
+    var mob=f.mobile.value.replace(/\D/g,''),ok=f.name.value.trim().length>1&&/^0\d{8,9}$/.test(mob)&&$('#c2').checked;
+    if(!ok){err.textContent='יש למלא שם ונייד תקין, ולאשר את מדיניות הפרטיות והתקנון.';err.style.display='block';return}
+    err.style.display='none';
+    if(!LIVE)return done();
+    var btn=$('button[type=submit]',f);btn.disabled=true;btn.style.opacity=.6;
+    fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()})
+      .then(function(r){if(!r.ok)throw new Error(r.status);done()})
+      .catch(function(){btn.disabled=false;btn.style.opacity=1;err.textContent='השליחה לא הצליחה. נסו שוב, או חייגו *3068.';err.style.display='block'});
   });
 })();
 </script>
