@@ -4,6 +4,15 @@ import {
 
 export const IMG = (name) => `${import.meta.env.BASE_URL}img/${name}.webp`
 
+export const VID = (name) => `${import.meta.env.BASE_URL}video/${name}.mp4`
+
+// הכלים שעובדים איתם בקורס — מתוך הסילבוס (מודולים 3, 5, 7, 8, 9)
+export const TOOL_GROUPS = [
+  { label: 'Language models', title: 'מודלי שפה', text: 'מנסחים בקשות מדויקות ומקבלים תוצאה עקבית.', tools: ['ChatGPT', 'Claude', 'Gemini'] },
+  { label: 'Automation', title: 'אוטומציה', text: 'טריגרים ותהליכים שרצים מאחורי הקלעים.', tools: ['Make', 'n8n'] },
+  { label: 'Integrations & data', title: 'חיבורים ודאטה', text: 'מערכות שמדברות אחת עם השנייה.', tools: ['API', 'JSON', 'CRM', 'Vector DB', 'BI'] },
+]
+
 export const PHONE = '*3068'
 
 // ארבע היכולות שהקורס מכשיר לבנות — מתוך עמוד הקורס

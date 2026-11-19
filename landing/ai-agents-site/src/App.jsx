@@ -5,7 +5,7 @@ import {
   Workflow, ArrowUpLeft, Phone, Menu, X, Plus, Check, CheckCircle2, Loader2, ShieldCheck, Award, Globe,
   Medal, Ticket, Laptop, Lock, Bot, Database, Activity, Sparkles, BadgeCheck,
 } from 'lucide-react'
-import { IMG, PHONE, PRIVACY_URL, TERMS_URL, NAV_LINKS, TOOLS, PROJECTS, MODULES, ROLES, TRACKS, FAQS, PARTNERS, CAPABILITIES } from './data.js'
+import { IMG, VID, PHONE, PRIVACY_URL, TERMS_URL, NAV_LINKS, TOOLS, PROJECTS, MODULES, ROLES, TRACKS, FAQS, PARTNERS, CAPABILITIES, TOOL_GROUPS } from './data.js'
 import { ProjectShuffler, AgentRain, AgentScheduler, CountUp } from './Interactive.jsx'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -81,6 +81,11 @@ function Navbar() {
 /* ------------------------------------------------------------ 2. Hero */
 function Hero() {
   const ref = useRef(null)
+  const [video, setVideo] = useState(false)
+  const [playing, setPlaying] = useState(false)
+  useEffect(() => {
+    if (!reduceMotion && window.matchMedia('(min-width: 768px)').matches) setVideo(true)
+  }, [])
   useEffect(() => {
     if (reduceMotion) return
     const ctx = gsap.context(() => {
@@ -104,6 +109,10 @@ function Hero() {
           <source media="(max-width: 767px)" srcSet={IMG('m-hero-v')} />
           <img src={IMG('m-hero')} alt="הסוכן, דמות הקורס, יושב על גג מול קו רקיע בשקיעה" fetchPriority="high" className="h-full w-full animate-kenburns-soft object-cover object-left max-md:object-[center_30%]" />
         </picture>
+        {video && (
+          <video src={VID('m-hero')} poster={IMG('m-hero')} autoPlay muted loop playsInline preload="auto" aria-hidden="true" onPlaying={() => setPlaying(true)}
+            className={`absolute inset-0 h-full w-full animate-kenburns-soft object-cover object-left transition-opacity duration-1000 ${playing ? 'opacity-100' : 'opacity-0'}`} />
+        )}
       </div>
       <div className="absolute inset-0 bg-gradient-to-l from-deep/80 via-deep/30 via-45% to-transparent to-75% max-md:bg-gradient-to-t max-md:from-deep max-md:from-[47%] max-md:via-transparent max-md:via-[66%] max-md:to-transparent" />
       <div className="absolute inset-x-0 bottom-0 h-72 bg-gradient-to-t from-background to-transparent" />
@@ -222,6 +231,40 @@ function MeetAgent() {
               ))}
             </ol>
           </div>
+        </div>
+      </Container>
+    </section>
+  )
+}
+
+/* ------------------------------------------------------------ The tools the agent conducts */
+function Orchestra() {
+  return (
+    <section className="relative overflow-hidden bg-deep py-24 sm:py-32">
+      <Container>
+        <Heading center eyebrow="One agent, every tool" line1="סוכן אחד," line2="מנצח על כל הכלים" text="בקורס עובדים עם ChatGPT, Claude ו-Gemini, ומחברים אותם לתהליכים עסקיים ב-Make וב-n8n. הדגש הוא על המערכת שבונים, לא על הכלי." />
+        <figure data-reveal className="group relative mt-12 overflow-hidden rounded-[2.25rem] border border-white/10">
+          <img src={IMG('m-tools')} alt="הסוכן מנצח על חמישה כדורי אור צבעוניים שמחוברים אליו בקווי אור" loading="lazy" className="aspect-[16/9] w-full object-cover transition-transform duration-[1800ms] ease-out group-hover:scale-[1.04]" />
+          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-deep to-transparent" />
+          <div className="absolute inset-0" dir="ltr">
+            {[['ChatGPT', '11%', '56%'], ['Claude', '26.5%', '36%'], ['Gemini', '50%', '25.5%'], ['Make', '73.5%', '36%'], ['n8n', '89%', '56%']].map(([t, left, top], i) => (
+              <span key={t} className="absolute -translate-x-1/2" style={{ left, top }}>
+                <span className="glass block animate-float rounded-full px-2 py-1 font-mono text-[9px] font-medium text-white shadow-lg shadow-black/40 sm:px-4 sm:py-1.5 sm:text-sm" style={{ animationDelay: `${i * 0.6}s` }}>{t}</span>
+              </span>
+            ))}
+          </div>
+        </figure>
+        <div data-stagger className="relative z-10 mt-4 grid gap-4 sm:-mt-16 sm:px-8 lg:grid-cols-3">
+          {TOOL_GROUPS.map((g) => (
+            <div key={g.title} className="glass rounded-3xl p-6">
+              <span className="eyebrow">{g.label}</span>
+              <h3 className="mt-3 font-display text-xl font-bold">{g.title}</h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-muted">{g.text}</p>
+              <div className="mt-4 flex flex-wrap gap-2" dir="ltr">
+                {g.tools.map((t) => <span key={t} className="rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 font-mono text-sm text-white/90 transition-colors duration-300 hover:border-primary hover:text-primary">{t}</span>)}
+              </div>
+            </div>
+          ))}
         </div>
       </Container>
     </section>
@@ -732,11 +775,11 @@ function Helper() {
   }, [])
   if (closed) return null
   return (
-    <div className={`fixed bottom-0 left-6 z-40 hidden items-end gap-2 transition-all duration-700 ease-[cubic-bezier(.34,1.56,.64,1)] lg:flex ${show ? 'translate-y-0 opacity-100' : 'translate-y-[110%] opacity-0'}`}>
-      <a href="#contact" className="group relative block">
-        <img src={IMG('m-cut')} alt="" className="-mb-7 w-24 transition-transform duration-500 group-hover:-translate-y-3 group-hover:rotate-3" />
+    <div className={`group fixed bottom-0 left-3 z-40 hidden items-end gap-2 transition-all duration-700 ease-[cubic-bezier(.34,1.56,.64,1)] lg:flex ${show ? 'translate-y-0 opacity-100' : 'translate-y-[110%] opacity-0'}`}>
+      <a href="#contact" aria-label="שאלות על הקורס? דברו איתנו" className="relative block">
+        <img src={IMG('m-cut')} alt="" className="-mb-8 w-20 transition-transform duration-500 group-hover:-translate-y-4 group-hover:rotate-3" />
       </a>
-      <div className="glass relative mb-12 rounded-2xl rounded-br-sm px-4 py-3 text-sm shadow-2xl shadow-black/50">
+      <div className="glass pointer-events-none relative mb-10 translate-y-2 rounded-2xl rounded-br-sm px-4 py-3 text-sm opacity-0 shadow-2xl shadow-black/50 transition-all duration-500 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100">
         <a href="#contact" className="font-medium hover:text-primary">שאלות על הקורס? דברו איתנו</a>
         <button onClick={() => setClosed(true)} aria-label="סגירה" className="absolute -right-2 -top-2 grid h-6 w-6 place-items-center rounded-full bg-surface-2 text-white/70 ring-1 ring-white/15 hover:text-white"><X className="h-3 w-3" /></button>
       </div>
@@ -774,6 +817,7 @@ export default function App() {
         <Marquee items={TOOLS} mono />
         <Features />
         <MeetAgent />
+        <Orchestra />
         <Pillars />
         <Protocol />
         <ProjectsGrid />
