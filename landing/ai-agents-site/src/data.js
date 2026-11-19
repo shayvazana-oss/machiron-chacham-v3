@@ -5,6 +5,14 @@ import {
 export const IMG = (name) => `${import.meta.env.BASE_URL}img/${name}.webp`
 
 export const PHONE = '*3068'
+
+// ארבע היכולות שהקורס מכשיר לבנות — מתוך עמוד הקורס
+export const CAPABILITIES = [
+  { title: 'עובדים דיגיטליים וסוכנים חכמים', text: 'סוכנים עצמאיים שמבינים משימות, מנתחים מידע, מפעילים כלים חיצוניים ומקבלים החלטות באופן אוטומטי.' },
+  { title: 'מערכות וחיבור לידע ארגוני', text: 'סוכנים שמחוברים בבטחה למסמכים, לבסיסי נתונים ול-Vector Databases, למענה מדויק ומבוסס עובדות.' },
+  { title: 'בקרה, איכות וניטור', text: 'ניטור בזמן אמת, בדיקות דיוק ל-AI, מניעת הזיות (Hallucinations) ואבטחת מידע ארגונית.' },
+  { title: 'אוטומציה ואינטגרציה מקצה לקצה', text: 'חיבור מלא בין ה-CRM, הדיוור, הטפסים והתפעול הארגוני, לחיסכון מאסיבי בזמן ובמשאבים.' },
+]
 export const PRIVACY_URL = 'https://limudey-hutz.co.il/%d7%9e%d7%93%d7%99%d7%a0%d7%99%d7%95%d7%aa-%d7%a4%d7%a8%d7%98%d7%99%d7%95%d7%aa/'
 export const TERMS_URL = 'https://limudey-hutz.co.il/%d7%aa%d7%a7%d7%a0%d7%95%d7%9f-%d7%90%d7%aa%d7%a8/'
 

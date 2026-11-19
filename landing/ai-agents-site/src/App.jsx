@@ -5,7 +5,7 @@ import {
   Workflow, ArrowUpLeft, Phone, Menu, X, Plus, Check, CheckCircle2, Loader2, ShieldCheck, Award, Globe,
   Medal, Ticket, Laptop, Lock, Bot, Database, Activity, Sparkles, BadgeCheck,
 } from 'lucide-react'
-import { IMG, PHONE, PRIVACY_URL, TERMS_URL, NAV_LINKS, TOOLS, PROJECTS, MODULES, ROLES, TRACKS, FAQS, PARTNERS } from './data.js'
+import { IMG, PHONE, PRIVACY_URL, TERMS_URL, NAV_LINKS, TOOLS, PROJECTS, MODULES, ROLES, TRACKS, FAQS, PARTNERS, CAPABILITIES } from './data.js'
 import { ProjectShuffler, AgentRain, AgentScheduler, CountUp } from './Interactive.jsx'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -49,7 +49,7 @@ function Navbar() {
     <>
       <header className={`fixed left-1/2 top-4 z-50 flex w-[calc(100%-1.5rem)] max-w-5xl -translate-x-1/2 items-center justify-between rounded-full px-3 py-2 transition-all duration-500 sm:px-4 ${scrolled || open ? 'glass shadow-2xl shadow-black/50' : 'border border-transparent'}`}>
         <a href="#home" className="flex items-center gap-2.5">
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary text-deep"><Workflow className="h-5 w-5" strokeWidth={2.4} /></span>
+          <span className="grid h-9 w-9 place-items-center overflow-hidden rounded-xl bg-white/10 ring-1 ring-white/15"><img src={IMG('m-cut')} alt="" className="h-7 w-7 object-contain transition-transform duration-500 hover:rotate-6 hover:scale-110" /></span>
           <span className="font-display text-sm font-bold tracking-tight sm:text-base" dir="ltr">AI Agent Specialist</span>
         </a>
         <nav className="hidden items-center gap-1 lg:flex">
@@ -93,19 +93,19 @@ function Hero() {
     return () => ctx.revert()
   }, [])
   const chips = [
-    { icon: Sparkles, text: 'ליד חדש נכנס', cls: 'left-[4%] top-[17%]', delay: '0s', tone: 'text-accent' },
-    { icon: Bot, text: 'הסוכן מסווג · כוונה גבוהה', cls: 'left-[18%] top-[72%]', delay: '1.5s', tone: 'text-primary' },
-    { icon: Database, text: 'נפתח ב-CRM', cls: 'left-[29%] top-[27%]', delay: '3s', tone: 'text-emerald-400' },
+    { icon: Sparkles, text: 'היי, אני הסוכן שתבנו', cls: 'left-[43%] top-[21%]', delay: '0s', tone: 'text-primary' },
+    { icon: Bot, text: 'ליד חדש סווג', cls: 'left-[2%] top-[19%]', delay: '1.5s', tone: 'text-accent' },
+    { icon: Database, text: 'נפתח ב-CRM', cls: 'left-[2%] top-[64%]', delay: '3s', tone: 'text-emerald-400' },
   ]
   return (
     <section id="home" ref={ref} className="relative min-h-[100dvh] overflow-hidden bg-deep">
-      <div className="hero-bg absolute left-0 top-0 h-[62%] w-full md:h-full lg:-left-[14%] lg:w-[114%]">
+      <div className="hero-bg absolute left-0 top-0 h-[32rem] w-full md:h-full lg:-left-[7%] lg:w-[107%]">
         <picture>
-          <source media="(max-width: 767px)" srcSet={IMG('hero-m')} />
-          <img src={IMG('hero')} alt="" fetchPriority="high" className="h-full w-full animate-kenburns object-cover object-left brightness-[0.85] max-md:object-top max-md:brightness-100" />
+          <source media="(max-width: 767px)" srcSet={IMG('m-hero-v')} />
+          <img src={IMG('m-hero')} alt="הסוכן, דמות הקורס, יושב על גג מול קו רקיע בשקיעה" fetchPriority="high" className="h-full w-full animate-kenburns-soft object-cover object-left max-md:object-[center_30%]" />
         </picture>
       </div>
-      <div className="absolute inset-0 bg-gradient-to-l from-deep via-deep/75 via-40% to-transparent to-70% max-md:bg-gradient-to-t max-md:from-deep max-md:via-deep/90 max-md:via-55% max-md:to-transparent max-md:to-85%" />
+      <div className="absolute inset-0 bg-gradient-to-l from-deep/80 via-deep/30 via-45% to-transparent to-75% max-md:bg-gradient-to-t max-md:from-deep max-md:from-[47%] max-md:via-transparent max-md:via-[66%] max-md:to-transparent" />
       <div className="absolute inset-x-0 bottom-0 h-72 bg-gradient-to-t from-background to-transparent" />
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
 
@@ -113,16 +113,16 @@ function Hero() {
       <div className="absolute inset-0 hidden lg:block" aria-hidden="true">
         {chips.map((c) => (
           <div key={c.text} className={`hero-chip absolute ${c.cls}`}>
-            <div className="glass flex animate-float items-center gap-2 rounded-full px-3.5 py-2 text-xs font-medium text-white/90 shadow-xl shadow-black/40" style={{ animationDelay: c.delay }}>
+            <div className="glass flex animate-float items-center gap-2 rounded-full rounded-bl-md px-3.5 py-2 text-xs font-medium text-white/90 shadow-xl shadow-black/40" style={{ animationDelay: c.delay }}>
               <c.icon className={`h-3.5 w-3.5 ${c.tone}`} strokeWidth={2.4} />{c.text}
             </div>
           </div>
         ))}
       </div>
 
-      <Container className="relative z-10 flex min-h-[100dvh] flex-col justify-end pb-10 pt-32">
+      <Container className="relative z-10 flex min-h-[100dvh] flex-col justify-end pb-10 pt-[21rem] md:pt-32">
         <p className="hero-meta"><span className="eyebrow !text-white/80">Limudey Hutz × ELTA Cyber<span className="max-sm:hidden"> · AI Agent & Automation Specialist</span></span></p>
-        <h1 className="mt-5 max-w-3xl font-display text-[3.4rem] font-black leading-[0.92] tracking-tighter text-white sm:text-7xl lg:text-[6.2rem]">
+        <h1 className="mt-5 max-w-3xl font-display text-[3.4rem] font-black leading-[0.92] tracking-tighter text-white drop-shadow-[0_4px_24px_rgba(4,5,7,0.55)] sm:text-7xl lg:text-[5.9rem]">
           <span className="hero-line-1 block">תבנו סוכני AI</span>
           <span className="hero-line-2 block font-serif font-medium text-primary">שעובדים בשבילכם</span>
         </h1>
@@ -192,6 +192,42 @@ function Features() {
   )
 }
 
+/* ------------------------------------------------------------ Meet the agent: the four capabilities */
+function MeetAgent() {
+  return (
+    <section className="relative overflow-hidden py-24 sm:py-32">
+      <div className="absolute -left-40 top-20 h-[30rem] w-[30rem] rounded-full bg-accent/15 blur-[130px]" />
+      <Container className="relative">
+        <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
+          <figure data-reveal className="group relative lg:col-span-6">
+            <div className="absolute -inset-3 rounded-[2.75rem] bg-gradient-to-br from-primary/25 via-accent/20 to-transparent blur-2xl transition-opacity duration-700 group-hover:opacity-80" />
+            <div className="relative overflow-hidden rounded-[2.25rem] border border-white/10">
+              <img src={IMG('m-work')} alt="הסוכן עובד מול מחשב נייד, סביבו זרימת עבודה אוטומטית" loading="lazy" className="aspect-[4/3] w-full object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-[1.05]" />
+              <div className="glass absolute bottom-4 start-4 flex items-center gap-2 rounded-full px-3.5 py-2 text-xs font-medium text-white/90">
+                <span className="ring-pulse h-2 w-2 rounded-full bg-primary" />עובד גם כשאתם ישנים
+              </div>
+            </div>
+          </figure>
+          <div className="lg:col-span-6">
+            <Heading eyebrow="Meet the agent" line1="הכירו את הסוכן" line2="שתדעו לבנות" text="בסוף הקורס תדעו לבנות אותו מאפס, על ארבע היכולות שלו." />
+            <ol data-stagger className="mt-9 space-y-3">
+              {CAPABILITIES.map((c, i) => (
+                <li key={c.title} className="group/item flex gap-4 rounded-3xl border border-divider bg-surface p-5 transition-all duration-500 hover:-translate-x-1 hover:border-primary/40">
+                  <span className="grid h-10 w-10 flex-none place-items-center rounded-2xl bg-primary/10 font-mono text-sm text-primary transition-colors duration-500 group-hover/item:bg-primary group-hover/item:text-deep" dir="ltr">0{i + 1}</span>
+                  <div>
+                    <h3 className="font-display text-lg font-bold leading-snug">{c.title}</h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-muted sm:text-base">{c.text}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </Container>
+    </section>
+  )
+}
+
 /* ------------------------------------------------------------ 4. Pillars */
 function Pillars() {
   const items = [
@@ -230,7 +266,7 @@ function Protocol() {
   const steps = [
     { n: '01', eyebrow: 'Learn', title: 'לומדים', sub: 'אונליין בפיקוח, מכל מקום בארץ', img: 'learn', alt: 'סטודנטית לומדת אונליין מול מחשב נייד', text: '160 שעות אקדמיות שמשלבות למידה עיונית ותרגול מעשי על הכלים עצמם. מתחילים מהיסודות ומתקדמים מודול אחרי מודול.', bullets: ['12 מודולים שנבנים אחד על השני', 'Gemini, ChatGPT, Claude, Make, n8n', 'ראיון אישי והכוונה מקצועית לפני ההרשמה'] },
     { n: '02', eyebrow: 'Build', title: 'בונים', sub: '8 פרויקטים מעשיים', img: 'team', alt: 'צוות מציג פרויקט אוטומציה על מסך', text: 'כל פרויקט הוא אוטומציה עסקית אמיתית: מאפיינים את הבעיה, מתכננים את הזרימה, מחברים מערכות ובודקים שזה עובד.', bullets: ["צ'אטבוט ו-AI Agent לשירות לקוחות", 'מערכת לידים עם חיבור ל-CRM', 'אוטומציות ל-HR, לפיננסים ולחווית לקוח'] },
-    { n: '03', eyebrow: 'Certify', title: 'מוסמכים', sub: 'פרויקט גמר ושתי תעודות', img: 'cert', alt: 'בוגר מחזיק תעודת הסמכה', text: 'מסיימים עם פתרון AI עסקי מלא ודמו מקצועי. למסיימים בהצלחה מוענקות שתי תעודות.', bullets: ['תעודת הסמכה ממשלתית: "פיתוח פתרונות דיגיטליים לפרויקטים עסקיים"', 'תעודת בוגר מטעם היחידה ללימודי חוץ ומפעל הסייבר של אלתא', 'נדרשות 80% נוכחות ועמידה במטלות ובמבחנים'] },
+    { n: '03', eyebrow: 'Certify', title: 'מוסמכים', sub: 'פרויקט גמר ושתי תעודות', img: 'm-grad', alt: 'הסוכן עם כובע סיום ותעודה עם חותמת זהב', text: 'מסיימים עם פתרון AI עסקי מלא ודמו מקצועי. למסיימים בהצלחה מוענקות שתי תעודות.', bullets: ['תעודת הסמכה ממשלתית: "פיתוח פתרונות דיגיטליים לפרויקטים עסקיים"', 'תעודת בוגר מטעם היחידה ללימודי חוץ ומפעל הסייבר של אלתא', 'נדרשות 80% נוכחות ועמידה במטלות ובמבחנים'] },
   ]
   useEffect(() => {
     if (reduceMotion) return
@@ -290,6 +326,19 @@ function ProjectsGrid() {
   return (
     <section className="relative bg-deep py-24 sm:py-32">
       <Container>
+        <figure data-reveal className="group relative mb-16 overflow-hidden rounded-[2.25rem] border border-white/10">
+          <img src={IMG('m-team')} alt="חמישה סוכנים בצבעים שונים, לכל אחד תפקיד: שירות, מחקר, דוחות, תזמון ודיוור" loading="lazy" className="aspect-[16/9] w-full object-cover transition-transform duration-[1800ms] ease-out group-hover:scale-[1.04]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-deep via-deep/10 to-transparent max-sm:hidden" />
+          <figcaption className="relative flex flex-wrap items-end justify-between gap-4 bg-surface p-6 sm:absolute sm:inset-x-0 sm:bottom-0 sm:bg-transparent sm:p-10">
+            <div>
+              <span className="eyebrow">One agent per job</span>
+              <p className="mt-2 font-display text-3xl font-black leading-none tracking-tighter sm:text-5xl">לכל סוכן <span className="font-serif font-medium text-primary">תפקיד משלו</span></p>
+            </div>
+            <div className="flex flex-wrap gap-2 text-xs sm:text-sm">
+              {['שירות', 'מחקר', 'דוחות', 'תזמון', 'דיוור'].map((t) => <span key={t} className="glass rounded-full px-3 py-1.5">{t}</span>)}
+            </div>
+          </figcaption>
+        </figure>
         <Heading eyebrow="8 hands-on projects" line1="מה תבנו בפועל," line2="פרויקט אחרי פרויקט" />
         <div data-stagger className="mt-14 grid grid-cols-1 gap-px overflow-hidden rounded-4xl border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
           {PROJECTS.map((p, i) => (
@@ -563,7 +612,8 @@ function ContactForm({ track, setTrack }) {
             <p data-reveal className="mt-6 flex items-center gap-2 text-xs text-muted"><Lock className="h-3.5 w-3.5" />הפרטים משמשים ליצירת קשר בנוגע לקורס בלבד.</p>
           </div>
 
-          <div data-reveal className="lg:col-span-6 lg:ps-8">
+          <div data-reveal className="relative lg:col-span-6 lg:ps-8">
+            <img src={IMG('m-cut-wave')} alt="" aria-hidden="true" loading="lazy" className="pointer-events-none absolute -top-[5.5rem] end-6 z-10 w-32 animate-float drop-shadow-[0_18px_30px_rgba(0,0,0,0.55)] sm:-top-28 sm:w-40" />
             <div className="rounded-[2.25rem] border border-white/10 bg-gradient-to-b from-white/15 to-white/5 p-1.5">
               <div className="rounded-[1.9rem] bg-surface/95 p-6 sm:p-9">
                 {status === 'sent' ? (
@@ -616,7 +666,7 @@ function Footer() {
         <div className="grid gap-10 border-t border-white/10 pt-14 lg:grid-cols-5">
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2.5">
-              <span className="grid h-10 w-10 place-items-center rounded-xl bg-primary text-deep"><Workflow className="h-5 w-5" strokeWidth={2.4} /></span>
+              <span className="grid h-10 w-10 place-items-center overflow-hidden rounded-xl bg-white/10 ring-1 ring-white/15"><img src={IMG('m-cut')} alt="" className="h-8 w-8 object-contain" /></span>
               <span className="font-display text-lg font-bold" dir="ltr">AI Agent Specialist</span>
             </div>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/55">קורס פתרונות דיגיטליים לפרויקטים עסקיים, מבית היחידה ללימודי חוץ והמרכז הבינלאומי למקצועות הסייבר בשיתוף אלתא מערכות.</p>
@@ -666,6 +716,34 @@ function StickyBar() {
   )
 }
 
+/* Desktop helper: the mascot peeks from the corner and points to the form */
+function Helper() {
+  const [show, setShow] = useState(false)
+  const [closed, setClosed] = useState(false)
+  useEffect(() => {
+    const onScroll = () => {
+      const contact = document.getElementById('contact')
+      const nearForm = contact ? contact.getBoundingClientRect().top < window.innerHeight * 0.9 : false
+      setShow(window.scrollY > window.innerHeight * 0.9 && !nearForm)
+    }
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+  if (closed) return null
+  return (
+    <div className={`fixed bottom-0 left-6 z-40 hidden items-end gap-2 transition-all duration-700 ease-[cubic-bezier(.34,1.56,.64,1)] lg:flex ${show ? 'translate-y-0 opacity-100' : 'translate-y-[110%] opacity-0'}`}>
+      <a href="#contact" className="group relative block">
+        <img src={IMG('m-cut')} alt="" className="-mb-7 w-24 transition-transform duration-500 group-hover:-translate-y-3 group-hover:rotate-3" />
+      </a>
+      <div className="glass relative mb-12 rounded-2xl rounded-br-sm px-4 py-3 text-sm shadow-2xl shadow-black/50">
+        <a href="#contact" className="font-medium hover:text-primary">שאלות על הקורס? דברו איתנו</a>
+        <button onClick={() => setClosed(true)} aria-label="סגירה" className="absolute -right-2 -top-2 grid h-6 w-6 place-items-center rounded-full bg-surface-2 text-white/70 ring-1 ring-white/15 hover:text-white"><X className="h-3 w-3" /></button>
+      </div>
+    </div>
+  )
+}
+
 /* ------------------------------------------------------------ App */
 export default function App() {
   const [track, setTrack] = useState('')
@@ -673,10 +751,12 @@ export default function App() {
     if (reduceMotion) return
     const ctx = gsap.context(() => {
       gsap.utils.toArray('[data-reveal]').forEach((el) => {
-        gsap.from(el, { y: 44, opacity: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 86%', once: true } })
+        gsap.set(el, { transition: 'none' })
+        gsap.from(el, { y: 44, opacity: 0, duration: 1, ease: 'power3.out', clearProps: 'all', scrollTrigger: { trigger: el, start: 'top 86%', once: true } })
       })
       gsap.utils.toArray('[data-stagger]').forEach((group) => {
-        gsap.from(group.children, { y: 44, opacity: 0, duration: 0.9, stagger: 0.12, ease: 'power3.out', scrollTrigger: { trigger: group, start: 'top 84%', once: true } })
+        gsap.set(group.children, { transition: 'none' })
+        gsap.from(group.children, { y: 44, opacity: 0, duration: 0.9, stagger: 0.12, ease: 'power3.out', clearProps: 'all', scrollTrigger: { trigger: group, start: 'top 84%', once: true } })
       })
     })
     const id = setTimeout(() => ScrollTrigger.refresh(), 300)
@@ -693,6 +773,7 @@ export default function App() {
         <Hero />
         <Marquee items={TOOLS} mono />
         <Features />
+        <MeetAgent />
         <Pillars />
         <Protocol />
         <ProjectsGrid />
@@ -705,6 +786,7 @@ export default function App() {
       </main>
       <Footer />
       <StickyBar />
+      <Helper />
     </div>
   )
 }
