@@ -14,7 +14,8 @@
     "@phosphor-icons/react": "^2.1.10",
     "gsap": "^3.12.5",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "three": "^0.187.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.4",
