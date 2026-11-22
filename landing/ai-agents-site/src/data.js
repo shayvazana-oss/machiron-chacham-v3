@@ -2,8 +2,6 @@ const BASE = import.meta.env.BASE_URL
 export const IMG = (name) => `${BASE}img/${name}.webp`
 export const VID = (name) => `${BASE}video/${name}.mp4`
 export const LOGO = (name) => `${BASE}logos/${name}.webp`
-export const SEQ_FRAMES = 61
-export const SEQ = (i) => `${BASE}seq/f${String(i + 1).padStart(3, '0')}.webp`
 
 export const PHONE = '*3068'
 export const PRIVACY_URL = 'https://limudey-hutz.co.il/%d7%9e%d7%93%d7%99%d7%a0%d7%99%d7%95%d7%aa-%d7%a4%d7%a8%d7%98%d7%99%d7%95%d7%aa/'

@@ -1,32 +1,12 @@
-import { Fragment, lazy, Suspense, useEffect, useRef, useState } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { ArrowLeft, Phone, Pause, Play, List, X } from '@phosphor-icons/react'
 import {
-  IMG, VID, LOGO, SEQ, SEQ_FRAMES, PHONE, PRIVACY_URL, TERMS_URL, NAV_LINKS, FACTS, CAPABILITIES,
+  IMG, VID, LOGO, PHONE, PRIVACY_URL, TERMS_URL, NAV_LINKS, FACTS, CAPABILITIES,
   PROJECTS, PHASES, ROLES, CERTS, LOGOS, TRACKS, FAQS,
 } from './data.js'
 
-gsap.registerPlugin(ScrollTrigger)
-ScrollTrigger.config({ ignoreMobileResize: true })
-const Mascot3D = lazy(() => import('./Mascot3D.jsx'))
-
-const mq = (q) => typeof window !== 'undefined' && window.matchMedia(q).matches
-const reduceMotion = mq('(prefers-reduced-motion: reduce)')
+const reduceMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 const CTA = 'לשיחת ייעוץ' // one label for the one conversion intent on this page
-
-/* One switch for all moving media on the page (the nav holds the button). */
-const motion = { on: !reduceMotion, subs: new Set() }
-const setMotion = (v) => {
-  motion.on = v
-  document.documentElement.dataset.motion = v ? 'on' : 'off'
-  motion.subs.forEach((f) => f(v))
-}
-function useMotion() {
-  const [on, set] = useState(motion.on)
-  useEffect(() => { motion.subs.add(set); return () => motion.subs.delete(set) }, [])
-  return on
-}
 
 /* True while the element is on screen. IntersectionObserver only, no scroll listeners. */
 function useOnScreen(ref, options) {
@@ -40,19 +20,35 @@ function useOnScreen(ref, options) {
   return on
 }
 
-/* A looping clip. Plays only while it is on screen and motion is switched on; otherwise shows its poster. */
-function Clip({ name, alt = '', eager = false, className = 'absolute inset-0 h-full w-full object-cover' }) {
+/* The one video on the page. It plays only while on screen and the visitor can pause it.
+   With reduced motion it stays on its poster until the visitor presses play. */
+function StoryVideo({ name, alt }) {
   const ref = useRef(null)
-  const visible = useOnScreen(ref, { threshold: 0.2 })
-  const on = useMotion()
+  const wanted = useRef(!reduceMotion)
+  const visible = useOnScreen(ref, { threshold: 0.25 })
+  const [playing, setPlaying] = useState(false)
   useEffect(() => {
     const v = ref.current
     if (!v) return
-    if (visible && on) v.play().catch(() => {})
+    if (visible && wanted.current) v.play().catch(() => {})
     else v.pause()
-  }, [visible, on])
-  return <video ref={ref} src={VID(name)} poster={IMG(name)} muted loop playsInline preload={eager ? 'auto' : 'metadata'}
-    aria-label={alt || undefined} aria-hidden={alt ? undefined : 'true'} className={className} />
+  }, [visible])
+  const toggle = () => {
+    const v = ref.current
+    wanted.current = v.paused
+    if (v.paused) v.play().catch(() => {})
+    else v.pause()
+  }
+  return (
+    <>
+      <video ref={ref} src={VID(name)} poster={IMG(name)} muted loop playsInline preload="metadata" aria-label={alt}
+        onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} className="absolute inset-0 h-full w-full object-cover" />
+      <button type="button" onClick={toggle} aria-label={playing ? 'השהיית הסרטון' : 'הפעלת הסרטון'}
+        className="absolute bottom-4 left-4 grid h-11 w-11 place-items-center rounded-full bg-night/60 text-white transition-colors hover:bg-night/85">
+        {playing ? <Pause size={16} weight="fill" /> : <Play size={16} weight="fill" />}
+      </button>
+    </>
+  )
 }
 
 const Arrow = () => <ArrowLeft size={18} weight="bold" aria-hidden="true" />
@@ -62,7 +58,6 @@ function Nav() {
   const sentinel = useRef(null)
   const atTop = useOnScreen(sentinel)
   const [open, setOpen] = useState(false)
-  const on = useMotion()
   useEffect(() => { document.body.style.overflow = open ? 'hidden' : '' }, [open])
   return (
     <>
@@ -77,10 +72,6 @@ function Nav() {
             {NAV_LINKS.map((l) => <a key={l.href} href={l.href} className="text-[1.0625rem] text-muted transition-colors hover:text-ink">{l.label}</a>)}
           </nav>
           <div className="flex items-center gap-2">
-            <button type="button" onClick={() => setMotion(!on)} aria-pressed={!on} aria-label={on ? 'השהיית התנועה בעמוד' : 'הפעלת התנועה בעמוד'}
-              className="hidden h-11 w-11 place-items-center rounded-full text-muted transition-colors hover:text-ink sm:grid">
-              {on ? <Pause size={18} weight="fill" /> : <Play size={18} weight="fill" />}
-            </button>
             <a href="#contact" className="btn btn-accent !px-4 !py-2.5 !text-base sm:!px-5">{CTA}</a>
             <button type="button" onClick={() => setOpen((o) => !o)} aria-label={open ? 'סגירת התפריט' : 'פתיחת התפריט'} aria-expanded={open} className="grid h-11 w-11 place-items-center rounded-full lg:hidden">
               {open ? <X size={24} /> : <List size={24} />}
@@ -99,49 +90,30 @@ function Nav() {
   )
 }
 
-/* ---------------------------------------------------------------- Hero.
-   The message on a clean page, beside two clips: a person starts the agents, and they get to work around them. */
-const PEOPLE = [
-  { clip: 'h-man', alt: 'גבר יושב מול מחשב, לוחץ על מקש ונשען לאחור עם קפה, וסביבו סוכנים קטנים מתחילים לעבוד', caption: 'הוא מפעיל. הסוכנים מתחילים לעבוד.' },
-  { clip: 'h-woman', alt: 'אישה יושבת על ספה עם לפטופ, מקישה ומרימה את הראש, וסביבה סוכנים קטנים עסוקים במשימות', caption: 'היא ממשיכה ביום שלה. הם ברקע.' },
-]
+/* ---------------------------------------------------------------- Hero: the message beside the one video.
+   The video shows a man at a computer and a woman with a laptop; each starts their agents, which get to work around them. */
 function Hero({ heroRef }) {
-  const root = useRef(null)
-  useEffect(() => {
-    if (reduceMotion) return
-    const ctx = gsap.context(() => {
-      gsap.from('.hw', { yPercent: 115, duration: 1.1, ease: 'expo.out', stagger: 0.08, delay: 0.1 })
-      gsap.from('.hf', { opacity: 0, y: 24, duration: 0.9, ease: 'power3.out', stagger: 0.1, delay: 0.7 })
-      gsap.from('.hero-clip', { opacity: 0, y: 60, duration: 1.2, ease: 'expo.out', stagger: 0.15, delay: 0.25 })
-    }, root)
-    return () => ctx.revert()
-  }, [])
-  const words = (text) => text.split(' ').map((w, i) => (
-    <Fragment key={i}><span className="inline-block overflow-hidden pb-[0.12em] align-bottom"><span className="hw inline-block">{w}</span></span> </Fragment>
-  ))
   return (
     <section id="home" ref={heroRef} className="page pb-12 pt-24 lg:pb-20 lg:pt-28">
-      <div ref={root} className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
-        <div className="lg:col-span-6">
-          <p className="hf text-base text-muted sm:text-lg">היחידה ללימודי חוץ ומפעל הסייבר של אלתא</p>
-          <h1 className="mt-3 text-[2.55rem] leading-[1.04] sm:text-6xl lg:text-[4.5rem]">
-            <span className="block whitespace-nowrap">{words('תבנו סוכני AI')}</span>
-            <span className="mark block whitespace-nowrap">{words('שעובדים בשבילכם')}</span>
+      <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
+        <div className="lg:col-span-7">
+          <p className="enter text-base text-muted sm:text-lg">היחידה ללימודי חוץ ומפעל הסייבר של אלתא</p>
+          <h1 className="enter mt-3 text-[2.55rem] leading-[1.04] [animation-delay:80ms] sm:text-6xl lg:text-[4.75rem]">
+            <span className="block whitespace-nowrap">תבנו סוכני AI</span>
+            <span className="mark block whitespace-nowrap">שעובדים בשבילכם</span>
           </h1>
-          <p className="hf mt-5 max-w-md text-lg text-muted sm:text-xl">קורס מעשי של 160 שעות אקדמיות. בונים סוכני AI ואוטומציות עסקיות ומסיימים עם תעודת הסמכה ממשלתית.</p>
-          <div className="hf mt-7 flex flex-wrap items-center gap-3">
+          <p className="enter mt-5 max-w-md text-lg text-muted [animation-delay:160ms] sm:text-xl">קורס מעשי של 160 שעות אקדמיות. בונים סוכני AI ואוטומציות עסקיות ומסיימים עם תעודת הסמכה ממשלתית.</p>
+          <div className="enter mt-7 flex flex-wrap items-center gap-3 [animation-delay:240ms]">
             <a href="#contact" className="btn btn-accent">{CTA}<Arrow /></a>
             <a href={`tel:${PHONE}`} className="btn ring-1 ring-inset ring-line transition-colors hover:bg-surface"><Phone size={18} weight="bold" aria-hidden="true" /><span dir="ltr">{PHONE}</span></a>
           </div>
         </div>
-        <div className="grid grid-cols-2 items-start gap-3 sm:gap-5 lg:col-span-6">
-          {PEOPLE.map((p, i) => (
-            <figure key={p.clip} className={`hero-clip ${i === 1 ? 'lg:mt-16' : ''}`}>
-              <div className="media aspect-[9/16]"><Clip eager name={p.clip} alt={p.alt} /></div>
-              <figcaption className="mt-3 text-base leading-snug text-muted sm:text-lg">{p.caption}</figcaption>
-            </figure>
-          ))}
-        </div>
+        <figure className="enter mx-auto w-full max-w-[380px] [animation-delay:200ms] lg:col-span-5">
+          <div className="media aspect-[9/16]">
+            <StoryVideo name="story" alt="גבר יושב מול מחשב, לוחץ על מקש ונשען לאחור עם קפה, וסוכנים קטנים וצבעוניים מתחילים לעבוד סביבו. אחריו אישה על ספה עם לפטופ מקישה ומתמתחת, והסוכנים שלה ממיינים כרטיסים, הופכים דפי לוח שנה ונושאים מעטפה." />
+          </div>
+          <figcaption className="mt-3 text-base leading-snug text-muted sm:text-lg">כל אחד מפעיל את הסוכנים שלו. הם עובדים ברקע, והיום ממשיך.</figcaption>
+        </figure>
       </div>
     </section>
   )
@@ -162,151 +134,55 @@ function Facts() {
   )
 }
 
-/* ---------------------------------------------------------------- Statement: the words arrive as you read */
+/* ---------------------------------------------------------------- Statement */
 function Statement() {
-  const ref = useRef(null)
-  const parts = [
-    ['הקורס לא מלמד כלים. הוא מייצר', false], ['אנשי AI יישומיים', true],
-    ['שלוקחים אתגר עסקי אמיתי, מאפיינים אותו, ובונים סוכן שמבצע את העבודה.', false],
-  ]
-  useEffect(() => {
-    if (reduceMotion) return
-    const ctx = gsap.context(() => {
-      gsap.fromTo('.sw', { opacity: 0.18 }, { opacity: 1, stagger: 0.1, ease: 'none', scrollTrigger: { trigger: ref.current, start: 'top 82%', end: 'bottom 55%', scrub: true } })
-    }, ref)
-    return () => ctx.revert()
-  }, [])
   return (
     <section className="page py-20 lg:py-32">
-      <p ref={ref} className="max-w-[24ch] font-display text-[2rem] font-semibold leading-[1.18] sm:text-5xl lg:text-[4.25rem]">
-        {parts.map(([text, marked], i) => (
-          <span key={i} className={marked ? 'mark' : undefined}>
-            {text.split(' ').map((w, j) => <Fragment key={j}><span className="sw">{w}</span> </Fragment>)}
-          </span>
-        ))}
+      <p className="rv max-w-[24ch] font-display text-[2rem] font-semibold leading-[1.18] sm:text-5xl lg:text-[4.25rem]">
+        הקורס לא מלמד כלים. הוא מייצר <span className="mark">אנשי AI יישומיים</span> שלוקחים אתגר עסקי אמיתי, מאפיינים אותו, ובונים סוכן שמבצע את העבודה.
       </p>
     </section>
   )
 }
 
-/* ---------------------------------------------------------------- The agent, built step by step.
-   The section pins and a frame sequence follows the scroll, one capability at a time.
-   With reduced motion it is a still image next to the full list. */
-function AgentSequence() {
-  const section = useRef(null)
-  const canvas = useRef(null)
-  const frames = useRef([])
-  const current = useRef(0)
-  const stepRef = useRef(0)
-  const [step, setStep] = useState(0)
-  const scrub = !reduceMotion
-
-  useEffect(() => {
-    if (!scrub) return
-    const c = canvas.current
-    const stride = mq('(min-width: 1024px)') ? 1 : 2 // phones load every second frame
-    const count = Math.ceil(SEQ_FRAMES / stride)
-    const draw = (i) => {
-      const img = frames.current[i]
-      if (!img || !img.complete || !img.naturalWidth) return
-      const ctx2d = c.getContext('2d')
-      const s = Math.max(c.width / img.naturalWidth, c.height / img.naturalHeight)
-      const w = img.naturalWidth * s, h = img.naturalHeight * s
-      ctx2d.drawImage(img, (c.width - w) / 2, (c.height - h) / 2, w, h)
-    }
-    const size = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
-      c.width = Math.round(c.clientWidth * dpr)
-      c.height = Math.round(c.clientHeight * dpr)
-      draw(current.current)
-    }
-    for (let i = 0; i < count; i++) {
-      const img = new Image()
-      img.onload = () => { if (i === current.current) draw(i) }
-      img.src = SEQ(Math.min(SEQ_FRAMES - 1, i * stride))
-      frames.current[i] = img
-    }
-    size()
-    const ro = new ResizeObserver(size)
-    ro.observe(c)
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        trigger: section.current, start: 'top top', end: '+=260%', pin: true,
-        onUpdate: (self) => {
-          const i = Math.round(self.progress * (count - 1))
-          if (i !== current.current) { current.current = i; draw(i) }
-          const st = Math.min(CAPABILITIES.length - 1, Math.floor(self.progress * CAPABILITIES.length))
-          if (st !== stepRef.current) { stepRef.current = st; setStep(st) }
-        },
-      })
-    }, section)
-    return () => { ro.disconnect(); ctx.revert() }
-  }, [scrub])
-
+/* ---------------------------------------------------------------- The agent you will know how to build */
+function Agent() {
   return (
-    <section id="agent" ref={section} className="bg-surface">
-      <div className={`page flex flex-col justify-center gap-7 py-16 lg:grid lg:grid-cols-12 lg:items-center lg:gap-14 ${scrub ? 'h-[100dvh] min-h-[640px] pt-20' : 'lg:py-32'}`}>
-        <div className="lg:order-2 lg:col-span-7">
-          <div className="media aspect-video max-lg:-mx-5 max-lg:rounded-none sm:max-lg:-mx-8">
-            {scrub
-              ? <canvas ref={canvas} className="absolute inset-0 h-full w-full" role="img" aria-label="הסוכן עומד על במה, ובזה אחר זה נדלקים סביבו חמישה כדורי אור שמתחברים אליו" />
-              : <img src={IMG('m-tools')} alt="הסוכן עומד על במה, וסביבו חמישה כדורי אור שמחוברים אליו" className="absolute inset-0 h-full w-full object-cover" />}
-          </div>
-        </div>
-        <div className="lg:order-1 lg:col-span-5">
-          <h2 className="text-[2rem] sm:text-5xl lg:text-[3.4rem]">זה הסוכן שתדעו לבנות</h2>
-          {scrub && (
-            <div className="mt-5 flex gap-1.5 lg:hidden" aria-hidden="true">
-              {CAPABILITIES.map((c, i) => <span key={c.title} className={`h-1 flex-1 rounded-full transition-colors duration-500 ${i <= step ? 'bg-accent' : 'bg-line'}`} />)}
-            </div>
-          )}
-          <ol className={`mt-6 lg:mt-9 lg:space-y-6 ${scrub ? 'max-lg:relative max-lg:min-h-[11.5rem]' : 'space-y-6'}`}>
-            {CAPABILITIES.map((c, i) => {
-              const active = !scrub || i === step
-              return (
-                <li key={c.title} className={`border-accent transition-[opacity,border-color] duration-500 lg:border-s-[3px] lg:ps-5 ${scrub ? 'max-lg:absolute max-lg:inset-x-0 max-lg:top-0' : ''} ${active ? 'opacity-100' : 'opacity-0 lg:border-transparent lg:opacity-35'}`}>
-                  <h3 className="text-xl sm:text-2xl">{c.title}</h3>
-                  <p className="mt-1.5 text-muted">{c.text}</p>
-                </li>
-              )
-            })}
+    <section id="agent" className="bg-surface">
+      <div className="page grid items-center gap-10 py-20 lg:grid-cols-12 lg:gap-14 lg:py-28">
+        <div className="lg:col-span-5">
+          <h2 className="rv text-4xl sm:text-5xl lg:text-[3.4rem]">זה הסוכן שתדעו לבנות</h2>
+          <ol className="rv mt-8 space-y-6">
+            {CAPABILITIES.map((c) => (
+              <li key={c.title} className="border-s-[3px] border-accent ps-5">
+                <h3 className="text-xl sm:text-2xl">{c.title}</h3>
+                <p className="mt-1.5 text-muted">{c.text}</p>
+              </li>
+            ))}
           </ol>
+        </div>
+        <div className="rv media aspect-video lg:col-span-7">
+          <img src={IMG('m-tools')} alt="הסוכן עומד על במה, וסביבו חמישה כדורי אור שמחוברים אליו" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
         </div>
       </div>
     </section>
   )
 }
 
-/* ---------------------------------------------------------------- Projects: a reel of eight clips, one per project.
-   Desktop: the section pins and the reel pans sideways with the scroll. Phones: swipe. */
+/* ---------------------------------------------------------------- Projects: eight stills, one per project */
 function Projects() {
-  const wrap = useRef(null)
-  const track = useRef(null)
-  const [pan, setPan] = useState(false)
-  useEffect(() => { setPan(!reduceMotion && mq('(min-width: 1024px)')) }, [])
-  useEffect(() => {
-    if (!pan) return
-    const ctx = gsap.context(() => {
-      const dist = () => track.current.scrollWidth - wrap.current.clientWidth
-      gsap.to(track.current, {
-        x: () => dist(), ease: 'none', // RTL: the reel runs to the left, so it travels right
-        scrollTrigger: { trigger: wrap.current, start: 'top top', end: () => `+=${dist()}`, pin: true, scrub: 0.6, invalidateOnRefresh: true },
-      })
-    }, wrap)
-    return () => ctx.revert()
-  }, [pan])
   return (
-    <section id="projects" ref={wrap} className={`overflow-hidden ${pan ? 'flex h-[100dvh] min-h-[680px] flex-col justify-center pt-16' : 'py-20 lg:py-32'}`}>
-      <div className="page">
-        <h2 className="max-w-[18ch] text-4xl sm:text-5xl lg:text-6xl">8 פרויקטים, כל אחד <span className="mark">מערכת עובדת</span></h2>
-        <p className="mt-4 max-w-xl text-lg text-muted sm:text-xl">לכל סוכן תפקיד משלו. אלה המערכות שבונים לאורך הקורס, מאפס.</p>
-      </div>
-      <ul ref={track} className={`mt-9 flex gap-4 ps-5 sm:gap-5 sm:ps-8 lg:ps-[max(2rem,calc((100vw-1240px)/2+2rem))] ${pan ? 'w-max pe-[30vw] will-change-transform' : 'snap-x snap-mandatory overflow-x-auto pe-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'}`}>
+    <section id="projects" className="page py-20 lg:py-28">
+      <h2 className="rv max-w-[18ch] text-4xl sm:text-5xl lg:text-6xl">8 פרויקטים, כל אחד <span className="mark">מערכת עובדת</span></h2>
+      <p className="rv mt-4 max-w-xl text-lg text-muted sm:text-xl">לכל סוכן תפקיד משלו. אלה המערכות שבונים לאורך הקורס, מאפס.</p>
+      <ul className="mt-10 grid grid-cols-2 gap-x-4 gap-y-9 sm:gap-x-6 lg:grid-cols-4">
         {PROJECTS.map(([title, text], i) => (
-          <li key={title} className="w-[68vw] max-w-[300px] flex-none snap-start lg:w-[min(300px,28dvh)]">
-            <div className="media aspect-[9/16]"><Clip name={`p${i + 1}`} alt={`סוכן בעבודה: ${title}`} /></div>
-            <h3 className="mt-4 text-xl leading-snug">{title}</h3>
-            <p className="mt-1.5 text-muted">{text}</p>
+          <li key={title} className="rv">
+            <div className="media aspect-[4/5]">
+              <img src={IMG(`p${i + 1}`)} alt={`סוכן בעבודה: ${title}`} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
+            </div>
+            <h3 className="mt-3 text-lg leading-snug sm:text-xl">{title}</h3>
+            <p className="mt-1 text-base text-muted">{text}</p>
           </li>
         ))}
       </ul>
@@ -359,7 +235,7 @@ function Syllabus() {
   )
 }
 
-/* ---------------------------------------------------------------- Roles: one sentence, set large, with the team clip */
+/* ---------------------------------------------------------------- Roles: one sentence, set large, with the team picture */
 function Roles() {
   return (
     <section className="page py-24 lg:py-32">
@@ -371,35 +247,7 @@ function Roles() {
       </p>
       <p className="rv mt-8 max-w-xl text-lg text-muted sm:text-xl">בארגונים בינוניים וגדולים, או כעצמאים שמטמיעים AI ואוטומציה אצל לקוחות.</p>
       <div className="rv media mt-12 aspect-video lg:aspect-[21/9]">
-        <Clip name="m-team" alt="חמישה סוכנים בצבעים שונים עומדים בשורה, לכל אחד אביזר אחר: אוזניות, זכוכית מגדלת, גרף, לוח שנה ומעטפה" />
-      </div>
-    </section>
-  )
-}
-
-/* ---------------------------------------------------------------- A real 3D model of the agent. Drag to spin it. */
-function Stage() {
-  const ref = useRef(null)
-  const [near, setNear] = useState(false)
-  useEffect(() => {
-    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setNear(true); io.disconnect() } }, { rootMargin: '600px' })
-    io.observe(ref.current)
-    return () => io.disconnect()
-  }, [])
-  return (
-    <section ref={ref} className="relative overflow-hidden bg-surface py-20 lg:py-28">
-      <div className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 select-none overflow-hidden" aria-hidden="true" dir="ltr">
-        <div className="type-run flex w-max gap-[0.4em] whitespace-nowrap font-display text-[32vw] font-semibold leading-none text-ink/[0.06] lg:text-[20vw]">
-          <span>AI AGENT</span><span>AI AGENT</span><span>AI AGENT</span><span>AI AGENT</span>
-        </div>
-      </div>
-      <div className="page relative text-center">
-        <h2 className="rv text-4xl sm:text-5xl lg:text-6xl">קחו אותו לסיבוב</h2>
-        <p className="rv mt-3 text-lg text-muted">מודל תלת-ממדי בזמן אמת. גררו כדי לסובב.</p>
-        <div className="relative mx-auto mt-2 aspect-square w-full max-w-[560px]">
-          <div className="pointer-events-none absolute inset-x-[22%] bottom-[13%] h-[7%] rounded-[50%] bg-ink/20 blur-xl" aria-hidden="true" />
-          {near && <Suspense fallback={null}><Mascot3D url={`${import.meta.env.BASE_URL}model/mascot`} /></Suspense>}
-        </div>
+        <img src={IMG('m-team')} alt="חמישה סוכנים בצבעים שונים עומדים בשורה, לכל אחד אביזר אחר: אוזניות, זכוכית מגדלת, גרף, לוח שנה ומעטפה" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
       </div>
     </section>
   )
@@ -633,12 +481,9 @@ export default function App() {
   useEffect(() => {
     const io = new IntersectionObserver((entries) => {
       entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target) } })
-    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' })
+    }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' })
     document.querySelectorAll('.rv').forEach((el) => io.observe(el))
-    const refresh = () => ScrollTrigger.refresh()
-    window.addEventListener('load', refresh)
-    document.fonts?.ready.then(refresh)
-    return () => { io.disconnect(); window.removeEventListener('load', refresh) }
+    return () => io.disconnect()
   }, [])
   return (
     <>
@@ -647,12 +492,11 @@ export default function App() {
       <main>
         <Hero heroRef={heroRef} />
         <Facts />
-        <Projects />
         <Statement />
-        <AgentSequence />
+        <Agent />
+        <Projects />
         <Syllabus />
         <Roles />
-        <Stage />
         <Credentials />
         <Funding />
         <Faq />
