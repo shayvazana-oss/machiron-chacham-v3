@@ -100,61 +100,47 @@ function Nav() {
 }
 
 /* ---------------------------------------------------------------- Hero.
-   Phone: one full-screen vertical clip. Desktop: the headline beside a drifting wall of the agents at work. */
-const WALL = [['p1', 'p2', 'p3'], ['p5', 'm-hero-v', 'p4'], ['p6', 'p7', 'p8']]
+   The message on a clean page, beside two clips: a person starts the agents, and they get to work around them. */
+const PEOPLE = [
+  { clip: 'h-man', alt: 'גבר יושב מול מחשב, לוחץ על מקש ונשען לאחור עם קפה, וסביבו סוכנים קטנים מתחילים לעבוד', caption: 'הוא מפעיל. הסוכנים מתחילים לעבוד.' },
+  { clip: 'h-woman', alt: 'אישה יושבת על ספה עם לפטופ, מקישה ומרימה את הראש, וסביבה סוכנים קטנים עסוקים במשימות', caption: 'היא ממשיכה ביום שלה. הם ברקע.' },
+]
 function Hero({ heroRef }) {
   const root = useRef(null)
-  const [wide, setWide] = useState(false)
-  useEffect(() => { setWide(mq('(min-width: 1024px)')) }, [])
   useEffect(() => {
     if (reduceMotion) return
     const ctx = gsap.context(() => {
       gsap.from('.hw', { yPercent: 115, duration: 1.1, ease: 'expo.out', stagger: 0.08, delay: 0.1 })
-      gsap.from('.hf', { opacity: 0, y: 24, duration: 0.9, ease: 'power3.out', stagger: 0.1, delay: 0.75 })
-      gsap.from('.wall-col', { yPercent: 18, opacity: 0, duration: 1.4, ease: 'expo.out', stagger: 0.12, delay: 0.2 })
+      gsap.from('.hf', { opacity: 0, y: 24, duration: 0.9, ease: 'power3.out', stagger: 0.1, delay: 0.7 })
+      gsap.from('.hero-clip', { opacity: 0, y: 60, duration: 1.2, ease: 'expo.out', stagger: 0.15, delay: 0.25 })
     }, root)
     return () => ctx.revert()
-  }, [wide])
+  }, [])
   const words = (text) => text.split(' ').map((w, i) => (
     <Fragment key={i}><span className="inline-block overflow-hidden pb-[0.12em] align-bottom"><span className="hw inline-block">{w}</span></span> </Fragment>
   ))
   return (
-    <section id="home" ref={heroRef} className="relative overflow-hidden bg-night text-white">
-      <div ref={root} className="relative flex h-[100dvh] min-h-[620px] flex-col justify-end pt-16 lg:max-h-[1000px] lg:justify-center">
-        {wide ? (
-          <div className="absolute inset-y-0 left-0 w-[56%] overflow-hidden" aria-hidden="true">
-            <div className="grid h-full origin-center rotate-[5deg] scale-[1.12] grid-cols-3 gap-4 px-4">
-              {WALL.map((col, c) => (
-                <div key={c} className={`wall-col ${c === 1 ? '-mt-40' : '-mt-10'}`}>
-                  <div className={`space-y-4 ${c === 1 ? 'drift-b' : 'drift-a'}`}>
-                    {col.map((name) => <div key={name} className="media aspect-[9/16]"><Clip name={name} eager /></div>)}
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-l from-night from-[4%] via-night/40 via-[26%] to-transparent to-[55%]" />
-            <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-night to-transparent" />
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-night to-transparent" />
+    <section id="home" ref={heroRef} className="page pb-12 pt-24 lg:pb-20 lg:pt-28">
+      <div ref={root} className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
+        <div className="lg:col-span-6">
+          <p className="hf text-base text-muted sm:text-lg">היחידה ללימודי חוץ ומפעל הסייבר של אלתא</p>
+          <h1 className="mt-3 text-[2.55rem] leading-[1.04] sm:text-6xl lg:text-[4.5rem]">
+            <span className="block whitespace-nowrap">{words('תבנו סוכני AI')}</span>
+            <span className="mark block whitespace-nowrap">{words('שעובדים בשבילכם')}</span>
+          </h1>
+          <p className="hf mt-5 max-w-md text-lg text-muted sm:text-xl">קורס מעשי של 160 שעות אקדמיות. בונים סוכני AI ואוטומציות עסקיות ומסיימים עם תעודת הסמכה ממשלתית.</p>
+          <div className="hf mt-7 flex flex-wrap items-center gap-3">
+            <a href="#contact" className="btn btn-accent">{CTA}<Arrow /></a>
+            <a href={`tel:${PHONE}`} className="btn ring-1 ring-inset ring-line transition-colors hover:bg-surface"><Phone size={18} weight="bold" aria-hidden="true" /><span dir="ltr">{PHONE}</span></a>
           </div>
-        ) : (
-          <>
-            <Clip eager name="m-hero-v" alt="הסוכן, דמות הקורס, קופץ על גג מול קו רקיע בשקיעה, וכדורי אור חגים סביבו" className="absolute inset-0 h-full w-full object-cover object-top" />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-night via-night/70 via-35% to-transparent to-65%" />
-          </>
-        )}
-        <div className="page relative pb-8 lg:pb-0">
-          <div className="max-w-xl">
-            <p className="hf text-base text-white/80 sm:text-lg">היחידה ללימודי חוץ ומפעל הסייבר של אלתא</p>
-            <h1 className="mt-3 text-[2.6rem] leading-[1.02] sm:text-6xl lg:text-[5.2rem]">
-              <span className="block whitespace-nowrap">{words('תבנו סוכני AI')}</span>
-              <span className="block whitespace-nowrap text-accent">{words('שעובדים בשבילכם')}</span>
-            </h1>
-            <p className="hf mt-5 max-w-md text-lg text-white/85 sm:text-xl">קורס מעשי של 160 שעות אקדמיות. בונים סוכני AI ואוטומציות עסקיות ומסיימים עם תעודת הסמכה ממשלתית.</p>
-            <div className="hf mt-7 flex flex-wrap items-center gap-3">
-              <a href="#contact" className="btn btn-accent">{CTA}<Arrow /></a>
-              <a href={`tel:${PHONE}`} className="btn text-white ring-1 ring-inset ring-white/45 transition-colors hover:bg-white/10"><Phone size={18} weight="bold" aria-hidden="true" /><span dir="ltr">{PHONE}</span></a>
-            </div>
-          </div>
+        </div>
+        <div className="grid grid-cols-2 items-start gap-3 sm:gap-5 lg:col-span-6">
+          {PEOPLE.map((p, i) => (
+            <figure key={p.clip} className={`hero-clip ${i === 1 ? 'lg:mt-16' : ''}`}>
+              <div className="media aspect-[9/16]"><Clip eager name={p.clip} alt={p.alt} /></div>
+              <figcaption className="mt-3 text-base leading-snug text-muted sm:text-lg">{p.caption}</figcaption>
+            </figure>
+          ))}
         </div>
       </div>
     </section>
@@ -373,20 +359,19 @@ function Syllabus() {
   )
 }
 
-/* ---------------------------------------------------------------- Roles: one sentence, set large over the team clip */
+/* ---------------------------------------------------------------- Roles: one sentence, set large, with the team clip */
 function Roles() {
   return (
-    <section className="relative overflow-hidden bg-night text-white">
-      <Clip name="m-team" className="absolute inset-0 h-full w-full object-cover opacity-45" />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-bg via-transparent to-bg" />
-      <div className="page relative py-28 lg:py-44">
-        <p className="rv max-w-[30ch] font-display text-[1.9rem] font-semibold leading-[1.28] sm:text-5xl sm:leading-[1.22] lg:text-[3.6rem]">
-          <span className="text-white/65">בוגרי הקורס משתלבים בתפקידים כמו </span>
-          {ROLES.map((r, i) => (
-            <Fragment key={r}>{r}<span className="text-white/65">{i < ROLES.length - 2 ? ', ' : i === ROLES.length - 2 ? ' או ' : '.'}</span></Fragment>
-          ))}
-        </p>
-        <p className="rv mt-8 max-w-xl text-lg text-white/80 sm:text-xl">בארגונים בינוניים וגדולים, או כעצמאים שמטמיעים AI ואוטומציה אצל לקוחות.</p>
+    <section className="page py-24 lg:py-32">
+      <p className="rv max-w-[30ch] font-display text-[1.9rem] font-semibold leading-[1.28] sm:text-5xl sm:leading-[1.22] lg:text-[3.6rem]">
+        <span className="text-muted">בוגרי הקורס משתלבים בתפקידים כמו </span>
+        {ROLES.map((r, i) => (
+          <Fragment key={r}>{r}<span className="text-muted">{i < ROLES.length - 2 ? ', ' : i === ROLES.length - 2 ? ' או ' : '.'}</span></Fragment>
+        ))}
+      </p>
+      <p className="rv mt-8 max-w-xl text-lg text-muted sm:text-xl">בארגונים בינוניים וגדולים, או כעצמאים שמטמיעים AI ואוטומציה אצל לקוחות.</p>
+      <div className="rv media mt-12 aspect-video lg:aspect-[21/9]">
+        <Clip name="m-team" alt="חמישה סוכנים בצבעים שונים עומדים בשורה, לכל אחד אביזר אחר: אוזניות, זכוכית מגדלת, גרף, לוח שנה ומעטפה" />
       </div>
     </section>
   )
@@ -402,7 +387,7 @@ function Stage() {
     return () => io.disconnect()
   }, [])
   return (
-    <section ref={ref} className="relative overflow-hidden py-20 lg:py-28">
+    <section ref={ref} className="relative overflow-hidden bg-surface py-20 lg:py-28">
       <div className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 select-none overflow-hidden" aria-hidden="true" dir="ltr">
         <div className="type-run flex w-max gap-[0.4em] whitespace-nowrap font-display text-[32vw] font-semibold leading-none text-ink/[0.06] lg:text-[20vw]">
           <span>AI AGENT</span><span>AI AGENT</span><span>AI AGENT</span><span>AI AGENT</span>
@@ -411,7 +396,8 @@ function Stage() {
       <div className="page relative text-center">
         <h2 className="rv text-4xl sm:text-5xl lg:text-6xl">קחו אותו לסיבוב</h2>
         <p className="rv mt-3 text-lg text-muted">מודל תלת-ממדי בזמן אמת. גררו כדי לסובב.</p>
-        <div className="mx-auto mt-2 aspect-square w-full max-w-[560px]">
+        <div className="relative mx-auto mt-2 aspect-square w-full max-w-[560px]">
+          <div className="pointer-events-none absolute inset-x-[22%] bottom-[13%] h-[7%] rounded-[50%] bg-ink/20 blur-xl" aria-hidden="true" />
           {near && <Suspense fallback={null}><Mascot3D url={`${import.meta.env.BASE_URL}model/mascot`} /></Suspense>}
         </div>
       </div>
@@ -440,8 +426,8 @@ function Credentials() {
         </div>
       </div>
       {/* The partner logos are the organisations' own artwork, so they sit on white in both themes. */}
-      <div className="rv mt-16 rounded-media bg-white px-6 py-10 sm:px-12 sm:py-12">
-        <p className="max-w-2xl text-lg text-[#40463D]">היחידה ללימודי חוץ מובילה מזה שלוש שנים את חממת התעסוקה של שירות התעסוקה, עם מעל 80% השמה. בין השותפים והגופים שאיתם היא עובדת:</p>
+      <div className="rv mt-16 rounded-media border border-line bg-white px-6 py-10 sm:px-12 sm:py-12">
+        <p className="max-w-2xl text-lg text-muted">היחידה ללימודי חוץ מובילה מזה שלוש שנים את חממת התעסוקה של שירות התעסוקה, עם מעל 80% השמה. בין השותפים והגופים שאיתם היא עובדת:</p>
         <ul className="mt-10 grid grid-cols-2 items-center gap-x-8 gap-y-10 sm:grid-cols-5">
           {LOGOS.map(([file, name]) => (
             <li key={file} className="flex justify-center"><img src={LOGO(file)} alt={name} loading="lazy" className="max-h-14 w-auto max-w-[9.5rem] object-contain" /></li>
@@ -455,7 +441,7 @@ function Credentials() {
 /* ---------------------------------------------------------------- Funding: three rows, not three cards */
 function Funding() {
   return (
-    <section id="funding" className="bg-surface py-24 lg:py-32">
+    <section id="funding" className="py-24 lg:py-32">
       <div className="page">
         <h2 className="rv text-4xl sm:text-5xl lg:text-6xl">שלושה מסלולי מימון</h2>
         <p className="rv mt-5 max-w-xl text-lg text-muted sm:text-xl">בשיחת הייעוץ בודקים יחד איזה מסלול מתאים לכם.</p>
@@ -478,7 +464,7 @@ function Funding() {
 function Faq() {
   const [open, setOpen] = useState(0)
   return (
-    <section id="faq" className="page py-24 lg:py-32">
+    <section id="faq" className="bg-surface"><div className="page py-24 lg:py-32">
       <h2 className="rv text-4xl sm:text-5xl lg:text-6xl">שאלות נפוצות</h2>
       <div className="mt-12 grid gap-x-14 lg:grid-cols-12">
         <ul className="lg:col-span-5">
@@ -494,13 +480,13 @@ function Faq() {
           ))}
         </ul>
         <div className="hidden lg:col-span-7 lg:block">
-          <div key={open} className="fade-in rounded-media bg-surface p-10 xl:p-12">
+          <div key={open} className="fade-in rounded-media bg-bg p-10 xl:p-12">
             <h3 className="text-3xl">{FAQS[open][0]}</h3>
             <p className="mt-5 text-xl leading-relaxed text-muted">{FAQS[open][1]}</p>
           </div>
         </div>
       </div>
-    </section>
+    </div></section>
   )
 }
 
@@ -523,8 +509,8 @@ function Field({ label, id, error, ...props }) {
     <div>
       <label htmlFor={id} className="mb-2 block font-medium">{label}</label>
       <input id={id} name={id} aria-invalid={error ? 'true' : undefined} {...props}
-        className={`w-full rounded-field border bg-bg px-4 py-3.5 text-lg text-ink placeholder:text-muted/60 transition-colors focus:border-ink focus:outline-none ${error ? 'border-[#FF9A85]' : 'border-line'}`} />
-      {error && <p className="mt-1.5 text-[#FF9A85]">{error}</p>}
+        className={`w-full rounded-field border bg-surface px-4 py-3.5 text-lg text-ink placeholder:text-muted/70 transition-colors focus:border-ink focus:outline-none ${error ? 'border-[#C2412C]' : 'border-line'}`} />
+      {error && <p className="mt-1.5 text-[#C2412C]">{error}</p>}
     </div>
   )
 }
@@ -569,7 +555,7 @@ function Contact({ contactRef }) {
     }
   }
   return (
-    <section id="contact" ref={contactRef} className="page pb-16 lg:pb-24">
+    <section id="contact" ref={contactRef} className="page py-16 lg:py-24">
       <div className="grid gap-10 rounded-media bg-accent p-6 text-accent-ink sm:p-10 lg:grid-cols-2 lg:gap-14 lg:p-16">
         <div className="flex flex-col">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl">למדו לבנות AI, לפני שהשוק יתקדם בלעדיכם</h2>
@@ -577,7 +563,7 @@ function Contact({ contactRef }) {
           <a href={`tel:${PHONE}`} className="mt-7 inline-flex items-center gap-3 self-start font-display text-4xl font-semibold"><Phone size={30} weight="fill" aria-hidden="true" /><span dir="ltr">{PHONE}</span></a>
           <img src={IMG('m-cut-wave')} alt="" loading="lazy" className="mt-auto hidden w-44 self-end pt-8 lg:block" />
         </div>
-        <div className="rounded-media bg-surface p-6 text-ink sm:p-9">
+        <div className="rounded-media bg-bg p-6 text-ink sm:p-9">
           {status === 'sent' ? (
             <div className="flex min-h-[26rem] flex-col items-center justify-center text-center" role="status">
               <img src={IMG('m-cut-wave')} alt="" className="w-32" />
@@ -602,10 +588,10 @@ function Contact({ contactRef }) {
               <div className="space-y-2.5 text-base text-muted">
                 <label className="flex gap-2.5"><input type="checkbox" name="consent_marketing" className="mt-1 h-4 w-4 flex-none accent-[rgb(var(--ink))]" /><span>מאשר/ת קבלת דיוור מהיחידה ללימודי חוץ בהתאם למדיניות הפרטיות</span></label>
                 <label className="flex gap-2.5"><input type="checkbox" name="consent_terms" required className="mt-1 h-4 w-4 flex-none accent-[rgb(var(--ink))]" /><span>מאשר/ת שקראתי את <a className="text-ink underline" href={PRIVACY_URL} target="_blank" rel="noopener">מדיניות הפרטיות</a> ואת <a className="text-ink underline" href={TERMS_URL} target="_blank" rel="noopener">תקנון האתר</a></span></label>
-                {errors.terms && <p className="text-[#FF9A85]">{errors.terms}</p>}
+                {errors.terms && <p className="text-[#C2412C]">{errors.terms}</p>}
               </div>
               <button type="submit" disabled={status === 'sending'} className="btn btn-ink w-full disabled:opacity-60">{status === 'sending' ? 'שולחים...' : <>{CTA}<Arrow /></>}</button>
-              {errors.form && <p role="alert" className="text-[#FF9A85]">{errors.form}</p>}
+              {errors.form && <p role="alert" className="text-[#C2412C]">{errors.form}</p>}
             </form>
           )}
         </div>

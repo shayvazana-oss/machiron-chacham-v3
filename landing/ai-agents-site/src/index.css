@@ -5,16 +5,17 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Tokens. One dark theme for the whole page, so the clips sit on it without a seam. */
+/* Tokens. One light theme: a white page, soft grey bands, near-black type and one blue accent.
+   The colour on the page comes from the clips and the mascot. */
 :root {
-  color-scheme: dark;
-  --bg: 12 15 11;
-  --surface: 22 26 20;
-  --ink: 240 242 235;
-  --muted: 160 168 154;
-  --line: 44 50 41;
-  --accent: 200 255 77;
-  --accent-ink: 20 24 18;
+  color-scheme: light;
+  --bg: 255 255 255;
+  --surface: 244 245 247;
+  --ink: 17 20 28;
+  --muted: 88 94 108;
+  --line: 222 225 231;
+  --accent: 36 71 249;
+  --accent-ink: 255 255 255;
 }
 
 @layer base {
