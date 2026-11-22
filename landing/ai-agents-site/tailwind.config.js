@@ -2,6 +2,7 @@
 const token = (name) => `rgb(var(--${name}) / <alpha-value>)`
 
 export default {
+  future: { hoverOnlyWhenSupported: true }, // no sticky hover styles after a tap on touch screens
   content: ['./index.html', './src/**/*.{js,jsx}'],
   theme: {
     extend: {

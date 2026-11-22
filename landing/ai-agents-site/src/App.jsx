@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
-import { ArrowLeft, Phone, Pause, Play, List, X } from '@phosphor-icons/react'
+import { ArrowLeft, Phone, Pause, Play, List, X, Desktop, DeviceMobile, CheckCircle, Check, Lightbulb, TrendUp } from '@phosphor-icons/react'
 import {
-  IMG, VID, LOGO, PHONE, PRIVACY_URL, TERMS_URL, NAV_LINKS, FACTS, CAPABILITIES,
+  IMG, LOGO, PHONE, PRIVACY_URL, TERMS_URL, NAV_LINKS, FACTS, CAPABILITIES,
   PROJECTS, PHASES, ROLES, CERTS, LOGOS, TRACKS, FAQS,
 } from './data.js'
 
@@ -20,34 +20,166 @@ function useOnScreen(ref, options) {
   return on
 }
 
-/* The one video on the page. It plays only while on screen and the visitor can pause it.
-   With reduced motion it stays on its poster until the visitor presses play. */
-function StoryVideo({ name, alt }) {
-  const ref = useRef(null)
-  const wanted = useRef(!reduceMotion)
-  const visible = useOnScreen(ref, { threshold: 0.25 })
-  const [playing, setPlaying] = useState(false)
-  useEffect(() => {
-    const v = ref.current
-    if (!v) return
-    if (visible && wanted.current) v.play().catch(() => {})
-    else v.pause()
-  }, [visible])
-  const toggle = () => {
-    const v = ref.current
-    wanted.current = v.paused
-    if (v.paused) v.play().catch(() => {})
-    else v.pause()
-  }
+/* ---------------------------------------------------------------- Agents at work.
+   A live demo in the page, not a video: someone asks in one sentence, and an agent builds the thing in front of you.
+   Three jobs run one after another. Only transform and opacity animate, and everything stops while off screen or paused. */
+const JOB_SECONDS = 6.2
+const JOBS = [
+  { tab: 'בונה אתר', who: 'man', from: 'מהמחשב', Icon: Desktop, ask: 'תבנה לי דף נחיתה למבצע החדש', busy: 'בונה את הדף', done: 'דף הנחיתה באוויר', hue: 0 },
+  { tab: 'מרים קמפיין', who: 'woman', from: 'מהטלפון', Icon: DeviceMobile, ask: 'תרים לי קמפיין לרשתות', busy: 'מכין את המודעות', done: 'הקמפיין עלה לאוויר', hue: -52 },
+  { tab: 'מנתח נתונים', who: 'man', from: 'מהמחשב', Icon: Desktop, ask: 'תנתח לי את נתוני החודש', busy: 'עובר על הנתונים', done: 'הדוח מוכן, עם תובנות', hue: 108 },
+]
+const d = (seconds) => ({ '--d': `${seconds}s` })
+const Bar = ({ w, className = '' }) => <span className={`block h-1.5 rounded-full bg-line ${className}`} style={{ width: w }} />
+
+function SiteJob() {
   return (
-    <>
-      <video ref={ref} src={VID(name)} poster={IMG(name)} muted loop playsInline preload="metadata" aria-label={alt}
-        onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} className="absolute inset-0 h-full w-full object-cover" />
-      <button type="button" onClick={toggle} aria-label={playing ? 'השהיית הסרטון' : 'הפעלת הסרטון'}
-        className="absolute bottom-4 left-4 grid h-11 w-11 place-items-center rounded-full bg-night/60 text-white transition-colors hover:bg-night/85">
-        {playing ? <Pause size={16} weight="fill" /> : <Play size={16} weight="fill" />}
-      </button>
-    </>
+    <div className="flex h-full flex-col">
+      <div className="flex items-center gap-1.5 border-b border-line px-3 py-2">
+        <i className="h-2 w-2 rounded-full bg-line" /><i className="h-2 w-2 rounded-full bg-line" /><i className="h-2 w-2 rounded-full bg-line" />
+        <span className="ms-2 h-4 flex-1 rounded-full bg-surface" />
+      </div>
+      <div className="flex flex-1 flex-col justify-between p-3">
+        <div className="b flex items-center justify-between" style={d(0.6)}>
+          <span className="h-4 w-4 rounded-md bg-accent" />
+          <span className="flex items-center gap-2"><Bar w={26} /><Bar w={26} /><Bar w={26} /></span>
+        </div>
+        <div className="grid grid-cols-5 items-center gap-3">
+          <div className="col-span-3">
+            <p className="b font-display text-[1.05rem] font-semibold leading-tight" style={d(1.0)}>המבצע של החודש</p>
+            <span className="b mt-2 block" style={d(1.3)}><Bar w="92%" /><Bar w="64%" className="mt-1.5" /></span>
+            <span className="b mt-3 inline-block rounded-full bg-accent px-3.5 py-1 font-display text-xs font-semibold text-accent-ink" style={d(1.9)}>להרשמה</span>
+          </div>
+          <div className="b col-span-2 aspect-square overflow-hidden rounded-xl bg-surface" style={d(1.6)}>
+            <img src={IMG('m-build')} alt="" className="h-full w-full object-cover" />
+          </div>
+        </div>
+        <div className="grid grid-cols-3 gap-2">
+          {[2.3, 2.5, 2.7].map((t) => (
+            <div key={t} className="b rounded-lg p-2 ring-1 ring-line" style={d(t)}>
+              <span className="mb-1.5 block h-3 w-3 rounded-full bg-accent/25" /><Bar w="85%" /><Bar w="55%" className="mt-1" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function CampaignJob() {
+  const ads = ['p2', 'p7', 'p1']
+  const channels = ['פייסבוק', 'אינסטגרם', 'וואטסאפ']
+  return (
+    <div className="flex h-full flex-col justify-between p-3">
+      <div className="grid grid-cols-3 gap-2">
+        {ads.map((name, i) => (
+          <div key={name} className="b overflow-hidden rounded-xl ring-1 ring-line" style={d(0.6 + i * 0.35)}>
+            <img src={IMG(name)} alt="" className="aspect-square w-full object-cover" />
+            <div className="p-2">
+              <Bar w="90%" /><Bar w="60%" className="mt-1" />
+              <span className="mt-2 block rounded-full bg-accent py-0.5 text-center font-display text-[0.65rem] font-semibold text-accent-ink">לפרטים</span>
+            </div>
+          </div>
+        ))}
+      </div>
+      <ul className="flex flex-wrap gap-1.5">
+        {channels.map((c, i) => (
+          <li key={c} className="b flex items-center gap-1 rounded-full bg-surface px-2.5 py-1 text-xs font-semibold" style={d(2.0 + i * 0.4)}>
+            <Check size={12} weight="bold" className="text-accent" aria-hidden="true" />{c}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+function DataJob() {
+  const bars = [34, 48, 42, 62, 56, 84]
+  const line = bars.map((h, i) => `${35 + i * 46},${96 - h - 10}`).join(' ')
+  return (
+    <div className="flex h-full flex-col justify-between p-3">
+      <div className="grid grid-cols-2 gap-2">
+        {['לידים', 'המרות'].map((k, i) => (
+          <div key={k} className="b flex items-center justify-between rounded-lg px-3 py-2 ring-1 ring-line" style={d(0.6 + i * 0.2)}>
+            <span className="text-sm font-semibold">{k}</span>
+            <TrendUp size={18} weight="bold" className="text-accent" aria-hidden="true" />
+          </div>
+        ))}
+      </div>
+      <svg viewBox="0 0 300 100" className="w-full" aria-hidden="true">
+        <line x1="10" y1="96.5" x2="290" y2="96.5" stroke="rgb(var(--line))" />
+        {bars.map((h, i) => (
+          <rect key={i} className="grow" style={d(1.0 + i * 0.14)} x={22 + i * 46} y={96 - h} width="26" height={h} rx="5"
+            fill="rgb(var(--accent))" fillOpacity={i === bars.length - 1 ? 1 : 0.2} />
+        ))}
+        <polyline className="draw" style={d(2.0)} points={line} pathLength="1" fill="none" stroke="rgb(var(--ink))" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+      <p className="b flex items-center gap-2 rounded-lg bg-surface px-3 py-2 text-sm font-semibold leading-snug" style={d(2.9)}>
+        <Lightbulb size={18} weight="fill" className="shrink-0 text-accent" aria-hidden="true" />הסוכן סימן חריגה אחת ושתי הזדמנויות
+      </p>
+    </div>
+  )
+}
+
+const JOB_VIEWS = [SiteJob, CampaignJob, DataJob]
+
+function AgentsAtWork() {
+  const ref = useRef(null)
+  const visible = useOnScreen(ref, { threshold: 0.3 })
+  const [active, setActive] = useState(0)
+  const [auto, setAuto] = useState(true)
+  const job = JOBS[active]
+  const View = JOB_VIEWS[active]
+  const halted = !reduceMotion && (!visible || !auto)
+  return (
+    <div ref={ref} className={`stage rounded-media bg-surface p-3 sm:p-4 ${halted ? 'halt' : ''}`}>
+      <div className="flex items-stretch gap-1.5">
+        {JOBS.map((j, i) => (
+          <button key={j.tab} type="button" onClick={() => setActive(i)} aria-pressed={i === active}
+            className={`relative min-h-[44px] flex-1 font-display text-[0.82rem] font-semibold transition-colors sm:text-sm ${i === active ? 'text-ink' : 'text-muted hover:text-ink'}`}>
+            {j.tab}
+            <span className="absolute inset-x-1 bottom-0 h-[3px] overflow-hidden rounded-full bg-line">
+              {i === active && (reduceMotion
+                ? <span className="block h-full bg-accent" />
+                : <span key={active} className="prog block h-full bg-accent" style={{ '--t': `${JOB_SECONDS}s` }} onAnimationEnd={() => setActive((active + 1) % JOBS.length)} />)}
+            </span>
+          </button>
+        ))}
+        {!reduceMotion && (
+          <button type="button" onClick={() => setAuto(!auto)} aria-label={auto ? 'השהיית ההדגמה' : 'הפעלת ההדגמה'}
+            className="grid w-11 shrink-0 place-items-center rounded-full text-muted transition-colors hover:text-ink">
+            {auto ? <Pause size={15} weight="fill" /> : <Play size={15} weight="fill" />}
+          </button>
+        )}
+      </div>
+
+      <p className="sr-only">הדגמה: מבקשים במשפט אחד, והסוכן מבצע. {JOBS.map((j) => `${j.ask}: ${j.done}.`).join(' ')}</p>
+
+      <div key={active} aria-hidden="true">
+        <div className="b mt-3 flex items-center gap-2.5" style={d(0)}>
+          <img src={IMG(`av-${job.who}`)} alt="" width="40" height="40" className="h-10 w-10 shrink-0 rounded-full object-cover" />
+          <div className="rounded-2xl rounded-ss-md bg-bg px-3.5 py-2 ring-1 ring-line">
+            <p className="flex items-center gap-1 text-xs text-muted"><job.Icon size={13} weight="bold" />{job.from}</p>
+            <p className="font-display text-[0.95rem] font-semibold leading-snug sm:text-base">{job.ask}</p>
+          </div>
+        </div>
+
+        <div className="mt-3 aspect-[4/3] overflow-hidden rounded-tile bg-bg ring-1 ring-line"><View /></div>
+
+        <div className="relative flex h-[4.75rem] items-center pe-24">
+          <p className="leave absolute flex items-center gap-2 font-display text-[0.95rem] font-semibold text-muted" style={d(3.6)}>
+            {job.busy}<span className="dots flex gap-1"><i /><i /><i /></span>
+          </p>
+          <p className="b flex items-center gap-1.5 font-display text-base font-semibold sm:text-lg" style={d(3.8)}>
+            <CheckCircle size={22} weight="fill" className="shrink-0 text-accent" />{job.done}
+          </p>
+          <div className="absolute -top-3 end-0 h-[5.5rem] w-[5.5rem]" style={{ filter: job.hue ? `hue-rotate(${job.hue}deg)` : undefined }}>
+            <span className="leave absolute inset-0" style={d(3.6)}><img src={IMG('m-cut')} alt="" className="bob h-full w-full object-contain" /></span>
+            <img src={IMG('m-cut-wave')} alt="" className="b absolute inset-0 h-full w-full object-contain" style={d(3.7)} />
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -90,12 +222,11 @@ function Nav() {
   )
 }
 
-/* ---------------------------------------------------------------- Hero: the message beside the one video.
-   The video shows a man at a computer and a woman with a laptop; each starts their agents, which get to work around them. */
+/* ---------------------------------------------------------------- Hero: the message beside the live demo */
 function Hero({ heroRef }) {
   return (
     <section id="home" ref={heroRef} className="page pb-12 pt-24 lg:pb-20 lg:pt-28">
-      <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
+      <div className="grid items-center gap-9 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-7">
           <p className="enter text-base text-muted sm:text-lg">היחידה ללימודי חוץ ומפעל הסייבר של אלתא</p>
           <h1 className="enter mt-3 text-[2.55rem] leading-[1.04] [animation-delay:80ms] sm:text-6xl lg:text-[4.75rem]">
@@ -108,11 +239,9 @@ function Hero({ heroRef }) {
             <a href={`tel:${PHONE}`} className="btn ring-1 ring-inset ring-line transition-colors hover:bg-surface"><Phone size={18} weight="bold" aria-hidden="true" /><span dir="ltr">{PHONE}</span></a>
           </div>
         </div>
-        <figure className="enter mx-auto w-full max-w-[380px] [animation-delay:200ms] lg:col-span-5">
-          <div className="media aspect-[9/16]">
-            <StoryVideo name="story" alt="גבר יושב מול מחשב, לוחץ על מקש ונשען לאחור עם קפה, וסוכנים קטנים וצבעוניים מתחילים לעבוד סביבו. אחריו אישה על ספה עם לפטופ מקישה ומתמתחת, והסוכנים שלה ממיינים כרטיסים, הופכים דפי לוח שנה ונושאים מעטפה." />
-          </div>
-          <figcaption className="mt-3 text-base leading-snug text-muted sm:text-lg">כל אחד מפעיל את הסוכנים שלו. הם עובדים ברקע, והיום ממשיך.</figcaption>
+        <figure className="enter mx-auto w-full max-w-[440px] [animation-delay:200ms] lg:col-span-5">
+          <AgentsAtWork />
+          <figcaption className="mt-3 text-base leading-snug text-muted sm:text-lg">מבקשים במשפט אחד. הסוכן שבניתם עושה את העבודה.</figcaption>
         </figure>
       </div>
     </section>

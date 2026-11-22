@@ -1,6 +1,5 @@
 const BASE = import.meta.env.BASE_URL
 export const IMG = (name) => `${BASE}img/${name}.webp`
-export const VID = (name) => `${BASE}video/${name}.mp4`
 export const LOGO = (name) => `${BASE}logos/${name}.webp`
 
 export const PHONE = '*3068'
