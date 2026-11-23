@@ -18,7 +18,7 @@ export default {
         night: '#0C0F0B', // fixed dark used on top of media, same in both themes
       },
       fontFamily: {
-        display: ['"Fredoka Variable"', 'system-ui', 'sans-serif'],
+        display: ['"Heebo Variable"', 'system-ui', 'sans-serif'],
         body: ['"Assistant Variable"', 'system-ui', 'sans-serif'],
       },
       // Radius rule: media and panels 24px, small tiles 16px, inputs 12px, buttons full pill.

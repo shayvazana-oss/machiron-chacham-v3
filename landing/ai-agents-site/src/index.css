@@ -1,4 +1,4 @@
-@import '@fontsource-variable/fredoka/wght.css';
+@import '@fontsource-variable/heebo/wght.css';
 @import '@fontsource-variable/assistant/wght.css';
 
 @tailwind base;
@@ -6,7 +6,7 @@
 @tailwind utilities;
 
 /* Tokens. One light theme: a white page, soft grey bands, near-black type and one blue accent.
-   The colour on the page comes from the clips and the mascot. */
+   A calm course page: the type and the facts carry it. */
 :root {
   color-scheme: light;
   --bg: 255 255 255;
@@ -21,7 +21,7 @@
 @layer base {
   html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; scroll-padding-top: 5rem; }
   body { @apply bg-bg font-body text-ink; font-size: 1.0625rem; line-height: 1.6; overflow-x: hidden; }
-  h1, h2, h3 { @apply font-display; font-weight: 600; line-height: 1.08; letter-spacing: -0.01em; text-wrap: balance; }
+  h1, h2, h3 { @apply font-display; font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; text-wrap: balance; }
   p { text-wrap: pretty; }
   ::selection { background: rgb(var(--accent)); color: rgb(var(--accent-ink)); }
   :focus-visible { outline: 2px solid rgb(var(--ink)); outline-offset: 3px; border-radius: 6px; }
@@ -33,7 +33,10 @@
   /* One emphasis device for the whole page: the accent colour on the words that matter. */
   .mark { color: rgb(var(--accent)); }
 
-  .btn { @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-display font-semibold; padding: 0.85rem 1.5rem; font-size: 1.0625rem;
+  .h2 { font-size: 1.75rem; }
+  @media (min-width: 640px) { .h2 { font-size: 2.25rem; } }
+
+  .btn { @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl font-display font-semibold; padding: 0.85rem 1.5rem; font-size: 1.0625rem;
     transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s, color 0.25s; }
   .btn:active { transform: scale(0.97); }
   .btn-accent { @apply bg-accent text-accent-ink; }
