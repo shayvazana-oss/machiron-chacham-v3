@@ -380,6 +380,59 @@ function LeadForm({ place, full = false }) {
   )
 }
 
+/* ---------------------------------------------------------------- Hero film.
+   Cut from the project clips: a person hands the task to AI, each agent goes to its own job, and the person is back on coffee.
+   A tall cut for portrait screens, a split-screen cut for landscape. The caption follows the shot that is on screen. */
+const FILMS = {
+  tall: {
+    name: 'film-tall', length: 12.9,
+    chapters: [
+      [0, 'נותנים משימה לסוכנים'], [2.15, 'סוכן שירות הלקוחות עונה'], [3.4, 'סוכן הלידים מאתר לקוחות'],
+      [4.65, 'סוכן המכירות מנתח נתונים'], [5.9, 'סוכן משאבי האנוש קולט עובד'], [7.15, 'סוכן הכספים מכין דוח'],
+      [8.4, 'סוכן המשימות מתזמן את השבוע'], [9.65, 'סוכן חוויית הלקוח משפר שירות'], [10.9, 'העבודה נעשית. אתם על הקפה.'],
+    ],
+  },
+  wide: {
+    name: 'film-wide', length: 10.6,
+    chapters: [
+      [0, 'נותנים משימה לסוכנים'], [2.15, 'הסוכנים שבניתם יוצאים לעבודה'], [3.9, 'שירות לקוחות. לידים. מכירות.'],
+      [6.25, 'כספים. משימות. חוויית לקוח.'], [8.6, 'העבודה נעשית. אתם על הקפה.'],
+    ],
+  },
+}
+const FILM_ALT = 'סרטון: אדם עובד מול מחשב עם כלי בינה מלאכותית, ואז כל אחד מהסוכנים הקטנים והצבעוניים הולך לעבודה שלו: שירות לקוחות, לידים, מכירות, משאבי אנוש, כספים, משימות וחוויית לקוח. בסוף האדם שותה קפה.'
+
+function HeroFilm({ film, onChapter }) {
+  const { motion } = useContext(Motion)
+  const box = useRef(null)
+  const vid = useRef(null)
+  const bar = useRef(null)
+  const visible = useOnScreen(box, { threshold: 0.2 })
+  const play = motion && visible
+  useEffect(() => {
+    const v = vid.current
+    if (!v) return
+    if (play) v.play().catch(() => {})
+    else v.pause()
+  }, [play, film.name])
+  const onTime = () => {
+    const t = vid.current.currentTime
+    let i = 0
+    film.chapters.forEach(([start], k) => { if (t >= start) i = k })
+    onChapter(i)
+    if (bar.current) bar.current.style.transform = `scaleX(${Math.min(1, t / film.length)})`
+  }
+  return (
+    <div ref={box} className="absolute inset-0">
+      <img src={IMG(film.name)} alt="" className="absolute inset-0 h-full w-full object-cover" />
+      {motion && <video ref={vid} key={film.name} src={VID(film.name)} muted loop playsInline preload="auto" aria-label={FILM_ALT} onTimeUpdate={onTime} className="absolute inset-0 h-full w-full object-cover" />}
+      <div className="absolute inset-x-0 bottom-0 z-10 h-[3px] bg-white/10" aria-hidden="true">
+        <div ref={bar} className="h-full origin-right bg-accent-hi transition-transform duration-300 ease-linear" style={{ transform: 'scaleX(0)' }} />
+      </div>
+    </div>
+  )
+}
+
 /* Pauses every clip on the page. */
 function MotionSwitch({ className = '' }) {
   const { motion, setMotion } = useContext(Motion)
@@ -394,13 +447,15 @@ function MotionSwitch({ className = '' }) {
 /* ---------------------------------------------------------------- Hero: the clip fills the screen, the words sit on it */
 function Hero({ heroRef }) {
   const landscape = useLandscape()
-  const clip = landscape ? 'm-team' : 'h-man'
+  const film = landscape ? FILMS.wide : FILMS.tall
+  const [chapter, setChapter] = useState(0)
+  useEffect(() => setChapter(0), [film.name])
   return (
     <section id="home" ref={heroRef} className="relative isolate flex min-h-[100svh] flex-col overflow-hidden">
       <div className="absolute inset-0 -z-10">
-        <Clip key={clip} name={clip} eager position={landscape ? '50% 55%' : '50% 62%'} alt={HERO_ALT[clip]} />
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgb(var(--bg)/0.92)_0%,rgb(var(--bg)/0.55)_26%,rgb(var(--bg)/0)_46%)]" aria-hidden="true" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_top,rgb(var(--bg))_0%,rgb(var(--bg)/0.7)_16%,rgb(var(--bg)/0)_40%)]" aria-hidden="true" />
+        <HeroFilm film={film} onChapter={setChapter} />
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgb(var(--bg)/0.92)_0%,rgb(var(--bg)/0.5)_24%,rgb(var(--bg)/0)_44%)]" aria-hidden="true" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_top,rgb(var(--bg)/0.96)_0%,rgb(var(--bg)/0.65)_20%,rgb(var(--bg)/0)_44%)]" aria-hidden="true" />
       </div>
       {!reduceMotion && <MotionSwitch className="absolute left-4 top-[4.6rem] grid h-11 w-11 lg:hidden" />}
       <div className="page pt-24 lg:pt-28">
@@ -408,12 +463,17 @@ function Hero({ heroRef }) {
         <h1 className="mt-2.5 text-[2.6rem] leading-[1.02] sm:text-6xl lg:text-[4.4rem]">קורס סוכני AI <span className="mark block sm:inline">ואוטומציה</span></h1>
         <p className="mt-4 max-w-md text-lg text-ink/85 lg:hidden">160 שעות של בנייה מעשית, עד פרויקט גמר ותעודת הסמכה ממשלתית.</p>
       </div>
-      <div className="page mt-auto flex flex-col gap-5 pb-7 lg:flex-row lg:items-end lg:justify-between lg:pb-12">
-        <p className="hidden max-w-lg text-xl text-ink/85 lg:block">160 שעות של בנייה מעשית: סוכנים, אוטומציות ו־n8n, עד פרויקט גמר ותעודת הסמכה ממשלתית.</p>
-        <div className="flex items-center gap-3">
-          <a href="#contact" className="btn btn-accent min-w-0 flex-1 !px-3 sm:flex-none sm:!px-6">{CTA}<Arrow /></a>
-          <a href="#syllabus" className="btn min-w-0 flex-1 border border-white/20 bg-bg/40 !px-3 backdrop-blur transition-colors hover:bg-bg/70 sm:flex-none sm:!px-6">לתוכנית הלימודים</a>
-          {!reduceMotion && <MotionSwitch className="hidden h-[52px] w-[52px] lg:grid" />}
+      <div className="page mt-auto pb-7 lg:pb-12">
+        <p key={`${film.name}-${chapter}`} className="fade-in mb-4 flex items-center gap-2.5 font-display text-lg font-bold lg:mb-6 lg:text-2xl" aria-hidden="true">
+          <span className="h-[1.1em] w-[3px] rounded-full bg-accent-hi" />{film.chapters[chapter][1]}
+        </p>
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+          <p className="hidden max-w-lg text-xl text-ink/85 lg:block">160 שעות של בנייה מעשית: סוכנים, אוטומציות ו־n8n, עד פרויקט גמר ותעודת הסמכה ממשלתית.</p>
+          <div className="flex items-center gap-3">
+            <a href="#contact" className="btn btn-accent min-w-0 flex-1 !px-3 sm:flex-none sm:!px-6">{CTA}<Arrow /></a>
+            <a href="#syllabus" className="btn min-w-0 flex-1 border border-white/20 bg-bg/40 !px-3 backdrop-blur transition-colors hover:bg-bg/70 sm:flex-none sm:!px-6">לתוכנית הלימודים</a>
+            {!reduceMotion && <MotionSwitch className="hidden h-[52px] w-[52px] lg:grid" />}
+          </div>
         </div>
       </div>
     </section>
