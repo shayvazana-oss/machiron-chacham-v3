@@ -93,8 +93,8 @@
 .dots i:nth-child(2) { animation-delay: 0.15s; }
 .dots i:nth-child(3) { animation-delay: 0.3s; }
 @keyframes dot { 0%, 100% { opacity: 0.25; } 40% { opacity: 1; } }
-.halt, .halt * { animation-play-state: paused !important; }
-@media (prefers-reduced-motion: reduce) { .stage * { animation-delay: 0s !important; } }
+.halt, .halt *, .halt *::before, .halt *::after { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) { .stage *, .stage *::after { animation-delay: 0s !important; } }
 
 /* Agent canvas: a node editor surface. Type inside scales with the canvas width. */
 .canvas { container-type: inline-size; background-image: radial-gradient(rgb(255 255 255 / 0.07) 1px, transparent 1.2px); background-size: 22px 22px; }
@@ -104,3 +104,12 @@
 .node::after { content: ''; position: absolute; inset: -1px; border-radius: inherit; border: 1.5px solid rgb(var(--accent-hi)); opacity: 0; pointer-events: none;
   animation: lit 0.35s ease forwards; animation-delay: var(--d, 0s); }
 @keyframes lit { to { opacity: 1; } }
+
+/* Depth instead of a flat page: fine film grain over everything, and soft light in the mascots' colours
+   behind three sections. Both are static; nothing here repaints on scroll. */
+body::after { content: ''; position: fixed; inset: 0; z-index: 60; pointer-events: none; opacity: 0.07; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.glow { isolation: isolate; }
+.glow::before { content: ''; position: absolute; z-index: -1; pointer-events: none; inset: 0; }
+.glow-blue::before { background: radial-gradient(60% 45% at 30% 40%, rgb(52 96 255 / 0.16), transparent 70%), radial-gradient(40% 35% at 85% 70%, rgb(150 90 255 / 0.10), transparent 70%); }
+.glow-mix::before { background: radial-gradient(45% 40% at 15% 30%, rgb(170 230 60 / 0.09), transparent 70%), radial-gradient(45% 40% at 85% 60%, rgb(255 140 60 / 0.09), transparent 70%), radial-gradient(40% 35% at 50% 95%, rgb(70 200 255 / 0.08), transparent 70%); }

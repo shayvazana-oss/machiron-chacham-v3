@@ -37,6 +37,23 @@ function useWide() {
   return wide
 }
 
+/* Landscape screens get the wide stage clip in the hero; portrait screens get the tall desk clip. */
+function useLandscape() {
+  const q = '(min-aspect-ratio: 1/1)'
+  const [on, setOn] = useState(() => typeof window !== 'undefined' && window.matchMedia(q).matches)
+  useEffect(() => {
+    const m = window.matchMedia(q)
+    const f = () => setOn(m.matches)
+    m.addEventListener('change', f)
+    return () => m.removeEventListener('change', f)
+  }, [])
+  return on
+}
+const HERO_ALT = {
+  'm-team': 'חמישה סוכנים קטנים וצבעוניים עומדים על במה תחת אורות, לכל אחד אביזר אחר: אוזניות, זכוכית מגדלת, גרף, לוח שנה ומעטפה',
+  'h-man': 'גבר יושב מול מחשב ושותה קפה, וסביבו על השולחן סוכנים קטנים וצבעוניים שעובדים: אחד בודק מסמכים בזכוכית מגדלת, אחד מסדר גרף עמודות, אחד עם אוזניות',
+}
+
 /* ---------------------------------------------------------------- Clips.
    A still first; the video is added only once the clip is on screen, and it plays only while it stays there.
    One switch (in the hero) stops every clip on the page. */
@@ -233,7 +250,7 @@ function Nav() {
   useEffect(() => { document.body.style.overflow = open ? 'hidden' : '' }, [open])
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-40 border-b border-line bg-bg/85 backdrop-blur-md">
+      <header className="fixed inset-x-0 top-0 z-40 border-b border-white/[0.06] bg-bg/70 backdrop-blur-md">
         <div className="page flex h-16 items-center justify-between gap-4">
           <a href="#home" className="shrink-0"><img src={WLOGO('yechida')} alt="היחידה ללימודי חוץ" className="h-6 w-auto sm:h-7" /></a>
           <nav className="hidden items-center gap-6 lg:flex" aria-label="ניווט ראשי">
@@ -363,31 +380,40 @@ function LeadForm({ place, full = false }) {
   )
 }
 
-/* ---------------------------------------------------------------- Hero */
-function Hero({ heroRef }) {
+/* Pauses every clip on the page. */
+function MotionSwitch({ className = '' }) {
   const { motion, setMotion } = useContext(Motion)
   return (
-    <section id="home" ref={heroRef} className="page pb-12 pt-24 lg:pb-20 lg:pt-28">
-      <div className="grid gap-9 lg:grid-cols-12 lg:items-center lg:gap-14">
-        <div className="lg:col-span-6">
-          <p dir="ltr" className="text-right font-mono text-sm text-accent-hi sm:text-base">AI Agent &amp; Automation Specialist</p>
-          <h1 className="mt-3 text-[2.5rem] leading-[1.05] sm:text-6xl lg:text-[4.1rem]">קורס סוכני AI<br /><span className="mark">ואוטומציה</span></h1>
-          <p className="mt-5 max-w-lg text-lg text-muted sm:text-xl">160 שעות של בנייה מעשית: סוכנים, אוטומציות ו־n8n, עד פרויקט גמר ותעודת הסמכה ממשלתית.</p>
-          <div className="mt-7 flex flex-wrap gap-3">
-            <a href="#contact" className="btn btn-accent flex-1 sm:flex-none">{CTA}<Arrow /></a>
-            <a href="#syllabus" className="btn flex-1 border border-line transition-colors hover:bg-surface sm:flex-none">לתוכנית הלימודים</a>
-          </div>
-        </div>
-        <div className="lg:col-span-6">
-          <div className="media aspect-[4/5] border border-line sm:aspect-[5/5] lg:aspect-[5/6]">
-            <Clip name="h-man" eager position="50% 80%" alt="גבר יושב מול מחשב ושותה קפה, וסביבו על השולחן ארבעה סוכנים קטנים וצבעוניים שעובדים: אחד בודק מסמכים בזכוכית מגדלת, אחד מסדר גרף עמודות, אחד עם אוזניות" />
-            {!reduceMotion && (
-              <button type="button" onClick={() => setMotion(!motion)} aria-label={motion ? 'השהיית הסרטונים בדף' : 'הפעלת הסרטונים בדף'}
-                className="absolute bottom-3 left-3 grid h-11 w-11 place-items-center rounded-full bg-night/60 text-white backdrop-blur transition-colors hover:bg-night/85">
-                {motion ? <Pause size={16} weight="fill" /> : <Play size={16} weight="fill" />}
-              </button>
-            )}
-          </div>
+    <button type="button" onClick={() => setMotion(!motion)} aria-label={motion ? 'השהיית הסרטונים בדף' : 'הפעלת הסרטונים בדף'}
+      className={`shrink-0 place-items-center rounded-xl border border-white/20 bg-bg/40 text-white backdrop-blur transition-colors hover:bg-bg/70 ${className}`}>
+      {motion ? <Pause size={16} weight="fill" /> : <Play size={16} weight="fill" />}
+    </button>
+  )
+}
+
+/* ---------------------------------------------------------------- Hero: the clip fills the screen, the words sit on it */
+function Hero({ heroRef }) {
+  const landscape = useLandscape()
+  const clip = landscape ? 'm-team' : 'h-man'
+  return (
+    <section id="home" ref={heroRef} className="relative isolate flex min-h-[100svh] flex-col overflow-hidden">
+      <div className="absolute inset-0 -z-10">
+        <Clip key={clip} name={clip} eager position={landscape ? '50% 55%' : '50% 62%'} alt={HERO_ALT[clip]} />
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgb(var(--bg)/0.92)_0%,rgb(var(--bg)/0.55)_26%,rgb(var(--bg)/0)_46%)]" aria-hidden="true" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_top,rgb(var(--bg))_0%,rgb(var(--bg)/0.7)_16%,rgb(var(--bg)/0)_40%)]" aria-hidden="true" />
+      </div>
+      {!reduceMotion && <MotionSwitch className="absolute left-4 top-[4.6rem] grid h-11 w-11 lg:hidden" />}
+      <div className="page pt-24 lg:pt-28">
+        <p dir="ltr" className="text-right font-mono text-sm text-accent-hi sm:text-base">AI Agent &amp; Automation Specialist</p>
+        <h1 className="mt-2.5 text-[2.6rem] leading-[1.02] sm:text-6xl lg:text-[4.4rem]">קורס סוכני AI <span className="mark block sm:inline">ואוטומציה</span></h1>
+        <p className="mt-4 max-w-md text-lg text-ink/85 lg:hidden">160 שעות של בנייה מעשית, עד פרויקט גמר ותעודת הסמכה ממשלתית.</p>
+      </div>
+      <div className="page mt-auto flex flex-col gap-5 pb-7 lg:flex-row lg:items-end lg:justify-between lg:pb-12">
+        <p className="hidden max-w-lg text-xl text-ink/85 lg:block">160 שעות של בנייה מעשית: סוכנים, אוטומציות ו־n8n, עד פרויקט גמר ותעודת הסמכה ממשלתית.</p>
+        <div className="flex items-center gap-3">
+          <a href="#contact" className="btn btn-accent min-w-0 flex-1 !px-3 sm:flex-none sm:!px-6">{CTA}<Arrow /></a>
+          <a href="#syllabus" className="btn min-w-0 flex-1 border border-white/20 bg-bg/40 !px-3 backdrop-blur transition-colors hover:bg-bg/70 sm:flex-none sm:!px-6">לתוכנית הלימודים</a>
+          {!reduceMotion && <MotionSwitch className="hidden h-[52px] w-[52px] lg:grid" />}
         </div>
       </div>
     </section>
@@ -414,7 +440,7 @@ function Stack() {
 /* ---------------------------------------------------------------- How an agent works, with the live canvas */
 function About() {
   return (
-    <section id="about" className="page py-16 lg:py-24">
+    <section id="about" className="glow glow-blue page relative py-16 lg:py-24">
       <h2 className="h2 max-w-2xl">ככה עובד סוכן AI <span className="mark">שתבנו בקורס</span></h2>
       <p className="mt-4 max-w-2xl text-lg text-muted">טריגר מפעיל אותו, מודל שפה מחליט מה לעשות, והכלים מבצעים. הקורס לא מלמד כלים בנפרד: לוקחים אתגר עסקי אמיתי ובונים סוכן שעושה את העבודה.</p>
       <div className="mt-9"><AgentCanvas /></div>
@@ -450,7 +476,7 @@ function Numbers() {
 /* ---------------------------------------------------------------- Projects: one agent, one clip, per project. Swipe on a phone, grid on a desktop. */
 function Projects() {
   return (
-    <section id="projects" className="py-16 lg:py-24">
+    <section id="projects" className="glow glow-mix relative py-16 lg:py-24">
       <div className="page">
         <h2 className="h2">8 פרויקטים. <span className="mark">8 סוכנים שעובדים.</span></h2>
         <p className="mt-4 max-w-xl text-lg text-muted">לאורך הקורס בונים שמונה מערכות עובדות, מאפס.</p>
@@ -576,21 +602,23 @@ function Audience() {
   )
 }
 
-/* ---------------------------------------------------------------- After the course, with the team clip */
+/* ---------------------------------------------------------------- After the course, with the clip the hero did not use */
 function Roles() {
+  const landscape = useLandscape()
+  const clip = landscape ? 'h-man' : 'm-team'
   return (
     <section className="page py-16 lg:py-24">
-      <div className="media aspect-[4/3] border border-line sm:aspect-[21/9]">
-        <Clip name="m-team" alt="חמישה סוכנים בצבעים שונים עומדים בשורה, לכל אחד אביזר אחר: אוזניות, זכוכית מגדלת, גרף, לוח שנה ומעטפה" />
-      </div>
-      <div className="mt-10 grid gap-8 lg:grid-cols-12 lg:gap-14">
-        <div className="lg:col-span-5">
-          <h2 className="h2">לאן ממשיכים <span className="mark">אחרי הקורס</span></h2>
-          <p className="mt-4 text-lg text-muted">לארגונים בינוניים וגדולים, או לעבודה כעצמאים שמטמיעים AI ואוטומציה אצל לקוחות.</p>
+      <div className="grid gap-9 lg:grid-cols-12 lg:items-center lg:gap-14">
+        <div className={`media border border-line ${landscape ? 'aspect-[4/5] lg:col-span-5' : 'aspect-[4/3]'}`}>
+          <Clip key={clip} name={clip} position="50% 60%" alt={HERO_ALT[clip]} />
         </div>
-        <ul className="flex flex-wrap content-start gap-2 lg:col-span-7">
-          {ROLES.map((r) => <li key={r} className="rounded-full border border-line px-4 py-2 font-display font-semibold">{r}</li>)}
-        </ul>
+        <div className="lg:col-span-7">
+          <h2 className="h2">לאן ממשיכים <span className="mark">אחרי הקורס</span></h2>
+          <p className="mt-4 max-w-xl text-lg text-muted">לארגונים בינוניים וגדולים, או לעבודה כעצמאים שמטמיעים AI ואוטומציה אצל לקוחות.</p>
+          <ul className="mt-7 flex flex-wrap gap-2">
+            {ROLES.map((r) => <li key={r} className="rounded-full border border-line bg-surface/60 px-4 py-2 font-display font-semibold">{r}</li>)}
+          </ul>
+        </div>
       </div>
     </section>
   )
@@ -643,7 +671,7 @@ function Faq() {
 /* ---------------------------------------------------------------- Closing form, with the agent waving */
 function Contact({ contactRef }) {
   return (
-    <section id="contact" ref={contactRef} className="page pb-12 lg:pb-20">
+    <section id="contact" ref={contactRef} className="glow glow-blue page relative pb-12 lg:pb-20">
       <div className="grid gap-8 rounded-media border border-line bg-surface p-5 sm:p-9 lg:grid-cols-2 lg:gap-14 lg:p-14">
         <div className="flex flex-col">
           <h2 className="h2">רוצים לשמוע עוד <span className="mark">על הקורס?</span></h2>
