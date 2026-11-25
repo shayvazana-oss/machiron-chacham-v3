@@ -16,6 +16,8 @@ export default {
         accent: token('accent'),
         'accent-ink': token('accent-ink'),
         night: '#0C0F0B', // fixed dark used on top of media, same in both themes
+        navy: '#0B1437', // the dark brand panel
+        lime: '#C4F04D', // the mascot's green, used only on navy
       },
       fontFamily: {
         display: ['"Heebo Variable"', 'system-ui', 'sans-serif'],

@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
+import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import {
   ArrowLeft, Phone, Pause, Play, List, X, Desktop, DeviceMobile, CheckCircle, Check, Lightbulb, TrendUp,
-  Clock, MonitorPlay, Certificate, Wallet, GraduationCap, CaretDown,
+  Certificate, GraduationCap, CaretDown,
 } from '@phosphor-icons/react'
 import {
-  IMG, LOGO, PHONE, PRIVACY_URL, TERMS_URL, NAV_LINKS, FACTS, AUDIENCE, ADMISSION, CAPABILITIES,
+  IMG, VID, LOGO, PHONE, PRIVACY_URL, TERMS_URL, NAV_LINKS, STATS, RECOGNITION, AUDIENCE, ADMISSION, CAPABILITIES,
   PROJECTS, PHASES, ROLES, CERTS, LOGOS, TRACKS, FAQS,
 } from './data.js'
 
@@ -21,6 +21,33 @@ function useOnScreen(ref, options) {
     return () => io.disconnect()
   }, [])
   return on
+}
+
+/* ---------------------------------------------------------------- Clips.
+   A still first; the video is added only once the clip is on screen, and it plays only while it stays there.
+   One switch (in the hero) stops every clip on the page. */
+const Motion = createContext({ motion: true, setMotion: () => {} })
+function Clip({ name, alt = '', eager = false, position = 'center' }) {
+  const { motion } = useContext(Motion)
+  const box = useRef(null)
+  const vid = useRef(null)
+  const visible = useOnScreen(box, { threshold: 0.35 })
+  const [mounted, setMounted] = useState(eager)
+  useEffect(() => { if (visible) setMounted(true) }, [visible])
+  const play = motion && visible
+  useEffect(() => {
+    const v = vid.current
+    if (!v) return
+    if (play) v.play().catch(() => {})
+    else v.pause()
+  }, [play, mounted])
+  const fit = 'absolute inset-0 h-full w-full object-cover'
+  return (
+    <div ref={box} className="absolute inset-0">
+      <img src={IMG(name)} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" className={fit} style={{ objectPosition: position }} />
+      {mounted && motion && <video ref={vid} src={VID(name)} muted loop playsInline preload="auto" aria-hidden="true" className={fit} style={{ objectPosition: position }} />}
+    </div>
+  )
 }
 
 /* ---------------------------------------------------------------- Agents at work.
@@ -327,39 +354,44 @@ function LeadForm({ place, full = false }) {
   )
 }
 
-/* ---------------------------------------------------------------- Hero: what the course is, its facts, and the form */
-const FACT_ICONS = [Clock, MonitorPlay, Certificate, Wallet]
-function Hero({ heroRef }) {
+/* ---------------------------------------------------------------- Hero: the course name over the clip of a person with their agents */
+function HeroTitle({ className = '' }) {
   return (
-    <section id="home" ref={heroRef} className="bg-surface">
-      <div className="page grid gap-8 pb-10 pt-24 lg:grid-cols-12 lg:items-start lg:gap-14 lg:pb-16 lg:pt-28">
-        <div className="lg:col-span-7 lg:pt-3">
-          <p className="inline-flex items-center gap-2 rounded-full bg-bg px-3.5 py-1.5 text-[0.94rem] font-semibold ring-1 ring-line">
-            <GraduationCap size={18} weight="fill" className="text-accent" aria-hidden="true" />קורס מקצועי עם תעודת הסמכה ממשלתית
-          </p>
-          <h1 className="mt-4 text-[2.15rem] sm:text-5xl lg:text-[3.4rem]">קורס סוכני AI ואוטומציה</h1>
-          <p dir="ltr" className="mt-2 text-right font-display text-lg font-semibold text-accent sm:text-xl">AI Agent &amp; Automation Specialist</p>
-          <p className="mt-4 max-w-xl text-lg text-muted">לומדים לבנות סוכני AI ואוטומציות עסקיות, מהיסודות ועד פרויקט גמר. קורס של היחידה ללימודי חוץ, בשיתוף מפעל הסייבר של אלתא מערכות.</p>
-          <dl className="mt-6 grid grid-cols-2 gap-x-4 gap-y-5 sm:gap-x-8">
-            {FACTS.map(([term, value], i) => {
-              const Icon = FACT_ICONS[i]
-              return (
-                <div key={term} className="flex flex-col gap-2 sm:flex-row sm:gap-3">
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-bg ring-1 ring-line"><Icon size={20} className="text-accent" aria-hidden="true" /></span>
-                  <div>
-                    <dt className="text-[0.94rem] text-muted">{term}</dt>
-                    <dd className="font-display font-semibold leading-snug">{value}</dd>
-                  </div>
-                </div>
-              )
-            })}
-          </dl>
+    <div className={className}>
+      <p className="inline-flex items-center gap-2 rounded-full bg-bg px-3.5 py-1.5 text-[0.94rem] font-semibold shadow-[0_1px_0_rgb(var(--line))] ring-1 ring-line">
+        <GraduationCap size={18} weight="fill" className="text-accent" aria-hidden="true" />קורס עם תעודת הסמכה ממשלתית
+      </p>
+      <h1 className="mt-3.5 text-[2.3rem] leading-[1.05] sm:text-5xl lg:mt-5 lg:text-[4rem]">קורס סוכני AI <span className="mark">ואוטומציה</span></h1>
+      <p dir="ltr" className="mt-2 text-right font-display text-base font-semibold text-muted sm:text-lg lg:mt-3 lg:text-xl">AI Agent &amp; Automation Specialist</p>
+    </div>
+  )
+}
+
+function Hero({ heroRef }) {
+  const { motion, setMotion } = useContext(Motion)
+  return (
+    <section id="home" ref={heroRef} className="page pb-10 pt-20 lg:pb-16 lg:pt-28">
+      <div className="grid gap-7 lg:grid-cols-12 lg:items-center lg:gap-14">
+        <div className="order-2 lg:order-1 lg:col-span-6">
+          <HeroTitle className="hidden lg:block" />
+          <p className="max-w-xl text-lg text-muted lg:mt-6 lg:text-xl">לומדים לבנות סוכני AI שעושים עבודה אמיתית: בונים אתרים, מנתחים נתונים ומנהלים לידים. קורס של היחידה ללימודי חוץ, בשיתוף מפעל הסייבר של אלתא מערכות.</p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a href="#contact" className="btn btn-accent flex-1 sm:flex-none">{CTA}<Arrow /></a>
+            <a href="#syllabus" className="btn flex-1 ring-1 ring-inset ring-ink/20 transition-colors hover:bg-surface sm:flex-none">לתוכנית הלימודים</a>
+          </div>
         </div>
-        <div className="lg:col-span-5">
-          <div className="rounded-media bg-bg p-5 shadow-[0_16px_40px_-24px_rgb(17_20_28/0.3)] ring-1 ring-line sm:p-7">
-            <h2 className="text-2xl">לפרטים וייעוץ לימודים</h2>
-            <p className="mb-5 mt-1 text-muted">יועץ לימודים יחזור אליכם לבדיקת התאמה, מסלול מימון ומועדי פתיחה.</p>
-            <LeadForm place="hero" />
+        <div className="order-1 lg:order-2 lg:col-span-6">
+          <div className="media aspect-[9/14] bg-surface lg:aspect-[5/6]">
+            <Clip name="h-man" eager position="50% 88%" alt="גבר יושב מול מחשב ושותה קפה, וסביבו על השולחן ארבעה סוכנים קטנים וצבעוניים שעובדים: אחד בודק מסמכים בזכוכית מגדלת, אחד מסדר גרף עמודות, אחד עם אוזניות" />
+            <div className="absolute inset-x-0 top-0 h-[46%] bg-gradient-to-b from-white via-white/85 to-transparent lg:hidden" aria-hidden="true" />
+            <HeroTitle className="absolute inset-x-0 top-0 p-4 lg:hidden" />
+            <p className="absolute bottom-3 right-3 max-w-[70%] rounded-2xl bg-bg/95 px-3.5 py-2 font-display text-[0.94rem] font-semibold leading-snug">הסוכנים עובדים. אתם ממשיכים ביום שלכם.</p>
+            {!reduceMotion && (
+              <button type="button" onClick={() => setMotion(!motion)} aria-label={motion ? 'השהיית הסרטונים בדף' : 'הפעלת הסרטונים בדף'}
+                className="absolute bottom-3 left-3 grid h-11 w-11 place-items-center rounded-full bg-night/60 text-white transition-colors hover:bg-night/85">
+                {motion ? <Pause size={16} weight="fill" /> : <Play size={16} weight="fill" />}
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -367,17 +399,41 @@ function Hero({ heroRef }) {
   )
 }
 
-/* ---------------------------------------------------------------- Partners */
-function Partners() {
-  const logos = LOGOS.filter(([file]) => file !== 'yechida')
+/* ---------------------------------------------------------------- Recognition: who stands behind the certificate */
+function Recognition() {
+  const rest = LOGOS.filter(([file]) => file !== 'yechida' && !RECOGNITION.some(([f]) => f === file))
   return (
-    <section className="page py-10 lg:py-12" aria-label="שותפים וגופים">
-      <p className="text-center text-muted">בין השותפים והגופים שאיתם עובדת היחידה ללימודי חוץ</p>
-      <ul className="mt-6 grid grid-cols-3 items-center gap-x-5 gap-y-7 lg:flex lg:justify-between lg:gap-6">
-        {logos.map(([file, name]) => (
-          <li key={file} className="flex justify-center"><img src={LOGO(file)} alt={name} loading="lazy" className="max-h-9 w-auto max-w-[5.75rem] object-contain lg:max-h-11 lg:max-w-[7rem]" /></li>
+    <section className="page pb-12 lg:pb-16" aria-label="הכרה ושותפים">
+      <ul className="grid gap-3 md:grid-cols-3">
+        {RECOGNITION.map(([file, org, text]) => (
+          <li key={file} className="flex items-center gap-4 rounded-tile p-4 ring-1 ring-line md:flex-col md:items-start md:p-6">
+            <span className="grid h-14 w-24 shrink-0 place-items-center md:h-16 md:w-auto"><img src={LOGO(file)} alt={org} loading="lazy" className="max-h-14 w-auto max-w-[6rem] object-contain md:max-h-16 md:max-w-[10rem]" /></span>
+            <p className="font-display text-lg font-bold leading-snug">{text}</p>
+          </li>
         ))}
       </ul>
+      <p className="mt-9 text-center text-muted">עוד שותפים וגופים שאיתם עובדת היחידה ללימודי חוץ</p>
+      <ul className="mt-5 grid grid-cols-3 items-center gap-x-5 gap-y-6 lg:flex lg:justify-center lg:gap-14">
+        {rest.map(([file, name]) => (
+          <li key={file} className="flex justify-center"><img src={LOGO(file)} alt={name} loading="lazy" className="max-h-9 w-auto max-w-[5.75rem] object-contain lg:max-h-10 lg:max-w-[7rem]" /></li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+/* ---------------------------------------------------------------- The course in numbers */
+function Numbers() {
+  return (
+    <section className="page" aria-label="הקורס במספרים">
+      <dl className="grid grid-cols-2 gap-x-5 gap-y-8 rounded-media bg-navy px-6 py-9 text-white sm:px-10 lg:grid-cols-5 lg:gap-x-8 lg:py-12">
+        {STATS.map(([n, label], i) => (
+          <div key={label} className={`flex flex-col-reverse ${i === STATS.length - 1 ? 'col-span-2 lg:col-span-1' : ''}`}>
+            <dt className="mt-1.5 leading-snug text-white/75">{label}</dt>
+            <dd dir="ltr" className="text-right font-display text-[2.9rem] font-extrabold leading-none text-lime lg:text-6xl">{n}</dd>
+          </div>
+        ))}
+      </dl>
     </section>
   )
 }
@@ -385,18 +441,18 @@ function Partners() {
 /* ---------------------------------------------------------------- About the course, with the live demo */
 function About() {
   return (
-    <section id="about" className="page border-t border-line py-14 lg:py-20">
+    <section id="about" className="page py-16 lg:py-24">
       <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
         <div className="lg:col-span-7">
           <h2 className="h2">על הקורס</h2>
-          <p className="mt-4 max-w-2xl text-lg">הקורס לא מלמד כלים. הוא מכשיר אנשי AI יישומיים שלוקחים אתגר עסקי אמיתי, מאפיינים אותו, ובונים סוכן שמבצע את העבודה.</p>
+          <p className="mt-4 max-w-2xl text-lg lg:text-xl">הקורס לא מלמד כלים. הוא מכשיר אנשי AI יישומיים שלוקחים אתגר עסקי אמיתי, מאפיינים אותו, ובונים סוכן שמבצע את העבודה.</p>
           <h3 className="mt-9 text-xl">מה לומדים לבנות</h3>
           <ul className="mt-5 grid gap-x-8 gap-y-6 sm:grid-cols-2">
             {CAPABILITIES.map((c) => (
               <li key={c.title} className="flex gap-3">
                 <CheckCircle size={22} weight="fill" className="mt-0.5 shrink-0 text-accent" aria-hidden="true" />
                 <div>
-                  <p className="font-display font-semibold leading-snug">{c.title}</p>
+                  <p className="font-display font-bold leading-snug">{c.title}</p>
                   <p className="mt-1 text-muted">{c.text}</p>
                 </div>
               </li>
@@ -412,25 +468,47 @@ function About() {
   )
 }
 
+/* ---------------------------------------------------------------- Projects: one agent, one clip, per project. Swipe on a phone, grid on a desktop. */
+function Projects() {
+  return (
+    <section id="projects" className="bg-surface py-16 lg:py-24">
+      <div className="page">
+        <h2 className="h2">8 פרויקטים, לכל אחד <span className="mark">סוכן משלו</span></h2>
+        <p className="mt-3 max-w-xl text-lg text-muted">לאורך הקורס בונים שמונה מערכות עובדות, מאפס.</p>
+      </div>
+      <ol className="no-bar mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 sm:px-8 lg:mx-auto lg:grid lg:max-w-page lg:grid-cols-4 lg:gap-x-5 lg:gap-y-10 lg:overflow-visible">
+        {PROJECTS.map(([title, text], i) => (
+          <li key={title} className="w-[72%] shrink-0 snap-center sm:w-[42%] lg:w-auto">
+            <div className="media aspect-[4/5]">
+              <Clip name={`p${i + 1}`} alt={`סוכן בעבודה: ${title}`} />
+              <span className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-bg font-display font-bold tabular-nums" aria-hidden="true">{i + 1}</span>
+            </div>
+            <h3 className="mt-3 text-lg leading-snug">{title}</h3>
+            <p className="mt-1 text-muted">{text}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+  )
+}
+
 /* ---------------------------------------------------------------- Who it is for, and admission terms */
 function Audience() {
-  const List_ = ({ items }) => (
+  const Items = ({ items }) => (
     <ul className="mt-5 space-y-3">
       {items.map((t) => <li key={t} className="flex gap-3 text-lg"><Check size={20} weight="bold" className="mt-1 shrink-0 text-accent" aria-hidden="true" />{t}</li>)}
     </ul>
   )
   return (
-    <section className="bg-surface">
-      <div className="page grid gap-10 py-14 md:grid-cols-2 lg:gap-14 lg:py-20">
-        <div>
-          <h2 className="h2">למי הקורס מתאים</h2>
-          <p className="mt-4 text-muted">למי שרוצה ידע מקצועי ומעשי בבניית אפליקציות, מערכות אוטומציה וסוכני AI לצרכים עסקיים. בין היתר:</p>
-          <List_ items={AUDIENCE} />
-        </div>
-        <div>
-          <h2 className="h2">תנאי קבלה</h2>
-          <List_ items={ADMISSION} />
-        </div>
+    <section className="page grid gap-10 py-16 md:grid-cols-2 lg:gap-14 lg:py-24">
+      <div>
+        <h2 className="h2">למי הקורס מתאים</h2>
+        <p className="mt-4 text-muted">למי שרוצה ידע מקצועי ומעשי בבניית אפליקציות, מערכות אוטומציה וסוכני AI לצרכים עסקיים. בין היתר:</p>
+        <Items items={AUDIENCE} />
+      </div>
+      <div>
+        <h2 className="h2">תנאי קבלה</h2>
+        <Items items={ADMISSION} />
       </div>
     </section>
   )
@@ -448,42 +526,20 @@ function Syllabus() {
     document.getElementById(`tab-${next}`)?.focus()
   }
   return (
-    <section id="syllabus" className="page py-14 lg:py-20">
-      <h2 className="h2">תוכנית הלימודים</h2>
-      <p className="mt-3 text-lg text-muted">12 מודולים בשלושה שלבים, 160 שעות אקדמיות.</p>
-      <div role="tablist" aria-label="שלבי הסילבוס" onKeyDown={onKey} className="mt-7 flex flex-wrap gap-2">
-        {PHASES.map((p, i) => (
-          <button key={p.tab} id={`tab-${i}`} role="tab" type="button" aria-selected={tab === i} aria-controls="syllabus-panel" tabIndex={tab === i ? 0 : -1} onClick={() => setTab(i)}
-            className={`rounded-full px-4 py-2.5 font-display font-semibold transition-colors duration-300 ${tab === i ? 'bg-ink text-bg' : 'text-muted ring-1 ring-inset ring-line hover:text-ink'}`}>{p.tab}</button>
-        ))}
-      </div>
-      <ol id="syllabus-panel" role="tabpanel" aria-labelledby={`tab-${tab}`} key={tab} className="fade-in mt-7 grid gap-x-12 border-t border-line md:grid-cols-2">
-        {phase.modules.map(([title, text], i) => (
-          <li key={title} className="grid grid-cols-[2.5rem_1fr] gap-x-2 border-b border-line py-5">
-            <span className="font-display text-lg font-semibold tabular-nums text-accent" aria-hidden="true">{String(offset + i + 1).padStart(2, '0')}</span>
-            <div>
-              <h3 className="text-lg leading-snug">{title}</h3>
-              <p className="mt-1 text-muted">{text}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
-      <p className="mt-6 max-w-2xl text-muted">הלימודים כוללים למידה עיונית, מעשית ועבודה על פרויקט גמר. לקבלת התעודות נדרשות 80% נוכחות, מטלות שוטפות ועמידה במבחנים ובפרויקטי הסיום.</p>
-    </section>
-  )
-}
-
-/* ---------------------------------------------------------------- Projects: a plain numbered list */
-function Projects() {
-  return (
-    <section id="projects" className="bg-surface">
-      <div className="page py-14 lg:py-20">
-        <h2 className="h2">8 פרויקטים מעשיים</h2>
-        <p className="mt-3 max-w-xl text-lg text-muted">לאורך הקורס בונים שמונה מערכות עובדות, מאפס.</p>
-        <ol className="mt-8 grid gap-3 md:grid-cols-2">
-          {PROJECTS.map(([title, text], i) => (
-            <li key={title} className="flex gap-4 rounded-tile bg-bg p-5 ring-1 ring-line">
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-accent/10 font-display font-semibold tabular-nums text-accent" aria-hidden="true">{i + 1}</span>
+    <section id="syllabus" className="bg-surface">
+      <div className="page py-16 lg:py-24">
+        <h2 className="h2">תוכנית הלימודים</h2>
+        <p className="mt-3 text-lg text-muted">12 מודולים בשלושה שלבים, 160 שעות אקדמיות.</p>
+        <div role="tablist" aria-label="שלבי הסילבוס" onKeyDown={onKey} className="mt-7 flex flex-wrap gap-2">
+          {PHASES.map((p, i) => (
+            <button key={p.tab} id={`tab-${i}`} role="tab" type="button" aria-selected={tab === i} aria-controls="syllabus-panel" tabIndex={tab === i ? 0 : -1} onClick={() => setTab(i)}
+              className={`rounded-full px-4 py-2.5 font-display font-bold transition-colors duration-300 ${tab === i ? 'bg-navy text-white' : 'bg-bg text-muted ring-1 ring-inset ring-line hover:text-ink'}`}>{p.tab}</button>
+          ))}
+        </div>
+        <ol id="syllabus-panel" role="tabpanel" aria-labelledby={`tab-${tab}`} key={tab} className="fade-in mt-6 grid gap-3 md:grid-cols-2">
+          {phase.modules.map(([title, text], i) => (
+            <li key={title} className="grid grid-cols-[2.75rem_1fr] gap-x-2 rounded-tile bg-bg p-5 ring-1 ring-line">
+              <span className="font-display text-xl font-extrabold tabular-nums text-accent" aria-hidden="true">{String(offset + i + 1).padStart(2, '0')}</span>
               <div>
                 <h3 className="text-lg leading-snug">{title}</h3>
                 <p className="mt-1 text-muted">{text}</p>
@@ -491,21 +547,28 @@ function Projects() {
             </li>
           ))}
         </ol>
+        <p className="mt-6 max-w-2xl text-muted">הלימודים כוללים למידה עיונית, מעשית ועבודה על פרויקט גמר. לקבלת התעודות נדרשות 80% נוכחות, מטלות שוטפות ועמידה במבחנים ובפרויקטי הסיום.</p>
       </div>
     </section>
   )
 }
 
-/* ---------------------------------------------------------------- After the course */
+/* ---------------------------------------------------------------- After the course, with the team clip */
 function Roles() {
   return (
-    <section className="page py-14 lg:py-20">
-      <h2 className="h2">לאן ממשיכים אחרי הקורס</h2>
-      <p className="mt-3 max-w-2xl text-lg text-muted">בוגרי הקורס משתלבים בארגונים בינוניים וגדולים, או עובדים כעצמאים שמטמיעים AI ואוטומציה אצל לקוחות. בין התפקידים:</p>
-      <ul className="mt-6 flex flex-wrap gap-2">
-        {ROLES.map((r) => <li key={r} className="rounded-full bg-surface px-4 py-2 font-display font-semibold">{r}</li>)}
-      </ul>
-      <p className="mt-8 max-w-2xl border-s-[3px] border-accent ps-4 text-lg">היחידה ללימודי חוץ מובילה מזה שלוש שנים את חממת התעסוקה של שירות התעסוקה, עם <strong className="font-display">מעל 80% השמה</strong>.</p>
+    <section className="page py-16 lg:py-24">
+      <div className="grid gap-9 lg:grid-cols-12 lg:items-center lg:gap-14">
+        <div className="lg:col-span-6">
+          <h2 className="h2">לאן ממשיכים אחרי הקורס</h2>
+          <p className="mt-3 text-lg text-muted">בוגרי הקורס משתלבים בארגונים בינוניים וגדולים, או עובדים כעצמאים שמטמיעים AI ואוטומציה אצל לקוחות. בין התפקידים:</p>
+          <ul className="mt-6 flex flex-wrap gap-2">
+            {ROLES.map((r) => <li key={r} className="rounded-full bg-surface px-4 py-2 font-display font-semibold">{r}</li>)}
+          </ul>
+        </div>
+        <div className="media aspect-video lg:col-span-6">
+          <Clip name="m-team" alt="חמישה סוכנים בצבעים שונים עומדים בשורה, לכל אחד אביזר אחר: אוזניות, זכוכית מגדלת, גרף, לוח שנה ומעטפה" />
+        </div>
+      </div>
     </section>
   )
 }
@@ -514,18 +577,23 @@ function Roles() {
 function Credentials() {
   return (
     <section id="certificates" className="bg-surface">
-      <div className="page py-14 lg:py-20">
-        <h2 className="h2">מסיימים עם שתי תעודות</h2>
-        <div className="mt-8 grid gap-3 md:grid-cols-2">
-          {CERTS.map(([title, text]) => (
-            <div key={title} className="flex gap-4 rounded-tile bg-bg p-6 ring-1 ring-line">
-              <Certificate size={36} className="shrink-0 text-accent" aria-hidden="true" />
-              <div>
-                <h3 className="text-xl leading-snug">{title}</h3>
-                <p className="mt-1.5 text-muted">{text}</p>
+      <div className="page grid gap-8 py-16 lg:grid-cols-12 lg:items-center lg:gap-14 lg:py-24">
+        <div className="media aspect-[4/3] lg:col-span-5">
+          <img src={IMG('m-grad')} alt="הסוכן עם כובע סיום, לצידו תעודה מגולגלת עם חותמת זהב" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
+        </div>
+        <div className="lg:col-span-7">
+          <h2 className="h2">מסיימים עם שתי תעודות</h2>
+          <div className="mt-7 grid gap-3">
+            {CERTS.map(([title, text]) => (
+              <div key={title} className="flex gap-4 rounded-tile bg-bg p-5 ring-1 ring-line sm:p-6">
+                <Certificate size={36} className="shrink-0 text-accent" aria-hidden="true" />
+                <div>
+                  <h3 className="text-xl leading-snug">{title}</h3>
+                  <p className="mt-1.5 text-muted">{text}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -535,19 +603,18 @@ function Credentials() {
 /* ---------------------------------------------------------------- Funding */
 function Funding() {
   return (
-    <section id="funding" className="page py-14 lg:py-20">
+    <section id="funding" className="page py-16 lg:py-24">
       <h2 className="h2">מסלולי מימון</h2>
       <p className="mt-3 max-w-xl text-lg text-muted">בשיחת הייעוץ בודקים יחד איזה מסלול מתאים לכם.</p>
       <div className="mt-8 grid gap-3 md:grid-cols-3">
         {TRACKS.map((t) => (
           <div key={t.id} className="rounded-tile p-6 ring-1 ring-line">
             <p className="text-muted">{t.name}</p>
-            <p className="mt-1 font-display text-3xl font-bold text-accent">{t.value}</p>
+            <p className="mt-1 font-display text-4xl font-extrabold text-accent">{t.value}</p>
             <p className="mt-2">{t.text}</p>
           </div>
         ))}
       </div>
-      <a href="#contact" className="btn btn-accent mt-8">{CTA}<Arrow /></a>
     </section>
   )
 }
@@ -557,12 +624,12 @@ function Faq() {
   const [open, setOpen] = useState(0)
   return (
     <section id="faq" className="bg-surface">
-      <div className="page py-14 lg:py-20">
+      <div className="page py-16 lg:py-24">
         <h2 className="h2">שאלות נפוצות</h2>
         <ul className="mt-7 max-w-3xl border-t border-line">
           {FAQS.map(([q, a], i) => (
             <li key={q} className="border-b border-line">
-              <button type="button" onClick={() => setOpen(open === i ? -1 : i)} aria-expanded={open === i} className="flex w-full items-center justify-between gap-4 py-4 text-start font-display text-lg font-semibold">
+              <button type="button" onClick={() => setOpen(open === i ? -1 : i)} aria-expanded={open === i} className="flex w-full items-center justify-between gap-4 py-4 text-start font-display text-lg font-bold">
                 <span>{q}</span>
                 <CaretDown size={18} weight="bold" className={`shrink-0 text-muted transition-transform duration-300 ${open === i ? 'rotate-180' : ''}`} aria-hidden="true" />
               </button>
@@ -575,17 +642,18 @@ function Faq() {
   )
 }
 
-/* ---------------------------------------------------------------- Closing form */
+/* ---------------------------------------------------------------- Closing form on the brand colour, with the agent waving */
 function Contact({ contactRef }) {
   return (
-    <section id="contact" ref={contactRef} className="page py-14 lg:py-20">
-      <div className="grid gap-8 lg:grid-cols-2 lg:gap-14">
-        <div>
-          <h2 className="h2">רוצים לשמוע עוד על הקורס?</h2>
-          <p className="mt-4 max-w-md text-lg text-muted">השאירו פרטים לשיחת ייעוץ והכוונה. נבדוק יחד התאמה, מסלול מימון ומועדי פתיחה.</p>
-          <a href={`tel:${PHONE}`} className="mt-6 inline-flex items-center gap-3 font-display text-3xl font-bold"><Phone size={26} weight="fill" className="text-accent" aria-hidden="true" /><span dir="ltr">{PHONE}</span></a>
+    <section id="contact" ref={contactRef} className="page py-12 lg:py-20">
+      <div className="grid gap-8 rounded-media bg-navy p-5 text-white sm:p-9 lg:grid-cols-2 lg:gap-14 lg:p-14">
+        <div className="flex flex-col">
+          <h2 className="h2">רוצים לשמוע עוד <span className="text-lime">על הקורס?</span></h2>
+          <p className="mt-4 max-w-md text-lg text-white/80">השאירו פרטים לשיחת ייעוץ והכוונה. נבדוק יחד התאמה, מסלול מימון ומועדי פתיחה.</p>
+          <a href={`tel:${PHONE}`} className="mt-6 inline-flex items-center gap-3 self-start font-display text-4xl font-extrabold"><Phone size={28} weight="fill" className="text-lime" aria-hidden="true" /><span dir="ltr">{PHONE}</span></a>
+          <img src={IMG('m-cut-wave')} alt="" loading="lazy" className="mt-auto hidden w-40 self-end pt-8 lg:block" />
         </div>
-        <div className="rounded-media bg-bg p-5 ring-1 ring-line sm:p-8"><LeadForm place="contact" full /></div>
+        <div className="rounded-tile bg-bg p-5 text-ink sm:p-8"><LeadForm place="contact" full /></div>
       </div>
     </section>
   )
@@ -623,17 +691,19 @@ function StickyBar({ heroRef, contactRef }) {
 export default function App() {
   const heroRef = useRef(null)
   const contactRef = useRef(null)
+  const [motion, setMotion] = useState(!reduceMotion)
   return (
-    <>
+    <Motion.Provider value={{ motion, setMotion }}>
       <a href="#about" className="fixed start-4 top-[-80px] z-50 rounded-full bg-ink px-4 py-2 text-bg transition-[top] focus:top-4">דילוג לתוכן</a>
       <Nav />
       <main>
         <Hero heroRef={heroRef} />
-        <Partners />
+        <Recognition />
+        <Numbers />
         <About />
+        <Projects />
         <Audience />
         <Syllabus />
-        <Projects />
         <Roles />
         <Credentials />
         <Funding />
@@ -642,6 +712,6 @@ export default function App() {
       </main>
       <Footer />
       <StickyBar heroRef={heroRef} contactRef={contactRef} />
-    </>
+    </Motion.Provider>
   )
 }

@@ -1,5 +1,6 @@
 const BASE = import.meta.env.BASE_URL
 export const IMG = (name) => `${BASE}img/${name}.webp`
+export const VID = (name) => `${BASE}video/${name}.mp4`
 export const LOGO = (name) => `${BASE}logos/${name}.webp`
 
 export const PHONE = '*3068'
@@ -16,12 +17,20 @@ export const NAV_LINKS = [
 ]
 
 // All copy below comes from the course page on limudey-hutz.co.il.
-// The course at a glance, shown beside the course name.
-export const FACTS = [
-  ['היקף', '160 שעות אקדמיות'],
-  ['מתכונת', 'אונליין בפיקוח, מכל מקום בארץ'],
-  ['תעודות', 'הסמכה ממשלתית ותעודת בוגר מטעם אלתא'],
-  ['מימון', 'מוכר לפיקדון. עד 90% בתוכנית השוברים, למתאימים'],
+// The course in numbers. All figures are from the course page.
+export const STATS = [
+  ['160', 'שעות אקדמיות'],
+  ['12', 'מודולים'],
+  ['8', 'פרויקטים מעשיים'],
+  ['90%', 'עד, מימון בתוכנית השוברים למתאימים'],
+  ['80%+', 'השמה בחממת התעסוקה שמובילה היחידה'],
+]
+
+// Who stands behind the certificate. [logo file, organisation, what it means for the student]
+export const RECOGNITION = [
+  ['labor', 'משרד העבודה', 'תעודת הסמכה ממשלתית'],
+  ['elta', 'אלתא מערכות', 'תעודת בוגר מטעם מפעל הסייבר של אלתא'],
+  ['taasuka', 'שירות התעסוקה', 'היחידה מובילה את חממת התעסוקה'],
 ]
 
 export const AUDIENCE = [
