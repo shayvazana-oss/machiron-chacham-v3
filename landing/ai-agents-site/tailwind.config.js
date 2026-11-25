@@ -15,13 +15,13 @@ export default {
         line: token('line'),
         accent: token('accent'),
         'accent-ink': token('accent-ink'),
+        'accent-hi': token('accent-hi'),
         night: '#0C0F0B', // fixed dark used on top of media, same in both themes
-        navy: '#0B1437', // the dark brand panel
-        lime: '#C4F04D', // the mascot's green, used only on navy
       },
       fontFamily: {
         display: ['"Heebo Variable"', 'system-ui', 'sans-serif'],
         body: ['"Assistant Variable"', 'system-ui', 'sans-serif'],
+        mono: ['"JetBrains Mono Variable"', 'ui-monospace', 'monospace'],
       },
       // Radius rule: media and panels 24px, small tiles 16px, inputs 12px, buttons full pill.
       borderRadius: { media: '24px', tile: '16px', field: '12px' },
