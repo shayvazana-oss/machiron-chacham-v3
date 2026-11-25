@@ -387,16 +387,16 @@ const FILMS = {
   tall: {
     name: 'film-tall', length: 12.9,
     chapters: [
-      [0, 'נותנים משימה לסוכנים'], [2.15, 'סוכן שירות הלקוחות עונה'], [3.4, 'סוכן הלידים מאתר לקוחות'],
-      [4.65, 'סוכן המכירות מנתח נתונים'], [5.9, 'סוכן משאבי האנוש קולט עובד'], [7.15, 'סוכן הכספים מכין דוח'],
-      [8.4, 'סוכן המשימות מתזמן את השבוע'], [9.65, 'סוכן חוויית הלקוח משפר שירות'], [10.9, 'העבודה נעשית. אתם על הקפה.'],
+      [0, 'נותנים משימה לסוכנים', 'Prompt → Agents'], [2.15, 'סוכן שירות הלקוחות עונה', 'Support Agent'], [3.4, 'סוכן הלידים מאתר לקוחות', 'Lead Agent'],
+      [4.65, 'סוכן המכירות מנתח נתונים', 'Sales Agent'], [5.9, 'סוכן משאבי האנוש קולט עובד', 'HR Agent'], [7.15, 'סוכן הכספים מכין דוח', 'Finance Agent'],
+      [8.4, 'סוכן המשימות מתזמן את השבוע', 'Scheduler Agent'], [9.65, 'סוכן חוויית הלקוח משפר שירות', 'CX Agent'], [10.9, 'העבודה נעשית. אתם על הקפה.', 'Task complete'],
     ],
   },
   wide: {
     name: 'film-wide', length: 10.6,
     chapters: [
-      [0, 'נותנים משימה לסוכנים'], [2.15, 'הסוכנים שבניתם יוצאים לעבודה'], [3.9, 'שירות לקוחות. לידים. מכירות.'],
-      [6.25, 'כספים. משימות. חוויית לקוח.'], [8.6, 'העבודה נעשית. אתם על הקפה.'],
+      [0, 'נותנים משימה לסוכנים', 'Prompt → Agents'], [2.15, 'הסוכנים שבניתם יוצאים לעבודה', 'Agents deployed'], [3.9, 'שירות לקוחות. לידים. מכירות.', 'Support · Leads · Sales'],
+      [6.25, 'כספים. משימות. חוויית לקוח.', 'Finance · Tasks · CX'], [8.6, 'העבודה נעשית. אתם על הקפה.', 'Task complete'],
     ],
   },
 }
@@ -455,20 +455,24 @@ function Hero({ heroRef }) {
       <div className="absolute inset-0 -z-10">
         <HeroFilm film={film} onChapter={setChapter} />
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgb(var(--bg)/0.92)_0%,rgb(var(--bg)/0.5)_24%,rgb(var(--bg)/0)_44%)]" aria-hidden="true" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_top,rgb(var(--bg)/0.96)_0%,rgb(var(--bg)/0.65)_20%,rgb(var(--bg)/0)_44%)]" aria-hidden="true" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_top,rgb(var(--bg))_0%,rgb(var(--bg)/0.8)_22%,rgb(var(--bg)/0)_50%)]" aria-hidden="true" />
       </div>
       {!reduceMotion && <MotionSwitch className="absolute left-4 top-[4.6rem] grid h-11 w-11 lg:hidden" />}
       <div className="page pt-24 lg:pt-28">
         <p dir="ltr" className="text-right font-mono text-sm text-accent-hi sm:text-base">AI Agent &amp; Automation Specialist</p>
         <h1 className="mt-2.5 text-[2.6rem] leading-[1.02] sm:text-6xl lg:text-[4.4rem]">קורס סוכני AI <span className="mark block sm:inline">ואוטומציה</span></h1>
-        <p className="mt-4 max-w-md text-lg text-ink/85 lg:hidden">160 שעות של בנייה מעשית, עד פרויקט גמר ותעודת הסמכה ממשלתית.</p>
+        <p className="mt-4 max-w-md text-lg text-ink/85 lg:hidden">AI כבר עושה את העבודה. השאלה אם אתם בונים אותו, או מחכים שיחליף אתכם.</p>
       </div>
       <div className="page mt-auto pb-7 lg:pb-12">
-        <p key={`${film.name}-${chapter}`} className="fade-in mb-4 flex items-center gap-2.5 font-display text-lg font-bold lg:mb-6 lg:text-2xl" aria-hidden="true">
-          <span className="h-[1.1em] w-[3px] rounded-full bg-accent-hi" />{film.chapters[chapter][1]}
-        </p>
+        <div key={`${film.name}-${chapter}`} className="fade-in mb-5 inline-flex max-w-full items-center gap-3.5 rounded-2xl border border-white/15 bg-bg/60 py-3 pe-5 ps-4 shadow-[0_12px_40px_-12px_rgb(0_0_0/0.6)] backdrop-blur-md lg:mb-8 lg:gap-4 lg:py-4 lg:pe-7 lg:ps-5" aria-hidden="true">
+          <span className="live-dot shrink-0" />
+          <div className="min-w-0">
+            <p dir="ltr" className="text-right font-mono text-xs uppercase tracking-wider text-accent-hi lg:text-sm">{film.chapters[chapter][2]}</p>
+            <p className="font-display text-[1.35rem] font-bold leading-tight lg:text-[2.1rem]">{film.chapters[chapter][1]}</p>
+          </div>
+        </div>
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-          <p className="hidden max-w-lg text-xl text-ink/85 lg:block">160 שעות של בנייה מעשית: סוכנים, אוטומציות ו־n8n, עד פרויקט גמר ותעודת הסמכה ממשלתית.</p>
+          <p className="hidden max-w-lg text-xl font-medium text-ink lg:block">AI כבר עושה את העבודה. השאלה אם אתם בונים אותו, או מחכים שיחליף אתכם. 160 שעות, תעודה ממשלתית.</p>
           <div className="flex items-center gap-3">
             <a href="#contact" className="btn btn-accent min-w-0 flex-1 !px-3 sm:flex-none sm:!px-6">{CTA}<Arrow /></a>
             <a href="#syllabus" className="btn min-w-0 flex-1 border border-white/20 bg-bg/40 !px-3 backdrop-blur transition-colors hover:bg-bg/70 sm:flex-none sm:!px-6">לתוכנית הלימודים</a>
@@ -497,6 +501,82 @@ function Stack() {
   )
 }
 
+/* ---------------------------------------------------------------- Why now: the same day, without and with agents.
+   The left column is the manual day; the right is a live feed of agents finishing the same work while you are free.
+   Illustrative, not data. The feed only runs while on screen. */
+const MANUAL_DAY = [
+  ['08:30', 'מעתיקים לידים מהטופס לאקסל, אחד אחד'],
+  ['11:00', 'עונים שוב על אותן שאלות בוואטסאפ'],
+  ['14:30', 'בונים דוח ידני למנהל'],
+  ['17:45', 'מגלים ליד חם ששכחתם לחזור אליו'],
+  ['21:10', 'עוד לא סיימתם'],
+]
+const FEED = [
+  { agent: 'Lead Agent', hue: 0, text: 'סיווג ליד חדש ורשם אותו ב־CRM' },
+  { agent: 'Support Agent', hue: 205, text: 'ענה ללקוח בוואטסאפ, תוך שניות' },
+  { agent: 'Sales Agent', hue: -52, text: 'שלח הצעת מחיר ללקוח חם' },
+  { agent: 'Finance Agent', hue: 280, text: 'הפיק את הדוח החודשי' },
+  { agent: 'Scheduler Agent', hue: 108, text: 'קבע פגישה ביומן שלכם' },
+  { agent: 'CX Agent', hue: 320, text: 'זיהה לקוח לא מרוצה והעביר אליכם' },
+  { agent: 'Report Agent', hue: 160, text: 'שלח למנהל סיכום בוקר' },
+]
+function LiveFeed() {
+  const { motion } = useContext(Motion)
+  const box = useRef(null)
+  const visible = useOnScreen(box, { threshold: 0.3 })
+  const [n, setN] = useState(3)
+  useEffect(() => {
+    if (!visible || !motion || reduceMotion) return
+    const id = setInterval(() => setN((v) => v + 1), 1900)
+    return () => clearInterval(id)
+  }, [visible, motion])
+  const rows = Array.from({ length: 4 }, (_, k) => ({ i: n - k, ...FEED[(n - k) % FEED.length] }))
+  return (
+    <ul ref={box} className="space-y-2.5" aria-label="הדגמה: פעולות שסוכנים מבצעים">
+      {rows.map((r, k) => (
+        <li key={r.i} className={`flex items-center gap-3 rounded-tile border border-line bg-bg/70 p-3 ${k === 0 ? 'feed-in' : ''}`} style={{ opacity: 1 - k * 0.18 }}>
+          <img src={IMG('m-cut')} alt="" className="h-10 w-10 shrink-0 object-contain" style={{ filter: r.hue ? `hue-rotate(${r.hue}deg)` : undefined }} />
+          <div className="min-w-0 flex-1">
+            <p dir="ltr" className="text-right font-mono text-xs text-accent-hi">{r.agent}</p>
+            <p className="font-semibold leading-snug">{r.text}</p>
+          </div>
+          <span className="flex shrink-0 items-center gap-1.5 font-mono text-xs text-muted"><CheckCircle size={16} weight="fill" className="text-accent-hi" />{k === 0 ? 'now' : `${k * 2}m`}</span>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+function WhyNow() {
+  return (
+    <section className="page py-16 lg:py-24">
+      <h2 className="h2 max-w-3xl">בזמן שאתם עושים את זה ידנית, <span className="mark">מישהו אחר כבר בנה סוכן שעושה את זה.</span></h2>
+      <p className="mt-4 max-w-2xl text-lg text-muted">ארגונים כבר מחפשים אנשים שיודעים לבנות סוכני AI ואוטומציות. מי שנכנס עכשיו מוביל את השינוי. מי שמחכה ירדוף אחריו.</p>
+      <div className="mt-10 grid gap-4 lg:grid-cols-2">
+        <div className="rounded-media border border-line p-5 sm:p-7">
+          <p dir="ltr" className="text-right font-mono text-sm text-muted">Without AI</p>
+          <h3 className="mt-1 text-2xl">היום שלכם בלי סוכנים</h3>
+          <ol className="mt-6 space-y-4">
+            {MANUAL_DAY.map(([time, text], i) => (
+              <li key={time} className={`flex items-baseline gap-4 ${i === MANUAL_DAY.length - 1 ? 'text-[#FF8A7A]' : 'text-muted'}`}>
+                <span dir="ltr" className="w-12 shrink-0 font-mono text-sm">{time}</span>
+                <span className="text-lg">{text}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div className="glow glow-blue relative overflow-hidden rounded-media border border-accent-hi/40 bg-surface p-5 sm:p-7">
+          <p dir="ltr" className="flex items-center justify-end gap-2 text-right font-mono text-sm text-accent-hi">With AI Agents · live<span className="live-dot" aria-hidden="true" /></p>
+          <h3 className="mt-1 text-2xl">היום שלכם, כשהידע אצלכם</h3>
+          <div className="mt-6"><LiveFeed /></div>
+          <p className="mt-6 text-lg">הלידים כבר מסווגים, הדוח כבר במייל, הלקוחות קיבלו מענה. <span className="mark font-semibold">ואתם? מתחילים מהקפה.</span></p>
+        </div>
+      </div>
+      <p className="mt-3 text-sm text-muted">הדגמה להמחשה.</p>
+    </section>
+  )
+}
+
 /* ---------------------------------------------------------------- How an agent works, with the live canvas */
 function About() {
   return (
@@ -508,6 +588,7 @@ function About() {
       <ul className="mt-12 grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
         {CAPABILITIES.map((c) => (
           <li key={c.title} className="border-t border-line pt-5">
+            <p dir="ltr" className="mb-1.5 text-right font-mono text-[0.8rem] text-accent-hi">{c.en}</p>
             <h3 className="text-lg leading-snug">{c.title}</h3>
             <p className="mt-2 text-muted">{c.text}</p>
           </li>
@@ -542,12 +623,12 @@ function Projects() {
         <p className="mt-4 max-w-xl text-lg text-muted">לאורך הקורס בונים שמונה מערכות עובדות, מאפס.</p>
       </div>
       <ol className="no-bar mt-9 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 sm:px-8 lg:mx-auto lg:grid lg:max-w-page lg:grid-cols-4 lg:gap-x-5 lg:gap-y-11 lg:overflow-visible">
-        {PROJECTS.map(([title, text], i) => (
+        {PROJECTS.map(([title, text, en], i) => (
           <li key={title} className="w-[72%] shrink-0 snap-center sm:w-[42%] lg:w-auto">
             <div className="media aspect-[4/5] border border-line">
               <Clip name={`p${i + 1}`} alt={`סוכן בעבודה: ${title}`} />
             </div>
-            <p dir="ltr" className="mt-4 text-right font-mono text-sm text-accent-hi">{String(i + 1).padStart(2, '0')}</p>
+            <p dir="ltr" className="mt-4 text-right font-mono text-sm text-accent-hi">{String(i + 1).padStart(2, '0')} / {en}</p>
             <h3 className="mt-1 text-lg leading-snug">{title}</h3>
             <p className="mt-1 text-muted">{text}</p>
           </li>
@@ -578,16 +659,17 @@ function Syllabus() {
             {PHASES.map((p, i) => (
               <button key={p.tab} id={`tab-${i}`} role="tab" type="button" aria-selected={tab === i} aria-controls="syllabus-panel" tabIndex={tab === i ? 0 : -1} onClick={() => setTab(i)}
                 className={`flex items-center justify-between gap-4 rounded-xl px-4 py-3 text-start font-display font-bold transition-colors duration-300 lg:text-lg ${tab === i ? 'bg-accent text-accent-ink' : 'border border-line text-muted hover:text-ink'}`}>
-                {p.tab}<span dir="ltr" className="font-mono text-sm font-normal opacity-80">{p.modules.length} modules</span>
+                {p.tab}<span dir="ltr" className="font-mono text-sm font-normal opacity-80">{p.en}</span>
               </button>
             ))}
           </div>
         </div>
         <ol id="syllabus-panel" role="tabpanel" aria-labelledby={`tab-${tab}`} key={tab} className="fade-in border-t border-line lg:col-span-8">
-          {phase.modules.map(([title, text], i) => (
+          {phase.modules.map(([title, text, en], i) => (
             <li key={title} className="grid grid-cols-[3rem_1fr] gap-x-3 border-b border-line py-6 sm:grid-cols-[4rem_1fr]">
               <span dir="ltr" className="text-right font-mono text-lg text-accent-hi sm:text-xl" aria-hidden="true">{String(offset + i + 1).padStart(2, '0')}</span>
               <div>
+                <p dir="ltr" className="mb-1 text-right font-mono text-[0.8rem] text-muted">{en}</p>
                 <h3 className="text-lg leading-snug sm:text-xl">{title}</h3>
                 <p className="mt-1.5 text-muted">{text}</p>
               </div>
@@ -676,7 +758,7 @@ function Roles() {
           <h2 className="h2">לאן ממשיכים <span className="mark">אחרי הקורס</span></h2>
           <p className="mt-4 max-w-xl text-lg text-muted">לארגונים בינוניים וגדולים, או לעבודה כעצמאים שמטמיעים AI ואוטומציה אצל לקוחות.</p>
           <ul className="mt-7 flex flex-wrap gap-2">
-            {ROLES.map((r) => <li key={r} className="rounded-full border border-line bg-surface/60 px-4 py-2 font-display font-semibold">{r}</li>)}
+            {ROLES.map(([he, en]) => <li key={he} className="flex items-baseline gap-2 rounded-full border border-line bg-surface/60 px-4 py-2"><span className="font-display font-semibold">{he}</span><span dir="ltr" className="font-mono text-xs text-muted">{en}</span></li>)}
           </ul>
         </div>
       </div>
@@ -734,7 +816,7 @@ function Contact({ contactRef }) {
     <section id="contact" ref={contactRef} className="glow glow-blue page relative pb-12 lg:pb-20">
       <div className="grid gap-8 rounded-media border border-line bg-surface p-5 sm:p-9 lg:grid-cols-2 lg:gap-14 lg:p-14">
         <div className="flex flex-col">
-          <h2 className="h2">רוצים לשמוע עוד <span className="mark">על הקורס?</span></h2>
+          <h2 className="h2">למדו לבנות AI, <span className="mark">לפני שהשוק יתקדם בלעדיכם</span></h2>
           <p className="mt-4 max-w-md text-lg text-muted">השאירו פרטים לשיחת ייעוץ והכוונה. נבדוק יחד התאמה, מסלול מימון ומועדי פתיחה.</p>
           <a href={`tel:${PHONE}`} className="mt-6 inline-flex items-center gap-3 self-start font-mono text-4xl font-semibold"><Phone size={28} weight="fill" className="text-accent-hi" aria-hidden="true" /><span dir="ltr">{PHONE}</span></a>
           <img src={IMG('m-cut-wave')} alt="" loading="lazy" className="mt-auto hidden w-40 self-end pt-8 lg:block" />
@@ -785,6 +867,7 @@ export default function App() {
       <main>
         <Hero heroRef={heroRef} />
         <Stack />
+        <WhyNow />
         <About />
         <Numbers />
         <Projects />

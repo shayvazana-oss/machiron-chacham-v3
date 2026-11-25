@@ -1,6 +1,9 @@
-@import '@fontsource-variable/heebo/wght.css';
-@import '@fontsource-variable/assistant/wght.css';
-@import '@fontsource-variable/jetbrains-mono/wght.css';
+@import '@fontsource/ibm-plex-sans-hebrew/hebrew-400.css';
+@import '@fontsource/ibm-plex-sans-hebrew/hebrew-500.css';
+@import '@fontsource/ibm-plex-sans-hebrew/hebrew-600.css';
+@import '@fontsource/ibm-plex-sans-hebrew/hebrew-700.css';
+@import '@fontsource-variable/geist/wght.css';
+@import '@fontsource-variable/geist-mono/wght.css';
 
 @tailwind base;
 @tailwind components;
@@ -23,8 +26,8 @@
 @layer base {
   html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; scroll-padding-top: 5rem; }
   body { @apply bg-bg font-body text-ink; font-size: 1.0625rem; line-height: 1.6; overflow-x: hidden; }
-  h1, h2 { font-weight: 800; }
-  h1, h2, h3 { @apply font-display; line-height: 1.15; letter-spacing: -0.015em; text-wrap: balance; }
+  h1, h2 { font-weight: 700; }
+  h1, h2, h3 { @apply font-display; line-height: 1.15; letter-spacing: -0.02em; text-wrap: balance; }
   h3 { font-weight: 700; }
   p { text-wrap: pretty; }
   ::selection { background: rgb(var(--accent)); color: rgb(var(--accent-ink)); }
@@ -113,3 +116,9 @@ body::after { content: ''; position: fixed; inset: 0; z-index: 60; pointer-event
 .glow::before { content: ''; position: absolute; z-index: -1; pointer-events: none; inset: 0; }
 .glow-blue::before { background: radial-gradient(60% 45% at 30% 40%, rgb(52 96 255 / 0.16), transparent 70%), radial-gradient(40% 35% at 85% 70%, rgb(150 90 255 / 0.10), transparent 70%); }
 .glow-mix::before { background: radial-gradient(45% 40% at 15% 30%, rgb(170 230 60 / 0.09), transparent 70%), radial-gradient(45% 40% at 85% 60%, rgb(255 140 60 / 0.09), transparent 70%), radial-gradient(40% 35% at 50% 95%, rgb(70 200 255 / 0.08), transparent 70%); }
+
+/* Live feed: the newest row slides in; a live dot breathes next to the label. */
+.feed-in { animation: feed-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+@keyframes feed-in { from { opacity: 0; transform: translateY(-10px) scale(0.98); } to { opacity: 1; transform: none; } }
+.live-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #4ADE80; box-shadow: 0 0 0 0 rgb(74 222 128 / 0.5); animation: live 1.8s ease-out infinite; }
+@keyframes live { 70% { box-shadow: 0 0 0 7px rgb(74 222 128 / 0); } 100% { box-shadow: 0 0 0 0 rgb(74 222 128 / 0); } }

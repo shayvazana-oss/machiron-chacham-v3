@@ -19,9 +19,9 @@ export default {
         night: '#0C0F0B', // fixed dark used on top of media, same in both themes
       },
       fontFamily: {
-        display: ['"Heebo Variable"', 'system-ui', 'sans-serif'],
-        body: ['"Assistant Variable"', 'system-ui', 'sans-serif'],
-        mono: ['"JetBrains Mono Variable"', 'ui-monospace', 'monospace'],
+        display: ['"Geist Variable"', '"IBM Plex Sans Hebrew"', 'system-ui', 'sans-serif'],
+        body: ['"Geist Variable"', '"IBM Plex Sans Hebrew"', 'system-ui', 'sans-serif'],
+        mono: ['"Geist Mono Variable"', 'ui-monospace', 'monospace'],
       },
       // Radius rule: media and panels 24px, small tiles 16px, inputs 12px, buttons full pill.
       borderRadius: { media: '24px', tile: '16px', field: '12px' },
