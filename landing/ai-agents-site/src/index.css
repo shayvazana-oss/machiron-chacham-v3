@@ -1,124 +1,102 @@
-@import '@fontsource/ibm-plex-sans-hebrew/hebrew-400.css';
-@import '@fontsource/ibm-plex-sans-hebrew/hebrew-500.css';
-@import '@fontsource/ibm-plex-sans-hebrew/hebrew-600.css';
-@import '@fontsource/ibm-plex-sans-hebrew/hebrew-700.css';
-@import '@fontsource-variable/geist/wght.css';
+@import '@fontsource-variable/fredoka/wght.css';
+@import '@fontsource-variable/rubik/wght.css';
 @import '@fontsource-variable/geist-mono/wght.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Tokens. One light theme: a white page, soft grey bands, near-black type and one blue accent.
-   A calm course page: the type and the facts carry it. */
+/* Tokens. A light, colourful page: white ground, a violet-tinted surface, deep ink, one violet accent for actions.
+   Each section borrows one mascot colour as a soft tint (see .tint-*). */
 :root {
-  color-scheme: dark;
-  --bg: 9 11 17;
-  --surface: 15 18 27;
-  --ink: 236 238 244;
-  --muted: 146 152 168;
-  --line: 38 43 57;
-  --accent: 52 96 255;
-  --accent-hi: 128 157 255;
+  color-scheme: light;
+  --bg: 255 255 255;
+  --surface: 245 242 255;
+  --ink: 27 21 48;
+  --muted: 92 86 116;
+  --line: 230 225 245;
+  --accent: 108 76 255;
+  --accent-hi: 88 56 230;
   --accent-ink: 255 255 255;
 }
 
 @layer base {
   html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; scroll-padding-top: 5rem; }
   body { @apply bg-bg font-body text-ink; font-size: 1.0625rem; line-height: 1.6; overflow-x: hidden; }
+  h1, h2, h3 { @apply font-display; line-height: 1.1; letter-spacing: -0.01em; text-wrap: balance; }
   h1, h2 { font-weight: 700; }
-  h1, h2, h3 { @apply font-display; line-height: 1.15; letter-spacing: -0.02em; text-wrap: balance; }
-  h3 { font-weight: 700; }
+  h3 { font-weight: 600; }
   p { text-wrap: pretty; }
   ::selection { background: rgb(var(--accent)); color: rgb(var(--accent-ink)); }
-  :focus-visible { outline: 2px solid rgb(var(--accent-hi)); outline-offset: 3px; border-radius: 6px; }
+  :focus-visible { outline: 3px solid rgb(var(--accent)); outline-offset: 3px; border-radius: 8px; }
 }
 
 @layer components {
   .page { @apply mx-auto w-full max-w-page px-5 sm:px-8; }
-
-  /* One emphasis device for the whole page: the accent colour on the words that matter. */
-  .mark { color: rgb(var(--accent-hi)); }
-
-  .h2 { font-size: 2rem; }
-  @media (min-width: 640px) { .h2 { font-size: 2.75rem; } }
-
-  /* Horizontal scrollers hide their bar; the cut-off card shows there is more. */
+  .h2 { font-size: 2.1rem; }
+  @media (min-width: 640px) { .h2 { font-size: 3rem; } }
+  .btn { @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl font-display font-semibold; padding: 0.9rem 1.5rem; font-size: 1.125rem;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s, border-color 0.25s, box-shadow 0.25s; }
+  .btn:active { transform: scale(0.97); }
+  .btn-accent { @apply bg-accent text-accent-ink; box-shadow: 0 10px 24px -10px rgb(108 76 255 / 0.7); }
+  .btn-accent:hover { transform: translateY(-2px); box-shadow: 0 14px 28px -10px rgb(108 76 255 / 0.8); }
+  .media { @apply relative overflow-hidden rounded-[22px] bg-[#1B1530]; }
   .no-bar { scrollbar-width: none; }
   .no-bar::-webkit-scrollbar { display: none; }
-
-  .btn { @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl font-display font-semibold; padding: 0.85rem 1.5rem; font-size: 1.0625rem;
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s, color 0.25s; }
-  .btn:active { transform: scale(0.97); }
-  .btn-accent { @apply bg-accent text-accent-ink; }
-  .btn-accent:hover { transform: translateY(-2px); }
-  .btn-accent:active { transform: scale(0.97); }
-  .btn-ink { @apply bg-ink text-bg; }
-  .btn-ink:hover { transform: translateY(-2px); }
-  .btn-ink:active { transform: scale(0.97); }
-
-  .media { @apply relative overflow-hidden rounded-media bg-night; }
-
-  /* Enter-once reveal, used on headings and media only. */
-  .rv { opacity: 0; transform: translateY(14px); transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-  .rv.in { opacity: 1; transform: none; }
 }
+
+/* Section grounds: the hero gets all the mascot colours as soft light; the rest take one each. */
+.hero-bg { background:
+  radial-gradient(38% 45% at 88% 12%, #FFE2CC 0%, transparent 70%),
+  radial-gradient(34% 42% at 8% 28%, #E3F6C4 0%, transparent 70%),
+  radial-gradient(40% 50% at 30% 100%, #D7F1FF 0%, transparent 70%),
+  radial-gradient(34% 40% at 70% 85%, #FFDDEE 0%, transparent 70%),
+  #F4F0FF; }
+.tint-orange { background: #FFF5EC; }
+.tint-cyan { background: #EAF7FD; }
+.tint-lime { background: #F3FAE4; }
+.tint-pink { background: #FFF0F6; }
+.tint-violet { background: #F3EFFF; }
+
+/* Hero computer: the n8n-style workflow on the screen. */
+.wf { background-image: radial-gradient(rgb(var(--ink) / 0.09) 1px, transparent 1.2px); background-size: 18px 18px; }
+.node-l { border: 1px solid rgb(var(--line)); background: white; border-radius: 14px; padding: 0.5rem 0.75rem; box-shadow: 0 4px 14px -8px rgb(40 20 90 / 0.25); }
+.node-agent { border: 2px solid rgb(var(--accent)); padding: 0.55rem 0.85rem; box-shadow: 0 10px 24px -12px rgb(108 76 255 / 0.55); }
+.wire-v { position: relative; display: block; width: 2px; height: 1.35rem; background: rgb(var(--accent) / 0.45); }
+.wire-h { display: block; width: 66%; height: 2px; margin-bottom: 0.55rem; background: rgb(var(--accent) / 0.45); }
+.grow-y { transform-origin: top; animation: grow-y 0.35s ease-out both; animation-delay: var(--d, 0s); }
+@keyframes grow-y { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+.grow-x { animation: grow-x 0.35s ease-out both; animation-delay: var(--d, 0s); }
+@keyframes grow-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.packet { position: absolute; left: -3px; top: 0; width: 8px; height: 8px; border-radius: 50%; background: rgb(var(--accent)); box-shadow: 0 0 0 3px rgb(var(--accent) / 0.2);
+  animation: packet 0.5s ease-in both; animation-delay: var(--d, 0s); }
+@keyframes packet { 0% { opacity: 0; transform: translateY(0); } 15% { opacity: 1; } 85% { opacity: 1; } 100% { opacity: 0; transform: translateY(1.1rem); } }
+.caret { display: inline-block; width: 2px; height: 1.05em; margin-inline-start: 2px; vertical-align: -0.15em; background: currentColor; animation: caret 0.9s steps(1) infinite; }
+@keyframes caret { 50% { opacity: 0; } }
+/* The agents jump out of the screen to their places. */
+.pop { animation: pop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both; animation-delay: var(--d, 0s); }
+@keyframes pop { from { opacity: 0; transform: var(--from) scale(0.2); } to { opacity: 1; transform: none; } }
+
+/* Build-in pieces: each arrives on its own delay (--d). Transform and opacity only. */
+.b { animation: build 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: var(--d, 0s); }
+@keyframes build { from { opacity: 0; transform: translateY(8px) scale(0.97); } to { opacity: 1; transform: none; } }
+.leave { animation: leave 0.25s ease both; animation-delay: var(--d, 0s); }
+@keyframes leave { to { opacity: 0; transform: scale(0.6); } }
+.spin { animation: spin 0.8s linear infinite, leave 0.25s ease forwards; animation-delay: 0s, var(--d, 0s); }
+@keyframes spin { to { transform: rotate(360deg); } }
+.bob { animation: bob 1.6s ease-in-out infinite; }
+@keyframes bob { 50% { transform: translateY(-5px) rotate(-3deg); } }
+.fade-in { animation: fade-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }
+@keyframes fade-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.feed-in { animation: feed-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+@keyframes feed-in { from { opacity: 0; transform: translateY(-10px) scale(0.98); } to { opacity: 1; transform: none; } }
+.live-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: #4ADE80; box-shadow: 0 0 0 0 rgb(74 222 128 / 0.6); animation: live 1.8s ease-out infinite; }
+@keyframes live { 70% { box-shadow: 0 0 0 8px rgb(74 222 128 / 0); } 100% { box-shadow: 0 0 0 0 rgb(74 222 128 / 0); } }
+
+/* Paused while off screen or switched off. */
+.halt, .halt *, .halt *::before, .halt *::after { animation-play-state: paused !important; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .rv { opacity: 1; transform: none; transition: none; }
-  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; }
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; animation-delay: 0s !important; }
 }
-
-/* State change: new tab or answer content fades in. */
-.fade-in { animation: fade-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }
-@keyframes fade-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-
-/* Hero entrance: one short rise on load. */
-.enter { animation: enter 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
-@keyframes enter { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .enter { animation: none; } }
-
-/* Agents-at-work demo. Each piece arrives on its own delay (--d). Transform and opacity only. */
-.b { animation: build 0.55s cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: var(--d, 0s); }
-@keyframes build { from { opacity: 0; transform: translateY(10px) scale(0.96); } to { opacity: 1; transform: none; } }
-.grow { transform-box: fill-box; transform-origin: bottom; animation: grow 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: var(--d, 0s); }
-@keyframes grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
-.draw { stroke-dasharray: 1; animation: draw 1s ease-out both; animation-delay: var(--d, 0s); }
-@keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
-.leave { animation: leave 0.3s ease both; animation-delay: var(--d, 0s); }
-@keyframes leave { to { opacity: 0; transform: translateY(-6px); } }
-.prog { transform-origin: right; animation: prog var(--t, 6s) linear both; }
-@keyframes prog { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-.bob { animation: bob 1.3s ease-in-out infinite; }
-@keyframes bob { 50% { transform: translateY(-6px) rotate(-3deg); } }
-.dots i { width: 5px; height: 5px; border-radius: 50%; background: currentColor; animation: dot 1s ease-in-out infinite; }
-.dots i:nth-child(2) { animation-delay: 0.15s; }
-.dots i:nth-child(3) { animation-delay: 0.3s; }
-@keyframes dot { 0%, 100% { opacity: 0.25; } 40% { opacity: 1; } }
-.halt, .halt *, .halt *::before, .halt *::after { animation-play-state: paused !important; }
-@media (prefers-reduced-motion: reduce) { .stage *, .stage *::after { animation-delay: 0s !important; } }
-
-/* Agent canvas: a node editor surface. Type inside scales with the canvas width. */
-.canvas { container-type: inline-size; background-image: radial-gradient(rgb(255 255 255 / 0.07) 1px, transparent 1.2px); background-size: 22px 22px; }
-.canvas-wide { font-size: clamp(11px, 1.45cqw, 17px); }
-.canvas-tall { font-size: 4cqw; }
-.node { position: absolute; border-radius: 0.9em; background: rgb(var(--surface)); border: 1px solid rgb(var(--line)); }
-.node::after { content: ''; position: absolute; inset: -1px; border-radius: inherit; border: 1.5px solid rgb(var(--accent-hi)); opacity: 0; pointer-events: none;
-  animation: lit 0.35s ease forwards; animation-delay: var(--d, 0s); }
-@keyframes lit { to { opacity: 1; } }
-
-/* Depth instead of a flat page: fine film grain over everything, and soft light in the mascots' colours
-   behind three sections. Both are static; nothing here repaints on scroll. */
-body::after { content: ''; position: fixed; inset: 0; z-index: 60; pointer-events: none; opacity: 0.07; mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
-.glow { isolation: isolate; }
-.glow::before { content: ''; position: absolute; z-index: -1; pointer-events: none; inset: 0; }
-.glow-blue::before { background: radial-gradient(60% 45% at 30% 40%, rgb(52 96 255 / 0.16), transparent 70%), radial-gradient(40% 35% at 85% 70%, rgb(150 90 255 / 0.10), transparent 70%); }
-.glow-mix::before { background: radial-gradient(45% 40% at 15% 30%, rgb(170 230 60 / 0.09), transparent 70%), radial-gradient(45% 40% at 85% 60%, rgb(255 140 60 / 0.09), transparent 70%), radial-gradient(40% 35% at 50% 95%, rgb(70 200 255 / 0.08), transparent 70%); }
-
-/* Live feed: the newest row slides in; a live dot breathes next to the label. */
-.feed-in { animation: feed-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
-@keyframes feed-in { from { opacity: 0; transform: translateY(-10px) scale(0.98); } to { opacity: 1; transform: none; } }
-.live-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #4ADE80; box-shadow: 0 0 0 0 rgb(74 222 128 / 0.5); animation: live 1.8s ease-out infinite; }
-@keyframes live { 70% { box-shadow: 0 0 0 7px rgb(74 222 128 / 0); } 100% { box-shadow: 0 0 0 0 rgb(74 222 128 / 0); } }

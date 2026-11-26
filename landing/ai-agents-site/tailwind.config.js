@@ -6,7 +6,7 @@ export default {
   content: ['./index.html', './src/**/*.{js,jsx}'],
   theme: {
     extend: {
-      // One neutral family (green-tinted) + one accent. Values live in src/index.css and swap for dark mode.
+      // Light, colourful page: one violet accent for actions, the mascots' colours for section tints. Values live in src/index.css.
       colors: {
         bg: token('bg'),
         surface: token('surface'),
@@ -19,8 +19,8 @@ export default {
         night: '#0C0F0B', // fixed dark used on top of media, same in both themes
       },
       fontFamily: {
-        display: ['"Geist Variable"', '"IBM Plex Sans Hebrew"', 'system-ui', 'sans-serif'],
-        body: ['"Geist Variable"', '"IBM Plex Sans Hebrew"', 'system-ui', 'sans-serif'],
+        display: ['"Fredoka Variable"', '"Rubik Variable"', 'system-ui', 'sans-serif'],
+        body: ['"Rubik Variable"', 'system-ui', 'sans-serif'],
         mono: ['"Geist Mono Variable"', 'ui-monospace', 'monospace'],
       },
       // Radius rule: media and panels 24px, small tiles 16px, inputs 12px, buttons full pill.
