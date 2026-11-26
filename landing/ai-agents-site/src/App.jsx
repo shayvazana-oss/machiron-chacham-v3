@@ -125,7 +125,17 @@ const HERO_RUNS = [
     done: 'הדוח במייל לפני הקפה.',
   },
 ]
-const HERO_T = { reply: 0.25, trigger: 0.7, agent: 1.15, tools: 1.6, pops: 2.5, done: 3.6, hold: 6.2 }
+const HERO_T = { reply: 0.25, trigger: 0.7, agent: 1.15, tools: 1.6, pops: 2.5, done: 3.6, film: 4.3, fallback: 16 }
+function useMedia(q) {
+  const [on, setOn] = useState(() => typeof window !== 'undefined' && window.matchMedia(q).matches)
+  useEffect(() => {
+    const m = window.matchMedia(q)
+    const f = () => setOn(m.matches)
+    m.addEventListener('change', f)
+    return () => m.removeEventListener('change', f)
+  }, [q])
+  return on
+}
 
 function HeroDemo() {
   const { motion } = useContext(Motion)
@@ -138,11 +148,31 @@ function HeroDemo() {
   const [phase, setPhase] = useState(reduceMotion) // false while typing, true once the build has started
   useEffect(() => { setPhase(reduceMotion) }, [k])
   useEffect(() => { if (typedDone) setPhase(true) }, [typedDone])
+  // Once the workflow is built, the screen cuts to the film of the agents at work; when it ends, the next task starts.
+  const wide = useMedia('(min-width: 640px)')
+  const filmName = wide ? 'agents-wide' : 'agents-tall'
+  const vid = useRef(null)
+  const [film, setFilm] = useState(false)
+  const next = () => setK((v) => (v + 1) % HERO_RUNS.length)
+  useEffect(() => { setFilm(false) }, [k])
   useEffect(() => {
-    if (!phase || !live || reduceMotion) return
-    const id = setTimeout(() => setK((v) => (v + 1) % HERO_RUNS.length), HERO_T.hold * 1000)
+    if (!phase || !live || reduceMotion || film) return
+    const id = setTimeout(() => setFilm(true), HERO_T.film * 1000)
     return () => clearTimeout(id)
-  }, [phase, live, k])
+  }, [phase, live, k, film])
+  useEffect(() => {
+    const v = vid.current
+    if (!v) return
+    if (film && live) v.play().catch(() => {})
+    else v.pause()
+  }, [film, live, filmName])
+  useEffect(() => {
+    const v = vid.current
+    if (v && film) v.currentTime = 0
+    if (!film || !live) return
+    const id = setTimeout(next, HERO_T.fallback * 1000) // in case the video never reports its end
+    return () => clearTimeout(id)
+  }, [film])
   const halted = !live && !reduceMotion
   const popPlace = ['left-[-8%] top-[-14%]', 'left-[-15%] bottom-[16%]', 'bottom-[-21%] left-[36%]']
   const popFrom = ['translate(60%, 60%)', 'translate(80%, -20%)', 'translate(0, -80%)']
@@ -155,6 +185,7 @@ function HeroDemo() {
           <span className="flex gap-2" aria-hidden="true"><span className="h-2.5 w-2.5 rounded-full bg-[#FF5F57]" /><span className="h-2.5 w-2.5 rounded-full bg-[#FEBC2E]" /><span className="h-2.5 w-2.5 rounded-full bg-[#28C840]" /></span>
           <span dir="ltr" aria-hidden="true" className="ms-auto flex items-center gap-1.5 font-mono text-[0.72rem] text-muted"><Mark {...run.model} className="h-3.5 w-3.5" />{run.model.name}<span className="opacity-40">+</span><img src={TOOL('n8n')} alt="" className="h-3.5 w-3.5" />n8n</span>
         </div>
+        <div className="relative">
         <div key={k} aria-hidden="true" className="grid min-h-[22rem] grid-rows-[auto_1fr] sm:min-h-[25rem] sm:grid-cols-[1fr_1.1fr] sm:grid-rows-1">
           <div className="flex flex-col gap-3 border-b border-line p-4 sm:border-b-0 sm:border-e sm:p-5">
             <div className="max-w-[92%] self-start rounded-2xl rounded-tr-md bg-accent px-3.5 py-2.5 text-[0.95rem] font-medium leading-snug text-white sm:text-base">
@@ -200,6 +231,16 @@ function HeroDemo() {
               </>
             )}
           </div>
+        </div>
+        {!reduceMotion && (
+          <div className={`absolute inset-0 overflow-hidden bg-[#1B1530] transition-opacity duration-700 ${film ? 'opacity-100' : 'pointer-events-none opacity-0'}`} aria-hidden="true">
+            <video ref={vid} key={filmName} src={VID(filmName)} poster={IMG(filmName)} muted playsInline preload="auto" onEnded={next} className="absolute inset-0 h-full w-full object-cover" />
+            <div className="absolute right-3 top-3 flex flex-col items-end gap-2">
+              <span dir="ltr" className="flex items-center gap-2 rounded-full bg-black/55 px-3 py-1 font-mono text-xs text-white backdrop-blur"><span className="live-dot" />Agents running</span>
+              <p className="hidden items-center gap-2 rounded-2xl bg-white/95 px-3.5 py-2 font-display text-base font-semibold text-ink shadow-lg sm:flex"><CheckCircle size={20} weight="fill" className="shrink-0 text-[#138A4B]" />{run.done}</p>
+            </div>
+          </div>
+        )}
         </div>
       </div>
       {phase && run.pops.map((p, i) => (
